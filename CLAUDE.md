@@ -25,6 +25,30 @@ Pour vérifier l'état si besoin : `git remote -v` (origin présent = en service
 - Éditer un fichier ici **modifie ma config Claude live** (et inversement, puisque
   c'est symlinké). Toujours en avoir conscience.
 
+## Structure de la méthodo : rule (directive légère) → skill (détail on-demand)
+
+Principe de conception à **préserver** : les **rules** sont chargées dans *chaque* session
+(coûteuses en contexte) → elles restent des **directives minimales** qui *pointent* vers une
+skill ; tout le **détail** vit dans une **skill chargée à la demande**. **Une seule copie** de
+chaque connaissance → pas de duplication, contexte always-on minimal.
+
+```
+rule testing.md ─────────►  skill tdd-discipline ──────►  skill outside-in-diamond-tdd
+  « toujours du TDD »        « TDD classique »             « surcouche pour les ruches »
+                                                                    ▲
+rule architecture.md ────►  skill hexagonal-dotnet ────────────────┘
+  « back-end ⇒ Hive »        « how-to The Hive (.NET) »      (flux de dev associé)
+```
+
+- `rules/testing.md` → toujours TDD ; le *comment* est dans la skill `tdd-discipline`.
+- `rules/architecture.md` → back-end/API/service ⇒ ruche (The Hive) ; how-to dans `hexagonal-dotnet`.
+- `rules/dotnet-conventions.md` → conventions de **langage** C#/.NET seulement (pas d'archi).
+- `skills/outside-in-diamond-tdd` → flux de dev d'une ruche, spécialisation du TDD classique.
+
+**Quand on enrichit la méthodo :** mettre la directive (le *quoi/quand*) dans une rule, le
+détail (le *comment*, exemples, code) dans une skill. Ne jamais recopier le détail dans la rule.
+Slugs de skills en kebab-case ASCII (emoji seulement dans le titre/contenu).
+
 ## Règles
 
 1. **Public = zéro confidentiel.** Avant tout commit, vérifier qu'aucun secret,
@@ -32,8 +56,8 @@ Pour vérifier l'état si besoin : `git remote -v` (origin présent = en service
    périmètre est volontairement « méthodo seule » — garder cette allowlist stricte.
 2. **Ne pas élargir le périmètre sans raison.** Pas de `settings.json`, pas de
    caches, pas de sessions, pas de `.credentials`. Cf. README.
-3. **Commits clairs et atomiques** : un sujet par commit (`rules: …`, `skill: …`,
-   `agent: …`, `docs: …`, `bootstrap: …`).
+3. **Commits clairs et atomiques** : un sujet par commit (`rule: …`, `skill: …`,
+   `docs: …`, `bootstrap: …`).
 4. **Ne jamais casser l'idempotence de `bootstrap.sh`.** Toute évolution doit
    rester rejouable sans danger (backups en `.bak`, dry-run `--check`).
 

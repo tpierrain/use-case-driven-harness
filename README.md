@@ -13,14 +13,43 @@ des années sous le pseudo **Use Case Driven** — **Outside-in Diamond 🔷 TDD
 
 | Bloc | Symlinké vers | Quoi |
 |---|---|---|
-| `rules/` | `~/.claude/rules` | directives : `testing.md` (TDD → skills), `architecture.md` (back-end ⇒ Hive → skill), `dotnet-conventions.md`, `README.md` |
+| `rules/` | `~/.claude/rules` | directives **toujours chargées** (légères) — voir ci-dessous |
 | `skills/tdd-discipline/` | `~/.claude/skills/tdd-discipline` | Skill : discipline TDD universelle (baby-steps, fail-first, triangulation) |
-| `skills/hexagonal-dotnet/` | `~/.claude/skills/hexagonal-dotnet` | Skill : architecture hexagonale .NET — The Hive |
-| `skills/outside-in-diamond-tdd/` | `~/.claude/skills/outside-in-diamond-tdd` | Skill : Outside-in Diamond 🔷 TDD (services/APIs/apps) + Hive |
+| `skills/outside-in-diamond-tdd/` | `~/.claude/skills/outside-in-diamond-tdd` | Skill : Outside-in Diamond 🔷 TDD (services/APIs/apps) — surcouche du TDD classique |
+| `skills/hexagonal-dotnet/` | `~/.claude/skills/hexagonal-dotnet` | Skill : architecture hexagonale .NET — The Hive (how-to) |
+
+`rules/` contient : `testing.md`, `architecture.md`, `dotnet-conventions.md`, `README.md`.
 
 Volontairement **rien d'autre** : pas de `settings.json`, pas de caches, pas de
 sessions, pas de secrets. Une allowlist stricte ne peut pas fuiter ce qu'on a
 oublié d'ignorer.
+
+## Architecture : directive légère (rule) → détail à la demande (skill)
+
+Principe directeur : les **rules** sont injectées dans **chaque** session (coûteuses en
+contexte), donc elles restent des **directives minimales** qui *pointent* vers une skill ; tout
+le **détail** vit dans une **skill chargée à la demande** (uniquement quand on développe). Une
+seule copie de chaque connaissance → **zéro duplication**, contexte always-on minimal.
+
+```
+QUAND JE DÉVELOPPE
+│
+├─ rule testing.md ─────────►  skill tdd-discipline ──────►  skill outside-in-diamond-tdd
+│   « toujours du TDD »         « TDD classique »             « surcouche pour les ruches »
+│                                                                      ▲
+└─ rule architecture.md ────►  skill hexagonal-dotnet ───────────────┘
+    « back-end ⇒ Hive »         « how-to The Hive (.NET) »      (flux de dev associé)
+```
+
+- **`testing.md`** (rule) → je pratique le TDD systématiquement. Le *comment* universel
+  (baby-steps, fail-first, triangulation, refactor obligatoire) est dans **`tdd-discipline`**.
+- **`architecture.md`** (rule) → tout back-end / API / service s'implémente en **ruche (The
+  Hive)** : un module = un hexagone = un bounded context, communication inter-module par ports
+  API/SPI uniquement. Le *how-to* est dans **`hexagonal-dotnet`**.
+- **`outside-in-diamond-tdd`** (skill) → le flux de dev d'une ruche : une **spécialisation**
+  du TDD classique (acceptance gros grain via l'adaptateur gauche, Builder, périmètre Hive).
+- **`dotnet-conventions.md`** (rule) → uniquement les conventions de **langage** C# / .NET
+  (syntaxe moderne, `Result<T>`, async, logging). L'archi Hive renvoie aux rules/skills ci-dessus.
 
 ## Installation sur une machine
 
