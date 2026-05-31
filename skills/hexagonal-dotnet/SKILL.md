@@ -1,3 +1,9 @@
+---
+name: hexagonal-dotnet
+description: Architecture hexagonale .NET — The Hive (Microservices-Ready Modular Monolith, back-end). Ports API/SPI, In-Proc Adapters, vertical slicing, un module = un hexagone = un bounded context, penser réseau, extractabilité vers microservices. À utiliser pour concevoir, structurer ou refactorer un back-end / une API .NET (C# 12 / .NET 8) en modules hexagonaux.
+origin: use-case-driven-harness
+---
+
 # Skill: Architecture Hexagonale .NET — The Hive Pattern
 
 ## Principe fondamental
