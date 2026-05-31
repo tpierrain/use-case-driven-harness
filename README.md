@@ -16,7 +16,7 @@ des années sous le pseudo **Use Case Driven** — **Outside-in Diamond 🔷 TDD
 | `rules/` | `~/.claude/rules` | directives **toujours chargées** (légères) — voir ci-dessous |
 | `skills/tdd-discipline/` | `~/.claude/skills/tdd-discipline` | Skill : discipline TDD universelle (baby-steps, fail-first, triangulation) |
 | `skills/outside-in-diamond-tdd/` | `~/.claude/skills/outside-in-diamond-tdd` | Skill : Outside-in Diamond 🔷 TDD (services/APIs/apps) — surcouche du TDD classique |
-| `skills/hexagonal-dotnet/` | `~/.claude/skills/hexagonal-dotnet` | Skill : architecture hexagonale .NET — The Hive (how-to) |
+| `skills/the-hive-pattern/` | `~/.claude/skills/the-hive-pattern` | Skill : The Hive — Microservices-Ready Modular Monolith (how-to, agnostique langage ; exemples C#/.NET) |
 
 `rules/` contient : `testing.md`, `architecture.md`, `dotnet-conventions.md`, `README.md`.
 
@@ -37,15 +37,15 @@ QUAND JE DÉVELOPPE
 ├─ rule testing.md ─────────►  skill tdd-discipline ──────►  skill outside-in-diamond-tdd
 │   « toujours du TDD »         « TDD classique »             « surcouche pour les ruches »
 │                                                                      ▲
-└─ rule architecture.md ────►  skill hexagonal-dotnet ───────────────┘
-    « back-end ⇒ Hive »         « how-to The Hive (.NET) »      (flux de dev associé)
+└─ rule architecture.md ────►  skill the-hive-pattern ───────────────┘
+    « back-end ⇒ Hive »         « how-to The Hive (exemples .NET) »   (flux de dev associé)
 ```
 
 - **`testing.md`** (rule) → je pratique le TDD systématiquement. Le *comment* universel
   (baby-steps, fail-first, triangulation, refactor obligatoire) est dans **`tdd-discipline`**.
 - **`architecture.md`** (rule) → tout back-end / API / service s'implémente en **ruche (The
   Hive)** : un module = un hexagone = un bounded context, communication inter-module par ports
-  API/SPI uniquement. Le *how-to* est dans **`hexagonal-dotnet`**.
+  API/SPI uniquement. Le *how-to* est dans **`the-hive-pattern`**.
 - **`outside-in-diamond-tdd`** (skill) → le flux de dev d'une ruche : une **spécialisation**
   du TDD classique (acceptance gros grain via l'adaptateur gauche, Builder, périmètre Hive).
 - **`dotnet-conventions.md`** (rule) → uniquement les conventions de **langage** C# / .NET

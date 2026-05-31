@@ -25,7 +25,7 @@ DRY_RUN=false
 # (méthodo seule — cf. README. On ne versionne QUE ces 3 blocs.)
 MAPPINGS=(
   "rules|rules"
-  "skills/hexagonal-dotnet|skills/hexagonal-dotnet"
+  "skills/the-hive-pattern|skills/the-hive-pattern"
   "skills/outside-in-diamond-tdd|skills/outside-in-diamond-tdd"
   "skills/tdd-discipline|skills/tdd-discipline"
 )

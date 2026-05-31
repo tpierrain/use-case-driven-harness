@@ -3,7 +3,7 @@
 > Cette rule complète les rules génériques du plugin everything-claude-code.
 > **Architecture** : les back-ends s'implémentent en ruche (cf. `architecture.md`) ; le how-to
 > .NET (ports API/SPI, In-Proc Adapters, décisions d'archi comme « pas de MediatR / pas de
-> couche use-case séparée ») est dans la skill **`hexagonal-dotnet`**. Ce fichier ne couvre
+> couche use-case séparée ») est dans la skill **`the-hive-pattern`**. Ce fichier ne couvre
 > que les **conventions de langage** C# / .NET.
 
 ## Syntaxe moderne obligatoire
@@ -94,4 +94,4 @@ Pour faire du **TDD en .NET**, mon stack préféré :
 - Lever des exceptions pour des erreurs **métier** (réserver `Result<T>` pour celles-ci).
 
 > Les anti-patterns d'**architecture** (MediatR, couche use-case séparée, CQRS par défaut,
-> couplage de modules hors ports API) sont dans la skill **`hexagonal-dotnet`**.
+> couplage de modules hors ports API) sont dans la skill **`the-hive-pattern`**.

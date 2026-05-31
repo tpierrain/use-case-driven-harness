@@ -1,10 +1,16 @@
 ---
-name: hexagonal-dotnet
-description: Architecture hexagonale .NET — The Hive (Microservices-Ready Modular Monolith, back-end). Ports API/SPI, In-Proc Adapters, vertical slicing, un module = un hexagone = un bounded context, penser réseau, extractabilité vers microservices. À utiliser pour concevoir, structurer ou refactorer un back-end / une API .NET (C# 12 / .NET 8) en modules hexagonaux.
+name: the-hive-pattern
+description: The Hive — pattern d'architecture back-end « Microservices-Ready Modular Monolith » (Thomas Pierrain), agnostique langage. Chaque module est un hexagone (ports API/SPI, In-Proc Adapters) ; un module = un hexagone = un bounded context ; vertical slicing, penser réseau, extractabilité vers microservices. À utiliser pour concevoir, structurer ou refactorer un back-end / service / API en modules. Exemples de code en C#/.NET (illustratifs ; le pattern s'applique aussi en Java, TypeScript, etc.).
 origin: use-case-driven-harness
 ---
 
-# Skill: Architecture Hexagonale .NET — The Hive Pattern
+# Skill: The Hive — Microservices-Ready Modular Monolith
+
+> **Pattern agnostique langage.** The Hive structure des **back-ends** (services, APIs,
+> applications) quel que soit l'écosystème — .NET, Java, TypeScript… Les exemples de code de
+> cette skill sont en **C#/.NET à titre d'illustration** : ce sont des *exemples*, pas une
+> contrainte de plateforme. Le pattern, les modules, les ports et le vertical slicing se
+> transposent tels quels.
 
 ## Principe fondamental
 

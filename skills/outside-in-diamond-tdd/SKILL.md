@@ -244,4 +244,4 @@ public class BookingControllerShould
 ## Voir aussi
 
 - Skill **`tdd-discipline`** — la discipline TDD universelle (baby-steps, triangulation, RGR).
-- Skill **`hexagonal-dotnet`** — l'architecture The Hive (ports API/SPI, In-Proc Adapters).
+- Skill **`the-hive-pattern`** — l'architecture The Hive (ports API/SPI, In-Proc Adapters).
