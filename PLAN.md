@@ -70,7 +70,11 @@ Décisions verrouillées :
 
 ## Journal d'exécution (append-only)
 
-- (à remplir par l'instance qui exécute : `YYYY-MM-DD — étape N — note — commit abc1234`)
+- 2026-05-31 — étapes 1→7 — bootstrap : adoption des 3 blocs (`rules/`, `skills/hexagonal-dotnet/`,
+  `agents/tdd-diamond.md`) + symlinks créés vers le repo. Portail confidentialité : RAS (seuls
+  faux positifs `CancellationToken` / « secrets » génériques). `.claude/` ajouté au `.gitignore`
+  (artefacts de session, hors périmètre). Commit initial `0c910f1`. Publication PUBLIC confirmée par
+  Thomas → repo créé et poussé : https://github.com/tpierrain/use-case-driven-harness
 
 ---
 
