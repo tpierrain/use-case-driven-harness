@@ -5,6 +5,11 @@
 Chaque module est un **hexagone autonome et extractable** (vertical slicing).
 Le pattern Hive compose plusieurs hexagones dans le même process, avec la possibilité de les déployer séparément.
 
+**Heuristique de base : un module = un hexagone = un bounded context** (au sens DDD). C'est
+la règle de découpage par défaut, celle qu'on applique sauf raison contraire. Il existe des
+variantes (un bounded context plus gros peut se subdiviser, etc.), mais la maille de
+référence dans la ruche reste celle-là.
+
 The Hive, c'est l'art du **« Microservices-Ready Modular Monolith »** : on *modélise* le
 système comme un monolithe modulaire bien découpé (un module = un hexagone), tout en le
 gardant **prêt à être éclaté en microservices** le jour où c'est utile — *« Model once,
