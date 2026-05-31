@@ -15,6 +15,49 @@ C'est un pattern de structuration **back-end / côté serveur** : il s'applique 
 les In-Proc Adapters. Il **ne concerne pas** l'architecture des front-ends / UI, qui
 consomment les Ports API des modules sans être eux-mêmes organisés en Hive.
 
+## Les trois piliers de The Hive
+
+The Hive repose sur **trois principes indissociables**. Les respecter, c'est ce qui rend la
+promesse *« Model once, deploy as you wish »* réellement tenable.
+
+### 1. Vertical slicing — chaque module est autonome de bout en bout
+
+Un module est une tranche verticale complète, **du contrôleur jusqu'à la base de données**.
+On vise une autonomie maximale :
+
+- **Données dédiées par module** : idéalement des **tables dédiées** (schéma séparé) voire
+  une **base de données dédiée**. Pas de table partagée entre modules, pas de jointure
+  cross-module en base — sinon l'extractabilité est un mensonge.
+- **Les tests font partie de la tranche.** Les tests de chaque module sont **autonomes** et
+  appartiennent au vertical slice du module : ils ne dépendent pas de l'implémentation des
+  autres modules (leurs ports API sont stubbés). C'est **essentiel** — un module qu'on
+  extrait emporte ses tests avec lui, verts, sans rien à recâbler.
+
+Critère de réussite : on peut **extraire un module vers un repo séparé** (code + données +
+tests) sans toucher aux autres.
+
+### 2. Ports & adapters entre modules — jamais autrement
+
+Chaque module est une **mini architecture hexagonale**. Toute communication inter-module
+passe **exclusivement par des ports et des adaptateurs** (Port API de l'autre module,
+appelé via un In-Proc Adapter côté SPI). Aucun couplage direct : pas d'appel à une classe
+interne d'un autre module, pas de modèle de domaine partagé, pas d'accès à sa base.
+
+C'est cette discipline qui permet de remplacer un In-Proc Adapter par un client HTTP/AMQP
+sans toucher au domaine (cf. [Extractabilité du module](#extractabilité-du-module)).
+
+### 3. Penser réseau dès le début — éviter le chatty
+
+Même quand tout tourne in-proc, on **conçoit les échanges inter-modules comme s'ils
+passaient déjà par le réseau**. Les interactions via ports/adapters doivent rester **peu
+bavardes** (*not chatty*) : on privilégie des appels à gros grain plutôt qu'une rafale de
+petits allers-retours.
+
+Pourquoi : le jour où l'In-Proc Adapter devient un vrai client **HTTP ou AMQP**, une API
+trop verbeuse (N+1 appels, granularité trop fine) se traduit en **mauvaises surprises de
+performance** (latence réseau × nombre d'appels). On paie alors au runtime un design qu'on
+aurait pu éviter dès la modélisation.
+
 **Terminologie :**
 - **API** = Port Primaire (gauche) — expose les use cases du module
 - **SPI** = Port Secondaire (droit) — interfaces pour les dépendances (infra + autres modules)
