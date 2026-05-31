@@ -1,7 +1,7 @@
 # use-case-driven-harness
 
-Mon harnais [Claude Code](https://claude.com/claude-code) : les règles, skills et
-agents globaux qui incarnent la façon de concevoir du logiciel que je pousse depuis
+Mon harnais [Claude Code](https://claude.com/claude-code) : les règles et skills
+globaux qui incarnent la façon de concevoir du logiciel que je pousse depuis
 des années sous le pseudo **Use Case Driven** — **Outside-in Diamond 🔷 TDD**,
 **The Hive** (architecture hexagonale modulaire), et ma discipline de tests.
 
@@ -13,9 +13,9 @@ des années sous le pseudo **Use Case Driven** — **Outside-in Diamond 🔷 TDD
 
 | Bloc | Symlinké vers | Quoi |
 |---|---|---|
-| `rules/` | `~/.claude/rules` | `testing.md` (Outside-in Diamond + Hive), `dotnet-conventions.md`, `README.md` |
+| `rules/` | `~/.claude/rules` | `testing.md` (discipline TDD universelle), `dotnet-conventions.md`, `README.md` |
 | `skills/hexagonal-dotnet/` | `~/.claude/skills/hexagonal-dotnet` | Skill : architecture hexagonale .NET — The Hive |
-| `agents/tdd-diamond.md` | `~/.claude/agents/tdd-diamond.md` | Agent : workflow Outside-in Diamond 🔷 TDD + Hive |
+| `skills/outside-in-diamond-tdd/` | `~/.claude/skills/outside-in-diamond-tdd` | Skill : Outside-in Diamond 🔷 TDD (services/APIs/apps) + Hive |
 
 Volontairement **rien d'autre** : pas de `settings.json`, pas de caches, pas de
 sessions, pas de secrets. Une allowlist stricte ne peut pas fuiter ce qu'on a
@@ -38,7 +38,7 @@ cd use-case-driven-harness
 
 ## Workflow quotidien
 
-1. J'édite une règle/skill/agent **en place** (c'est symlinké, donc ça modifie le repo).
+1. J'édite une règle/skill **en place** (c'est symlinké, donc ça modifie le repo).
 2. `git add -A && git commit -m "..." && git push`.
 3. Sur l'autre laptop : `git pull` → tout est à jour, immédiatement.
 

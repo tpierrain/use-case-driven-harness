@@ -26,7 +26,7 @@ DRY_RUN=false
 MAPPINGS=(
   "rules|rules"
   "skills/hexagonal-dotnet|skills/hexagonal-dotnet"
-  "agents/tdd-diamond.md|agents/tdd-diamond.md"
+  "skills/outside-in-diamond-tdd|skills/outside-in-diamond-tdd"
 )
 
 say()  { printf '%s\n' "$*"; }

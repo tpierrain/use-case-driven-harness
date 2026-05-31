@@ -1,6 +1,6 @@
 # CLAUDE.md — `use-case-driven-harness`
 
-Repo **public** contenant mes règles, skills et agents globaux Claude Code
+Repo **public** contenant mes règles et skills globaux Claude Code
 (méthodo « Use Case Driven » : Outside-in Diamond 🔷 TDD + The Hive).
 
 ---
@@ -21,7 +21,7 @@ Pour vérifier l'état si besoin : `git remote -v` (origin présent = en service
 ## Nature du repo
 
 - **Source unique de vérité** de mon `~/.claude` (blocs `rules/`, `skills/hexagonal-dotnet/`,
-  `agents/tdd-diamond.md`). Relié par **symlinks** via `bootstrap.sh`.
+  `skills/outside-in-diamond-tdd/`). Relié par **symlinks** via `bootstrap.sh`.
 - Éditer un fichier ici **modifie ma config Claude live** (et inversement, puisque
   c'est symlinké). Toujours en avoir conscience.
 
