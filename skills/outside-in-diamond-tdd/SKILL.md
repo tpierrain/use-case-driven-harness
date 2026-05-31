@@ -1,6 +1,6 @@
 ---
 name: outside-in-diamond-tdd
-description: Outside-in Diamond 🔷 TDD — style de TDD de Thomas Pierrain pour services, APIs et applications (back-ends), adapté à The Hive. Tests d'acceptance gros grain pilotés par l'adaptateur gauche, Builder qui retourne le Domain Service, In-Proc Adapters dans le périmètre, ports API des autres modules stubbés. À utiliser pour développer/tester un service, une API ou un module Hive en .NET. Pour du TDD générique (libs, tools), voir la rule testing.md.
+description: Outside-in Diamond 🔷 TDD — style de TDD de Thomas Pierrain pour services, APIs et applications (back-ends), adapté à The Hive. Tests d'acceptance gros grain pilotés par l'adaptateur gauche, Builder qui retourne le Domain Service, In-Proc Adapters dans le périmètre, ports API des autres modules stubbés. À utiliser pour développer/tester un service, une API ou un module Hive en .NET. Pour du TDD générique (libs, tools), voir la skill tdd-discipline.
 origin: use-case-driven-harness
 ---
 
@@ -18,7 +18,7 @@ Ce n'est **pas** la bonne maille pour du code de bas niveau — une petite lib, 
 tool, un algorithme isolé : là, le **TDD classique** suffit largement (pas d'acceptance
 gros grain, pas de Builder, pas de périmètre Hive). La discipline TDD universelle —
 red→green→refactor, baby-steps, triangulation, faire échouer le test d'abord, refactor
-obligatoire — vit dans la rule **`testing.md`** ; cette skill la **présuppose** et la
+obligatoire — vit dans la skill **`tdd-discipline`** ; cette skill la **présuppose** et la
 **complète** avec les spécificités ci-dessous.
 
 ## Le Diamond (pas une pyramide)
@@ -151,8 +151,8 @@ public void Reserve_WhenNotEnoughSeats_ReturnsFailure()
 
 ### 5. REFACTOR
 
-Jamais optionnel (cf. `testing.md`). D'abord sur l'implémentation, puis lisibilité des
-tests — sans jamais affaiblir les assertions.
+Jamais optionnel (cf. skill `tdd-discipline`). D'abord sur l'implémentation, puis lisibilité
+des tests — sans jamais affaiblir les assertions.
 
 ## Exemple complet de test d'acceptance
 
@@ -238,5 +238,5 @@ public class BookingControllerShould
 
 ## Voir aussi
 
-- Rule **`testing.md`** — la discipline TDD universelle (baby-steps, triangulation, RGR).
+- Skill **`tdd-discipline`** — la discipline TDD universelle (baby-steps, triangulation, RGR).
 - Skill **`hexagonal-dotnet`** — l'architecture The Hive (ports API/SPI, In-Proc Adapters).

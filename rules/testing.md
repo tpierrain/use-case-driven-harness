@@ -1,40 +1,13 @@
-# Testing — Discipline TDD (universelle)
+# Testing — TDD systématique
 
-> La discipline TDD de base, **agnostique langage**, qui s'applique à **tout type de code** :
-> petites libs, simples tools, helpers, algorithmes isolés comme services et applications.
->
-> Pour le développement de **services / APIs / applications** (back-ends) avec The Hive, cette
-> discipline est **reprise et complétée** par la skill **`outside-in-diamond-tdd`** (acceptance
-> gros grain, Builder, périmètre Hive). Ce fichier reste la *loi* commune ; la skill en est la
-> déclinaison spécialisée.
+Je pratique le **TDD systématiquement**. Dès que je **développe** (écrire ou modifier du
+code de production), je le fais en suivant la discipline TDD — jamais de code sans test qui
+le tire.
 
-## Discipline TDD — baby steps, PAS test-first batch
+**Comment :** charger et suivre la skill **`tdd-discipline`** (baby-steps, fail-first,
+triangulation, refactor obligatoire — détaillée là, pas ici, pour ne pas alourdir le contexte
+en permanence).
 
-**Un seul test à la fois.** Cycle 🔴 red → 🟢 green → ♻️ refactor **complet pour chaque test**, avant d'écrire le test suivant.
-
-- **Interdit** : écrire plusieurs tests d'avance puis implémenter pour tous les faire passer. C'est du *test-first batch*, pas du TDD.
-- **Pourquoi** : écrire les tests en lot fige le design en amont (l'API est décrétée avant la moindre ligne d'implémentation) et **tue le design émergent**. En baby steps, chaque test tire le strict minimum de code et la structure se découvre incrément par incrément.
-- **En pratique** : test 1 → red → plus petit code qui passe → refactor → test 2 → red → … Chaque pas est le plus petit qui fasse passer le test courant.
-- **Le refactor n'est jamais optionnel.** Le pas n'est *terminé* qu'après le ♻️. Il porte **d'abord sur le code d'implémentation** : meilleure structure, mêmes comportements — un refactor **ne change jamais le contrat public** (c'est sa définition : behavior-preserving). Sur les tests, il se limite à les rendre **plus lisibles** (noms, helpers, intention) — **jamais** à affaiblir leurs assertions ni à leur faire vérifier moins de choses. Si un test couvre mal, c'est un *nouveau* test, pas un refactor. Même sans rien à nettoyer, on passe consciemment par l'étape et on le constate (« refactor : RAS »). Sauter le refactor « parce que ça marche » accumule de la dette à chaque cycle — c'est exactement ce que la discipline baby-steps est censée empêcher.
-
-## S'assurer que le test échoue d'abord (fail-first)
-
-Avant d'écrire la moindre ligne d'implémentation, **vérifier que le nouveau test échoue
-pour la bonne raison** (assertion non satisfaite, pas une erreur de compilation accidentelle
-ou un test qui ne s'exécute même pas). Un test qui passe avant qu'on ait codé ne prouve rien :
-il faut le voir 🔴 *rouge* d'abord, puis le rendre 🟢 *vert*. C'est la garantie que le test
-teste réellement quelque chose.
-
-## Triangulation
-
-Quand le comportement attendu n'est pas évident, on **triangule** : on n'introduit de la
-généralisation dans l'implémentation que lorsqu'**au moins deux exemples** (deux tests) la
-réclament. Le premier test peut être satisfait par une réponse « en dur » ; le deuxième,
-différent, force à dégager la vraie logique. On évite ainsi de sur-généraliser trop tôt — la
-généralité émerge des exemples, elle n'est pas décrétée.
-
-## Portée
-
-Cette discipline **vaut pour tous les langages** et tous les types de code. C'est le socle
-non négociable. Les déclinaisons spécialisées (Outside-in Diamond + Hive pour les back-ends,
-conventions par langage) la **présupposent** sans jamais la contredire.
+Pour les **services / APIs / applications** (back-ends) avec The Hive, c'est la skill
+**`outside-in-diamond-tdd`** qui spécialise cette discipline (tests d'acceptance gros grain,
+Builder, périmètre Hive).

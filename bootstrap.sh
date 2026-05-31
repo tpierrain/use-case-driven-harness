@@ -27,6 +27,7 @@ MAPPINGS=(
   "rules|rules"
   "skills/hexagonal-dotnet|skills/hexagonal-dotnet"
   "skills/outside-in-diamond-tdd|skills/outside-in-diamond-tdd"
+  "skills/tdd-discipline|skills/tdd-discipline"
 )
 
 say()  { printf '%s\n' "$*"; }

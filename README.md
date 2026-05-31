@@ -13,7 +13,8 @@ des années sous le pseudo **Use Case Driven** — **Outside-in Diamond 🔷 TDD
 
 | Bloc | Symlinké vers | Quoi |
 |---|---|---|
-| `rules/` | `~/.claude/rules` | `testing.md` (discipline TDD universelle), `dotnet-conventions.md`, `README.md` |
+| `rules/` | `~/.claude/rules` | `testing.md` (directive : TDD systématique → skills), `dotnet-conventions.md`, `README.md` |
+| `skills/tdd-discipline/` | `~/.claude/skills/tdd-discipline` | Skill : discipline TDD universelle (baby-steps, fail-first, triangulation) |
 | `skills/hexagonal-dotnet/` | `~/.claude/skills/hexagonal-dotnet` | Skill : architecture hexagonale .NET — The Hive |
 | `skills/outside-in-diamond-tdd/` | `~/.claude/skills/outside-in-diamond-tdd` | Skill : Outside-in Diamond 🔷 TDD (services/APIs/apps) + Hive |
 
