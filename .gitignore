@@ -1,0 +1,13 @@
+# macOS
+.DS_Store
+
+# Sauvegardes créées par bootstrap.sh lors de l'adoption / du déploiement
+*.bak.*
+
+# Jamais de secrets ici (le périmètre est volontairement « méthodo seule »)
+.env
+*.local
+.credentials.json
+
+# Artefacts de session Claude Code (hors périmètre — pas de settings/caches/sessions)
+.claude/
