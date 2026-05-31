@@ -5,17 +5,15 @@ Repo **public** contenant mes règles, skills et agents globaux Claude Code
 
 ---
 
-## 🚀 PREMIÈRE SESSION — lis ça d'abord
+## État : repo en service
 
-**Si ce repo n'est pas encore en service** (pas de `.git`, ou pas encore poussé sur
-GitHub) : ta mission est d'exécuter **[PLAN.md](PLAN.md)** de bout en bout. C'est un
-plan turnkey, idempotent, avec deux seules pauses humaines (portail confidentialité +
-confirmation de publication). Ne fais rien d'autre tant qu'il n'est pas déroulé.
+Le repo est **en régime de croisière** : poussé sur GitHub, symlinks en place. Suis les
+règles de vie ci-dessous pour tout travail courant.
 
-**Si le repo est déjà en service** (poussé sur GitHub, symlinks en place) : PLAN.md est
-historique. Suis les règles de vie ci-dessous pour tout travail courant.
+Le plan de mise en service initial est **archivé** dans
+[docs/archive/PLAN.md](docs/archive/PLAN.md) — historique, plus rien à dérouler.
 
-Pour savoir où tu en es : `git remote -v` (origin présent = en service) et
+Pour vérifier l'état si besoin : `git remote -v` (origin présent = en service) et
 `ls -la ~/.claude/rules` (symlink vers ce repo = bootstrap fait).
 
 ---
