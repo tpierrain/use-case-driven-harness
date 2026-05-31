@@ -29,9 +29,17 @@ On vise une autonomie maximale :
   une **base de données dédiée**. Pas de table partagée entre modules, pas de jointure
   cross-module en base — sinon l'extractabilité est un mensonge.
 - **Les tests font partie de la tranche.** Les tests de chaque module sont **autonomes** et
-  appartiennent au vertical slice du module : ils ne dépendent pas de l'implémentation des
-  autres modules (leurs ports API sont stubbés). C'est **essentiel** — un module qu'on
-  extrait emporte ses tests avec lui, verts, sans rien à recâbler.
+  appartiennent au vertical slice du module : un module qu'on extrait emporte ses tests avec
+  lui, verts, sans rien à recâbler. C'est **essentiel**. Deux niveaux se complètent :
+    - **Tests d'acceptance** — le gros du harnais. Ils exercent le module de bout en bout
+      (Controller → Domain Service → In-Proc Adapters) **en stubbant les autres modules dès
+      qu'il en dépend** (leurs Ports API sont substitués) ainsi que les SPI infra. C'est ce
+      qui garantit l'autonomie : aucun test ne touche l'implémentation d'un autre module.
+    - **Tests de points d'intégration** (*integration tests*) — plus rares, ciblés sur les
+      **adaptateurs SPI** qui sortent du module (vers les Ports API d'autres modules, ou vers
+      l'infra : DB, HTTP, broker…). Ils vérifient que ces adaptateurs **fonctionnent
+      réellement en conditions normales** (vrai branchement, pas de stub), là où les tests
+      d'acceptance se contentent de stubs.
 
 Critère de réussite : on peut **extraire un module vers un repo séparé** (code + données +
 tests) sans toucher aux autres.
