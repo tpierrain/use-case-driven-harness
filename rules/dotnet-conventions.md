@@ -79,9 +79,10 @@ Pour faire du **TDD en .NET**, mon stack préféré :
 - **xUnit** — framework de test (`xunit`).
 - **NFluent** — assertions lisibles (`Check.That(...)`).
 - **NSubstitute** — **stubs** des ports API et SPI (`Substitute.For<...>()`).
-- **Diverse** — **fuzzing** / génération de données de test. C'est **ma propre librairie**,
-  publiée en package NuGet (`Diverse`, créée par Thomas — `tpierrain`, repo dédié). À
-  privilégier pour générer des données variées plutôt que des valeurs en dur.
+- **Diverse** — **fuzzing** / génération de données de test. C'est **ma propre librairie**
+  (créée par Thomas — `tpierrain`). À privilégier pour générer des données variées plutôt que
+  des valeurs en dur. NuGet : <https://www.nuget.org/packages/Diverse/> · repo :
+  <https://github.com/tpierrain/Diverse>.
 
 > Détail d'usage et exemples (Builder, helpers d'assertion, périmètre Hive) : skill
 > **`outside-in-diamond-tdd`** ; discipline TDD : skill **`tdd-discipline`**.
