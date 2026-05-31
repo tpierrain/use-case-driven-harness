@@ -266,6 +266,32 @@ public sealed class BookingController(
 }
 ```
 
+## Décisions d'architecture (.NET) — ce qu'on évite
+
+- **Pas de couche Use Case séparée.** Les use cases **sont** les méthodes du Port API ; le
+  Domain Service les implémente directement.
+- **Pas de MediatR par défaut.** Le Controller injecte et appelle directement le Domain
+  Service (port API) — pas d'indirection `_mediator.Send(...)`.
+- **Pas de CQRS par défaut** (pas de golden hammer) ; pas d'indirections non nécessaires.
+- **Modules couplés uniquement via leurs ports API** — jamais via une classe interne, un
+  modèle de domaine partagé ou un accès direct à la base d'un autre module.
+
+```csharp
+// ✅ Controller injecte le port API et l'appelle directement
+public sealed class BookingController(IBookingApi bookingApi) : ControllerBase
+{
+    [HttpPost]
+    public async Task<IActionResult> Book(BookingRequest request, CancellationToken ct)
+    {
+        var result = await bookingApi.ReserveAsync(...);
+        return result.Match(...);
+    }
+}
+
+// ❌ Pas d'indirection MediatR
+var result = await _mediator.Send(new BookCommand(...));
+```
+
 ## Extractabilité du module
 
 Chaque module peut être extrait vers un repository séparé :

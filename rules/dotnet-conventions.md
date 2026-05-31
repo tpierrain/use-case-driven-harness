@@ -1,46 +1,10 @@
-# Conventions .NET — C# 12 / .NET 8 + The Hive
+# Conventions .NET — C# 12 / .NET 8
 
-> Cette rule complète les rules génériques du plugin everything-claude-code
-
-## Architecture hexagonale — The Hive
-
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                    MODULE (Hexagone)                            │
-│                                                                 │
-│   Controller ──► Domain Service ──► In-Proc Adapter            │
-│   (gauche)        (API)              (SPI)                      │
-│                                          │                      │
-│                                          ▼                      │
-│                               Port API d'un autre module        │
-│                                                                 │
-└─────────────────────────────────────────────────────────────────┘
-```
-
-**Terminologie :**
-- **API** = Port gauche (primaire) — expose les use cases
-- **SPI** = Port droit (secondaire) — dépendances (infra + autres modules)
-- **In-Proc Adapter** = Adaptateur SPI qui appelle l'API d'un autre module
-
-**Pas de couche Use Case séparée.** Les use cases sont les méthodes du Port API.
-
-**Pas de MediatR par défaut.** Le controller injecte directement le Domain Service.
-
-```csharp
-// ✅ Controller injecte le port API
-public sealed class BookingController(IBookingApi bookingApi)
-{
-    [HttpPost]
-    public async Task<IActionResult> Book(BookingRequest request, CancellationToken ct)
-    {
-        var result = await bookingApi.ReserveAsync(...);
-        return result.Match(...);
-    }
-}
-
-// ❌ Pas d'indirection MediatR
-var result = await _mediator.Send(new BookCommand(...));
-```
+> Cette rule complète les rules génériques du plugin everything-claude-code.
+> **Architecture** : les back-ends s'implémentent en ruche (cf. `architecture.md`) ; le how-to
+> .NET (ports API/SPI, In-Proc Adapters, décisions d'archi comme « pas de MediatR / pas de
+> couche use-case séparée ») est dans la skill **`hexagonal-dotnet`**. Ce fichier ne couvre
+> que les **conventions de langage** C# / .NET.
 
 ## Syntaxe moderne obligatoire
 
@@ -108,10 +72,11 @@ logger.LogInformation("Reservation {BookingRef} created on train {TrainId}",
 logger.LogInformation($"Reservation {bookingRef} created");
 ```
 
-## Ce que Claude ne doit PAS faire
+## Ce que Claude ne doit PAS faire (langage)
 
-- Introduire MediatR sans justification explicite
-- Créer une couche Use Case séparée du Domain Service
-- Appliquer CQRS par défaut (pas de golden hammer)
-- Ajouter des indirections non nécessaires
-- Coupler les modules autrement que via leurs ports API
+- Ajouter des indirections non nécessaires.
+- Utiliser `.Result` / `.Wait()` ou oublier le `CancellationToken`.
+- Lever des exceptions pour des erreurs **métier** (réserver `Result<T>` pour celles-ci).
+
+> Les anti-patterns d'**architecture** (MediatR, couche use-case séparée, CQRS par défaut,
+> couplage de modules hors ports API) sont dans la skill **`hexagonal-dotnet`**.
