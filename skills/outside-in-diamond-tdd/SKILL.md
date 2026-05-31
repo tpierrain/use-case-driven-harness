@@ -1,18 +1,20 @@
 ---
 name: outside-in-diamond-tdd
-description: Outside-in Diamond 🔷 TDD — style de TDD de Thomas Pierrain pour services, APIs et applications (back-ends), adapté à The Hive. Tests d'acceptance gros grain pilotés par l'adaptateur gauche, Builder qui retourne le Domain Service, In-Proc Adapters dans le périmètre, ports API des autres modules stubbés. À utiliser pour développer/tester un service, une API ou un module Hive en .NET. Pour du TDD générique (libs, tools), voir la skill tdd-discipline.
+description: Outside-in Diamond 🔷 TDD — style de TDD développé par Thomas Pierrain pour n'importe quel back-end, API, worker ou service, également adapté au pattern The Hive. Tests d'acceptance gros grain pilotés par l'adaptateur gauche, Builder qui retourne le Domain Service, In-Proc Adapters dans le périmètre, ports API des autres modules stubbés. À utiliser pour développer/tester un back-end, une API, un worker, un service ou un module Hive (exemples en .NET). Pour du TDD générique (libs, tools), voir la skill tdd-discipline.
 origin: use-case-driven-harness
 ---
 
 # Outside-in Diamond 🔷 TDD + The Hive
 
-Style de TDD développé par Thomas Pierrain, adapté au pattern Hive.
+Style de TDD développé par Thomas Pierrain pour **n'importe quel back-end, API, worker ou
+service**, également **adapté au pattern The Hive**.
 
-## Périmètre : services / APIs / applications
+## Périmètre : back-ends, APIs, workers, services
 
-Outside-in Diamond TDD cible le **développement de services, d'APIs et d'applications**
-(back-ends) : on pilote **de l'extérieur** (adaptateur gauche / test d'acceptance) vers
-l'intérieur, avec le périmètre de test d'un module Hive.
+Outside-in Diamond TDD cible le **développement de back-ends, d'APIs, de workers et de
+services** : on pilote **de l'extérieur** (adaptateur gauche / test d'acceptance) vers
+l'intérieur. The Hive en est un cas d'application privilégié (on teste alors via le périmètre
+d'un module Hive), mais l'approche vaut pour tout back-end piloté de l'extérieur.
 
 Ce n'est **pas** la bonne maille pour du code de bas niveau — une petite lib, un simple
 tool, un algorithme isolé : là, le **TDD classique** suffit largement (pas d'acceptance
