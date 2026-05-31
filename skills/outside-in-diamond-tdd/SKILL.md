@@ -226,8 +226,12 @@ public class BookingControllerShould
 |-----|-------|-------|
 | **xUnit** | Framework | `xunit` |
 | **NFluent** | Assertions (`Check.That()`) | `NFluent` |
-| **NSubstitute** | Stubs des ports API et SPI | `NSubstitute` |
-| **Diverse** | Fuzzers | `Diverse` |
+| **NSubstitute** | **Stubs** des ports API et SPI (`Substitute.For<...>()`) | `NSubstitute` |
+| **Diverse** | **Fuzzers** / génération de données variées | `Diverse` |
+
+> **Diverse** est la librairie de fuzzing **créée par Thomas** (`tpierrain`), publiée en
+> package NuGet (`Diverse`, dans un repo dédié). On la privilégie pour générer des données de
+> test variées (cf. `new Fuzzer()` dans les exemples ci-dessus) plutôt que des valeurs en dur.
 
 ## Pourquoi cette approche ?
 

@@ -72,6 +72,20 @@ logger.LogInformation("Reservation {BookingRef} created on train {TrainId}",
 logger.LogInformation($"Reservation {bookingRef} created");
 ```
 
+## Tests (.NET)
+
+Pour faire du **TDD en .NET**, mon stack préféré :
+
+- **xUnit** — framework de test (`xunit`).
+- **NFluent** — assertions lisibles (`Check.That(...)`).
+- **NSubstitute** — **stubs** des ports API et SPI (`Substitute.For<...>()`).
+- **Diverse** — **fuzzing** / génération de données de test. C'est **ma propre librairie**,
+  publiée en package NuGet (`Diverse`, créée par Thomas — `tpierrain`, repo dédié). À
+  privilégier pour générer des données variées plutôt que des valeurs en dur.
+
+> Détail d'usage et exemples (Builder, helpers d'assertion, périmètre Hive) : skill
+> **`outside-in-diamond-tdd`** ; discipline TDD : skill **`tdd-discipline`**.
+
 ## Ce que Claude ne doit PAS faire (langage)
 
 - Ajouter des indirections non nécessaires.
