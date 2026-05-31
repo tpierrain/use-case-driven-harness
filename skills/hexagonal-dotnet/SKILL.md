@@ -5,6 +5,16 @@
 Chaque module est un **hexagone autonome et extractable** (vertical slicing).
 Le pattern Hive compose plusieurs hexagones dans le même process, avec la possibilité de les déployer séparément.
 
+The Hive, c'est l'art du **« Microservices-Ready Modular Monolith »** : on *modélise* le
+système comme un monolithe modulaire bien découpé (un module = un hexagone), tout en le
+gardant **prêt à être éclaté en microservices** le jour où c'est utile — *« Model once,
+deploy as you wish »*.
+
+C'est un pattern de structuration **back-end / côté serveur** : il s'applique aux
+**applications, services et APIs** (back-ends métier), là où vivent les Ports API/SPI et
+les In-Proc Adapters. Il **ne concerne pas** l'architecture des front-ends / UI, qui
+consomment les Ports API des modules sans être eux-mêmes organisés en Hive.
+
 **Terminologie :**
 - **API** = Port Primaire (gauche) — expose les use cases du module
 - **SPI** = Port Secondaire (droit) — interfaces pour les dépendances (infra + autres modules)
@@ -209,3 +219,7 @@ AvailabilityHttpAdapter : IAvailabilityModule
 ```
 
 Le Domain Service ne change pas — seul l'adaptateur SPI est remplacé.
+
+## Pour aller plus loin
+
+- [The Hive vs Spring Modulith — two different takes on the modular monolith](https://medium.com/@tpierrain/the-hive-vs-spring-modulith-two-different-takes-on-the-modular-monolith-37c60ac91105) — Thomas Pierrain (*Use Case Driven*)
