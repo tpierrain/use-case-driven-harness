@@ -11,7 +11,7 @@ l'aperçu GitHub), sans rien me redemander.
 
 - **Plan multi-étapes** → une section **« Tracking »** en tête, avec **une checkbox par étape**, puis
   des **sous-checkboxes** au fil de chaque étape (modèle de référence :
-  `maintainers/plans/rag-embedder-plan-action.md` du repo second-brain-generator).
+  `maintainers/plans/prospective/rag-embedder-plan-action.md` du repo second-brain-generator).
 - **Étape terminée** → cocher `- [x]` **et** noter _(date · commit)_ : c'est la mémoire qui survit
   aux `/clear`.
 - **Par défaut, à l'ouverture d'un plan**, proposer/rétablir les checkboxes si elles manquent —
