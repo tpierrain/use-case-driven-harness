@@ -33,6 +33,26 @@ pas mon écriture. Ne jamais les angliciser :
 - Si je repère un artefact durable rédigé en français (PR, commentaire, doc) → le **signaler et le
   corriger**.
 
-> Thomas me l'a demandé explicitement (déclencheur : un corps de PR rédigé en français) → règle gravée
-> ici pour ne plus jamais avoir à le redemander. Ce n'est pas un hook : c'est une **convention de
-> rédaction**, donc une instruction globale.
+## Pré-vol obligatoire — AVANT de publier (le rituel)
+
+> 🛑 **STOP — checklist à exécuter dans ma tête juste AVANT** tout `git commit`, `gh pr create|edit`,
+> `gh release create|edit`, `gh issue create|edit` (et avant d'écrire un corps de PR / une note de
+> release dans un fichier ou un heredoc) :
+>
+> 1. **Chaque mot de l'artefact est-il en anglais ?** (titre, corps, message de commit, description.)
+> 2. **Seule exception tolérée** : une localisation produit *délibérée* — une ligne d'exemple marquée
+>    🇫🇷/🇪🇸…, du contenu sous `templates/<locale>/`, ou `--lang <locale>`. Tout le reste = anglais.
+> 3. Si je rédige le corps via **heredoc / `-F -` / stdin** (cas que le hook ne voit pas), c'est
+>    **à moi** de relire : pas de filet automatique sur ce chemin.
+
+**Filet déterministe (ADR 0009) :** un hook `PreToolUse(Bash)` —
+[`~/.claude/hooks/en-artifact-guard.mjs`](../../.claude/hooks/en-artifact-guard.mjs) — scanne les
+commandes de publication et **m'avertit (non bloquant)** si du français traîne dans le payload visible
+(valeurs inline + `--notes-file`/`--body-file`/`-F <fichier>`). Carve-out locale respecté ; override
+conscient `SBG_ALLOW_FR=1`. **Le hook est le filet, ce rituel est la ceinture** : le hook est aveugle
+aux heredocs, donc la relecture manuelle reste obligatoire.
+
+> Thomas me l'a demandé explicitement (déclencheur : un corps de PR rédigé en français, puis rappel
+> 2026-06-17) → règle gravée ici pour ne plus jamais avoir à le redemander. À l'origine « ce n'est
+> pas un hook, c'est une convention de rédaction » ; renforcée depuis par **ceinture (ce rituel) +
+> bretelles (le hook déterministe)**, sur demande explicite de Thomas.
