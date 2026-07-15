@@ -38,6 +38,42 @@ réclament. Le premier test peut être satisfait par une réponse « en dur » ;
 différent, force à dégager la vraie logique. On évite ainsi de sur-généraliser trop tôt — la
 généralité émerge des exemples, elle n'est pas décrétée.
 
+## Qualité des assertions — leçons du mutation testing
+
+Un audit de mutation (2026-07, trois packages) a montré que des tests **verts** laissaient survivre
+des mutants : le comportement était « couvert » mais les **assertions étaient trop lâches**. Six
+réflexes, à appliquer systématiquement - chacun aurait **empêché** le survivant :
+
+1. **Asserter le message, pas le fait.** `throws`/`rejects` **toujours** avec un matcher (regex/type),
+   jamais nus ; un résultat `ok` avec son corps ; un log avec son payload exact. Un
+   `assert.throws(() => f())` nu survit à un `throw ''` : le 2ᵉ argument **n'est pas optionnel**.
+2. **Asserter tout l'objet / toute la séquence, pas un champ.** `deepEqual` sur l'objet retourné
+   **complet** et sur la **liste d'appels complète** (args inclus) - vérifier un seul champ laisse
+   survivre les mutants sur les autres.
+3. **Trianguler les bornes ET les opérateurs.** (prolongement direct de la triangulation ci-dessus)
+   Ajouter le cas **sur la borne** (valeur d'égalité) pour distinguer `>` de `>=`, le cas **juste
+   dehors**, et pour un opérateur un **discriminateur asymétrique** (`a·b ≠ b·a`, `contient-mais-pas-
+   segment`, `#` en milieu de ligne vs en tête). Un exemple unilatéral ne distingue ni `>`/`>=` ni
+   `&&`/`||` ni les ancres de regex `^`/`$`.
+4. **Nourrir le cas absent/null à côté du présent.** Pour chaque `?.`, `??`, argument par défaut,
+   court-circuit `&&`/`||` : écrire le **jumeau** avec l'entrée null/absente/omise. Le happy-path seul
+   laisse la branche d'absence vivante. (Cluster le plus fréquent de l'audit.)
+5. **Collections à ≥2 éléments, non triés, avec un decoy.** `some`/`every`/`find`/tri/`length` sont
+   **indistinguables** sur 0-1 élément ou une liste déjà triée. Deux éléments délibérément non triés
+   + un intrus hors-scope font diverger les mutants (et attrapent les off-by-last).
+6. **Une branche inatteignable par les tests = défaut de conception, pas une exemption.** Si un test
+   ne **peut pas** atteindre une branche (logique derrière de l'I/O, fonction non exportée, script
+   top-level à effets de bord, composition root), extraire un **seam pur** / injecter un **port** /
+   **nommer** chaque factory de wiring jusqu'à ce que chaque branche soit atteignable. C'est le driver
+   n°1 des scores 0 %. « Pure glue, pas testable » n'est jamais une excuse - c'est le diagnostic.
+
+> **Signal objectif : le mutation score, pas la couverture de lignes** (une suite peut couvrir 100 %
+> des lignes et tuer 0 % des mutants). Savoir aussi **ne pas chasser les équivalents** (mutants
+> indistinguables du code d'origine : wiring par défaut d'un port injecté, `?? []` qui recollapse en
+> string après `.map().join('')`, regex greedy masquée par un `.trim()` aval, construction real-SDK
+> observable seulement en réseau) et **se méfier des faux-timeouts** qui gonflent artificiellement le
+> score (brider `concurrency`/`timeout` avant de croire un run).
+
 ## Portée
 
 Cette discipline **vaut pour tous les langages** et tous les types de code. C'est le socle
