@@ -67,6 +67,48 @@ réflexes, à appliquer systématiquement - chacun aurait **empêché** le survi
    **nommer** chaque factory de wiring jusqu'à ce que chaque branche soit atteignable. C'est le driver
    n°1 des scores 0 %. « Pure glue, pas testable » n'est jamais une excuse - c'est le diagnostic.
 
+Un **second audit** (2026-07-27, quatre fichiers d'un même incrément) a montré que ces six réflexes,
+pourtant déjà gravés, n'avaient pas suffi. Quatre formes de plus, qu'aucun des six ne nomme :
+
+7. **Un fixture ne doit JAMAIS être produit par le code qu'il teste.** Un fixture sérialisé avec la
+   **même fonction** que la production rend l'assertion tautologique : « ne pas réécrire ce fichier »
+   et « le réécrire à l'identique » deviennent indistinguables, le test est vert et ne prouve rien.
+   Fabriquer le fixture **autrement** (autre indentation, pas de newline finale, la forme qu'une
+   personne laisserait à la main) pour que la revendication soit **réfutable**.
+8. **La valeur de retour d'un double doit être une empreinte.** Un stub qui rend `0`, `""` ou `[]`
+   rend exactement ce qu'une vraie implémentation rendrait dans le cas nominal : le câblage n'est
+   alors prouvé par rien (le code pourrait appeler le vrai composant, ou l'appeler sans argument, et
+   tout resterait vert). Rendre une valeur **qu'aucune implémentation réelle ne produirait**, et
+   **enregistrer les arguments reçus**.
+9. **Une condition à N raisons demande N tests, un par raison SEULE.** Si chaque fixture déclenche
+   deux termes à la fois, aucun terme n'est jamais la cause unique : on peut en supprimer un et la
+   suite reste verte. Distinct de la triangulation d'opérateur (§3) : là, tous les opérateurs peuvent
+   être justes et la couverture mentir quand même.
+10. **Une transformation conditionnée par la plateforme doit être une fonction pure nommée, nourrie
+    de données de l'AUTRE plateforme.** Inlinée, elle est un no-op sur la plateforme de CI : aucun
+    test ne peut la distinguer de l'identité, et la régression n'apparaît que chez les
+    utilisateur·rices. « Pas testable ici » veut dire « à extraire », jamais « à sauter ».
+
+> **Vérifier un mutant, ce n'est pas raisonner dessus.** Appliquer le mutant **à la main** sur la
+> suite complète (quelques secondes) avant ET après avoir écrit le test : le second audit a ainsi
+> attrapé un mutant classé « tué » qui était en fait l'**autre branche** du même ternaire, toujours
+> vivante parce que l'assertion disait `.includes(…)` au lieu de nommer la liste entière (§2).
+
+> **Simplifier la production plutôt qu'excuser le mutant.** Avant de classer un survivant
+> « équivalent », se demander s'il ne signale pas du **code qui ne peut rien changer** (un garde
+> redondant, un `?? {}` devant un spread d'objet qui tolère déjà `undefined`, une borne déjà garantie
+> par l'indexation). Le supprimer dit la même chose en moins de code, et le mutant disparaît avec lui.
+
+> **Une revendication de durcissement nomme les FICHIERS mesurés, jamais un glob.** « `scripts/**`
+> est durci » a fait passer, deux semaines durant, du code **jamais mesuré** pour du code couvert, et
+> a activement découragé de le re-vérifier. Un faux « fait » coûte plus cher qu'un trou connu.
+
+> **Le score suit la façon dont le code a été écrit, pas la présence de tests.** Dans le second audit,
+> le cœur métier écrit en baby-steps était à 87 %, la **glue de composition écrite après coup** autour
+> d'un cœur déjà vert à 51 %. Le composition root prend son seam **quand on l'écrit**, pas quand on
+> l'audite (§6) : c'est une habitude de **conception**, pas d'assertion - et c'est pour ça que la
+> connaître ne suffit pas.
+
 > **Signal objectif : le mutation score, pas la couverture de lignes** (une suite peut couvrir 100 %
 > des lignes et tuer 0 % des mutants). Savoir aussi **ne pas chasser les équivalents** (mutants
 > indistinguables du code d'origine : wiring par défaut d'un port injecté, `?? []` qui recollapse en
