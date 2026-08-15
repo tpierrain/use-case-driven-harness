@@ -1,17 +1,17 @@
 #!/usr/bin/env bash
 #
-# bootstrap.sh — relie les règles/skills/agents globaux de ce repo à ~/.claude
-# via des symlinks. Source unique de vérité = ce repo. Édition live, sync = git pull.
+# bootstrap.sh — wires this repo's global rules/skills/agents into ~/.claude via
+# symlinks. Single source of truth = this repo. Live editing, sync = git pull.
 #
-# Idempotent. Gère deux situations avec la MÊME commande :
-#   • Laptop 1 (1re fois, repo encore vide) : ADOPTE les fichiers existants de
-#     ~/.claude (les déplace dans le repo), puis crée les symlinks.
-#   • Laptop 2 (repo cloné, déjà peuplé) : sauvegarde l'éventuel ~/.claude existant
-#     (en .bak), puis crée les symlinks vers le contenu du repo.
+# Idempotent. Handles two situations with the SAME command:
+#   • Laptop 1 (first time, repo still empty): ADOPTS the existing files from
+#     ~/.claude (moves them into the repo), then creates the symlinks.
+#   • Laptop 2 (repo cloned, already populated): backs up any existing ~/.claude
+#     entry (as .bak), then creates the symlinks towards the repo's content.
 #
-# Usage :
-#   ./bootstrap.sh          applique les liens
-#   ./bootstrap.sh --check  dry-run : montre ce qui serait fait, ne touche à rien
+# Usage:
+#   ./bootstrap.sh          applies the links
+#   ./bootstrap.sh --check  dry-run: shows what would be done, touches nothing
 #
 set -euo pipefail
 
@@ -21,8 +21,8 @@ STAMP="$(date +%Y%m%d-%H%M%S)"
 DRY_RUN=false
 [[ "${1:-}" == "--check" ]] && DRY_RUN=true
 
-# Périmètre : <chemin dans ~/.claude>  <chemin équivalent dans le repo>
-# (méthodo seule — cf. README. On ne versionne QUE ces 3 blocs.)
+# Perimeter: <path inside ~/.claude>  <equivalent path inside the repo>
+# (methodology only — see the README. We version ONLY these blocks.)
 MAPPINGS=(
   "rules|rules"
   "skills/the-hive-pattern|skills/the-hive-pattern"
@@ -40,43 +40,43 @@ link_one() {
 
   say "• $rel_claude"
 
-  # Déjà un symlink ?
+  # Already a symlink?
   if [[ -L "$claude_path" ]]; then
     local target; target="$(readlink "$claude_path")"
     if [[ "$target" == "$repo_path" ]]; then
-      say "   ✓ déjà lié correctement — rien à faire"
+      say "   ✓ already linked correctly — nothing to do"
     else
-      say "   ⚠️  symlink existant pointe ailleurs ($target) — à vérifier manuellement"
+      say "   ⚠️  existing symlink points elsewhere ($target) — check it by hand"
     fi
     return
   fi
 
   if [[ -e "$repo_path" ]]; then
-    # Le repo a déjà le contenu (laptop 2, ou adoption déjà faite).
+    # The repo already holds the content (laptop 2, or adoption already done).
     if [[ -e "$claude_path" ]]; then
-      say "   ↪ sauvegarde de l'existant → $claude_path.bak.$STAMP"
+      say "   ↪ backing up the existing one → $claude_path.bak.$STAMP"
       run "mv \"$claude_path\" \"$claude_path.bak.$STAMP\""
     fi
     run "mkdir -p \"$(dirname "$claude_path")\""
     run "ln -s \"$repo_path\" \"$claude_path\""
-    say "   ✓ symlink créé → repo"
+    say "   ✓ symlink created → repo"
   elif [[ -e "$claude_path" ]]; then
-    # Adoption (laptop 1, 1re fois) : on déplace le contenu live dans le repo.
-    say "   ⤵ adoption : déplacement de $claude_path → repo"
+    # Adoption (laptop 1, first time): move the live content into the repo.
+    say "   ⤵ adoption: moving $claude_path → repo"
     run "mkdir -p \"$(dirname "$repo_path")\""
     run "mv \"$claude_path\" \"$repo_path\""
     run "ln -s \"$repo_path\" \"$claude_path\""
-    say "   ✓ adopté + symlink créé"
+    say "   ✓ adopted + symlink created"
   else
-    say "   ⚠️  ni le repo ni ~/.claude n'ont ce chemin — ignoré"
+    say "   ⚠️  neither the repo nor ~/.claude has this path — skipped"
   fi
 }
 
 say "═══════════════════════════════════════════════════════════"
 say " use-case-driven-harness — bootstrap"
 say " repo   : $REPO_DIR"
-say " cible  : $CLAUDE_DIR"
-$DRY_RUN && say " mode   : DRY-RUN (aucune modification)"
+say " target : $CLAUDE_DIR"
+$DRY_RUN && say " mode   : DRY-RUN (no modification)"
 say "═══════════════════════════════════════════════════════════"
 
 for m in "${MAPPINGS[@]}"; do
@@ -85,8 +85,8 @@ done
 
 say "───────────────────────────────────────────────────────────"
 if $DRY_RUN; then
-  say "Dry-run terminé. Relance sans --check pour appliquer."
+  say "Dry-run done. Re-run without --check to apply."
 else
-  say "✅ Terminé. Tes règles globales pointent maintenant vers ce repo."
-  say "   Édite-les en place, commit, push. Sur l'autre laptop : git pull."
+  say "✅ Done. Your global rules now point at this repo."
+  say "   Edit them in place, commit, push. On the other laptop: git pull."
 fi

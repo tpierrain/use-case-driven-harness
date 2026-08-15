@@ -1,68 +1,69 @@
 # CLAUDE.md — `use-case-driven-harness`
 
-Repo **public** contenant mes règles et skills globaux Claude Code
-(méthodo « Use Case Driven » : Outside-in Diamond 🔷 TDD + The Hive).
+A **public** repo holding my global Claude Code rules and skills (the "Use Case Driven"
+methodology: Outside-in Diamond 🔷 TDD + The Hive).
 
 ---
 
-## État : repo en service
+## Status: the repo is in service
 
-Le repo est **en régime de croisière** : poussé sur GitHub, symlinks en place. Suis les
-règles de vie ci-dessous pour tout travail courant.
+The repo is **in steady state**: pushed to GitHub, symlinks in place. Follow the operating rules
+below for any routine work.
 
-Le plan de mise en service initial est **archivé** dans
-[docs/archive/PLAN.md](docs/archive/PLAN.md) — historique, plus rien à dérouler.
+The initial commissioning plan is **archived** in [docs/archive/PLAN.md](docs/archive/PLAN.md) —
+history, nothing left to run.
 
-Pour vérifier l'état si besoin : `git remote -v` (origin présent = en service) et
-`ls -la ~/.claude/rules` (symlink vers ce repo = bootstrap fait).
+To check the state if needed: `git remote -v` (origin present = in service) and
+`ls -la ~/.claude/rules` (a symlink into this repo = bootstrap done).
 
 ---
 
-## Nature du repo
+## What this repo is
 
-- **Source unique de vérité** de mon `~/.claude` (blocs `rules/`, `skills/test-first-discipline/`,
-  `skills/the-hive-pattern/`, `skills/outside-in-diamond-tdd/`). Relié par **symlinks** via `bootstrap.sh`.
-- Éditer un fichier ici **modifie ma config Claude live** (et inversement, puisque
-  c'est symlinké). Toujours en avoir conscience.
+- The **single source of truth** for my `~/.claude` (the `rules/`, `skills/test-first-discipline/`,
+  `skills/the-hive-pattern/`, `skills/outside-in-diamond-tdd/` blocks). Wired with **symlinks** via
+  `bootstrap.sh`.
+- Editing a file here **modifies my live Claude config** (and the other way round, since it is
+  symlinked). Always stay aware of that.
 
-## Structure de la méthodo : rule (directive légère) → skill (détail on-demand)
+## The shape of the methodology: rule (lightweight directive) → skill (on-demand detail)
 
-Principe de conception à **préserver** : les **rules** sont chargées dans *chaque* session
-(coûteuses en contexte) → elles restent des **directives minimales** qui *pointent* vers une
-skill ; tout le **détail** vit dans une **skill chargée à la demande**. **Une seule copie** de
-chaque connaissance → pas de duplication, contexte always-on minimal.
+A design principle to **preserve**: **rules** are loaded into *every* session (expensive in context)
+→ they stay **minimal directives** that *point* at a skill; all the **detail** lives in a **skill
+loaded on demand**. **One single copy** of each piece of knowledge → no duplication, minimal
+always-on context.
 
 ```
 rule testing.md ────────►  skill test-first-discipline ──────►  skill outside-in-diamond-tdd
-  « toujours du TDD »        « TDD classique »             « surcouche pour les ruches »
+  "test before code"         "the universal how"            "the layer for hives"
                                                                     ▲
 rule architecture.md ────►  skill the-hive-pattern ────────────────┘
-  « back-end ⇒ Hive »        « how-to The Hive (exemples .NET) »  (flux de dev associé)
+  "back-end ⇒ Hive"          "The Hive how-to (.NET examples)"    (the matching dev flow)
 ```
 
-- `rules/testing.md` → toujours test-first ; le *comment* est dans la skill `test-first-discipline`.
-- `rules/architecture.md` → back-end/API/service ⇒ ruche (The Hive) ; how-to dans `the-hive-pattern`.
-- `rules/dotnet-conventions.md` → conventions de **langage** C#/.NET seulement (pas d'archi).
-- `skills/outside-in-diamond-tdd` → flux de dev d'une ruche, spécialisation du TDD classique.
+- `rules/testing.md` → always test-first; the *how* is in the `test-first-discipline` skill.
+- `rules/architecture.md` → back-end/API/service ⇒ a hive (The Hive); the how-to is in
+  `the-hive-pattern`.
+- `rules/dotnet-conventions.md` → the C#/.NET **language** conventions only (no architecture).
+- `skills/outside-in-diamond-tdd` → the dev flow of a hive, a specialization of the discipline.
 
-**Quand on enrichit la méthodo :** mettre la directive (le *quoi/quand*) dans une rule, le
-détail (le *comment*, exemples, code) dans une skill. Ne jamais recopier le détail dans la rule.
-Slugs de skills en kebab-case ASCII (emoji seulement dans le titre/contenu).
+**When enriching the methodology:** put the directive (the *what/when*) in a rule, the detail (the
+*how*, examples, code) in a skill. Never copy the detail back into the rule. Skill slugs in ASCII
+kebab-case (emoji only in the title/content).
 
-## Règles
+## Rules
 
-1. **Public = zéro confidentiel.** Avant tout commit, vérifier qu'aucun secret,
-   token, ni référence client/employeur confidentielle n'entre dans le repo. Le
-   périmètre est volontairement « méthodo seule » — garder cette allowlist stricte.
-2. **Ne pas élargir le périmètre sans raison.** Pas de `settings.json`, pas de
-   caches, pas de sessions, pas de `.credentials`. Cf. README.
-3. **Commits clairs et atomiques** : un sujet par commit (`rule: …`, `skill: …`,
-   `docs: …`, `bootstrap: …`).
-4. **Ne jamais casser l'idempotence de `bootstrap.sh`.** Toute évolution doit
-   rester rejouable sans danger (backups en `.bak`, dry-run `--check`).
+1. **Public = zero confidential material.** Before any commit, check that no secret, token, or
+   confidential client/employer reference makes it into the repo. The perimeter is deliberately
+   "methodology only" — keep that allowlist strict.
+2. **Do not widen the perimeter without a reason.** No `settings.json`, no caches, no sessions, no
+   `.credentials`. See the README.
+3. **Clear, atomic commits**: one subject per commit (`rule: …`, `skill: …`, `docs: …`,
+   `bootstrap: …`).
+4. **Never break `bootstrap.sh`'s idempotence.** Any change must stay safely replayable (`.bak`
+   backups, `--check` dry-run).
 
-## Anti-dérive
+## Anti-drift
 
-Ce repo existe *parce que* les workflows par copie dérivent. Ne jamais réintroduire
-de mécanisme de copie/install qui dupliquerait le contenu : le symlink est le cœur
-du dispositif.
+This repo exists *because* copy-based workflows drift. Never reintroduce a copy/install mechanism
+that would duplicate the content: the symlink is the heart of the design.
