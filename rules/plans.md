@@ -1,76 +1,75 @@
-# Plans & docs de suivi — checkboxes obligatoires
+# Plans & tracking docs — checkboxes are mandatory
 
-Tout document de **plan / roadmap / TODO / suivi d'avancement** que je rédige ou modifie (au premier
-chef les `maintainers/plans/**`, mais aussi **tout** fichier qui liste des étapes à réaliser) DOIT
-utiliser des **checkboxes Markdown** `- [ ]` / `- [x]` sur **chaque étape ET chaque sous-étape** —
-jamais des puces simples `-`, ni des marqueurs purement textuels (`TODO`, `✅ DONE`) seuls — afin que
-Thomas puisse **suivre et cocher l'avancement directement depuis le Markdown** (Typora, Obsidian,
-l'aperçu GitHub), sans rien me redemander.
+Every **plan / roadmap / TODO / progress-tracking** document I write or modify (first and foremost
+`maintainers/plans/**`, but also **any** file that lists steps to carry out) MUST use Markdown
+**checkboxes** `- [ ]` / `- [x]` on **every step AND every sub-step** — never plain bullets `-`, and
+never purely textual markers (`TODO`, `✅ DONE`) on their own — so that Thomas can **follow progress
+and tick it straight from the Markdown** (Typora, Obsidian, the GitHub preview) without having to ask
+me anything.
 
-## Règles
+## Rules
 
-- **Plan multi-étapes** → une section **« Tracking »** en tête, avec **une checkbox par étape**, puis
-  des **sous-checkboxes** au fil de chaque étape (modèle de référence :
-  `maintainers/plans/prospective/rag-embedder-plan-action.md` du repo second-brain-generator).
-- **Étape terminée** → cocher `- [x]` **et** noter _(date · commit)_ : c'est la mémoire qui survit
-  aux `/clear`.
-- **Par défaut, à l'ouverture d'un plan**, proposer/rétablir les checkboxes si elles manquent —
-  ne pas attendre qu'on me le demande.
-- Cette convention est **globale** : elle s'applique à **tous** les projets, sans avoir à la
-  re-spécifier.
+- **A multi-step plan** → a **"Tracking"** section at the top, with **one checkbox per step**, then
+  **sub-checkboxes** along each step (reference model:
+  `maintainers/plans/prospective/rag-embedder-plan-action.md` in the second-brain-generator repo).
+- **A finished step** → tick `- [x]` **and** note _(date · commit)_: that is the memory which survives
+  a `/clear`.
+- **By default, whenever a plan is opened**, offer to restore the checkboxes if they are missing —
+  do not wait to be asked.
+- This convention is **global**: it applies to **every** project, with no need to re-specify it.
 
-> Thomas me l'a demandé de façon répétée → règle gravée ici pour ne plus jamais avoir à le redemander.
-> Ce n'est pas un hook (un hook ne peut pas rédiger des checkboxes) : c'est une **convention de
-> rédaction**, donc une instruction globale.
+> Thomas asked for this repeatedly → a rule carved here so it never has to be asked for again. It is
+> not a hook (a hook cannot write checkboxes): it is a **writing convention**, hence a global
+> instruction.
 
-## Mémoire & `/clear` — des pointeurs, pas des copies
+## Memory & `/clear` — pointers, not copies
 
-> Réf. : Thomas Pierrain, *« Des pointeurs, pas des copies, banane »*
+> Ref.: Thomas Pierrain, *« Des pointeurs, pas des copies, banane »*
 > (<https://medium.com/@tpierrain/des-pointeurs-pas-des-copies-banane-56c9d197b80b>).
 
-Le **plan du repo (`maintainers/plans/**`) est la source UNIQUE** de l'état d'un chantier (checkboxes,
-commits, reste-à-faire). `MEMORY.md` est **rechargé en entier à chaque session** (et borné, ~25 Ko) :
-toute redite de l'état d'un plan y crée du **context rot** et peut **noyer les instructions critiques**
-sous de l'obsolète — un débordement **silencieux**. Donc, par défaut, sans qu'on me le redemande :
+**The repo's plan (`maintainers/plans/**`) is the SINGLE source** of a chantier's state (checkboxes,
+commits, what remains). `MEMORY.md` is **reloaded in full at every session** (and bounded, ~25 KB):
+any restatement of a plan's state creates **context rot** there and can **drown critical instructions**
+under stale text — a **silent** overflow. So, by default and without being asked:
 
-- **Pointeurs, pas des copies.** Pour un chantier en cours : **un seul fichier mémoire = pointeur fin**
-  (branche + chemin du plan + « lire le plan »), et **une seule ligne d'index fine** dans `MEMORY.md`.
-  Je ne **duplique JAMAIS** dans la mémoire le contenu du plan (done/remains, commits, détails) — il vit
-  dans le plan, lu à la demande, jamais auto-chargé.
-- **Cocher au fil de l'eau** le plan du repo (et lui seul) pour que le repère ne mente pas — cf. la
-  section checkboxes ci-dessus et « Étape terminée → _(date · commit)_ ».
-- **Élaguer `MEMORY.md` des entrées ✅ SHIPPED / historiques** dès qu'un chantier est livré : un livré
-  n'est plus du contexte actionnable, sa trace vit dans **git + le plan archivé**. Supprimer la ligne
-  d'index **et** le fichier-pointeur devenu pur historique. Garder dans l'index surtout :
-  **préférences / conventions durables** + **chantiers actifs**.
-- **Reprise après `/clear`** : suivre le pointeur → **ouvrir le plan**, reprendre au **1ᵉʳ `- [ ]` non
-  coché**, et **l'annoncer avant de coder**. Le `/clear` redevient gratuit parce qu'il n'y a rien à
-  perdre en mémoire — l'état est dans le plan.
+- **Pointers, not copies.** For an ongoing chantier: **a single memory file = a thin pointer** (branch
+  + path to the plan + "read the plan"), and **a single thin index line** in `MEMORY.md`. I **NEVER
+  duplicate** the plan's content into memory (done/remains, commits, details) — it lives in the plan,
+  read on demand, never auto-loaded.
+- **Tick as you go** in the repo's plan (and only there) so the landmark never lies — see the
+  checkboxes section above and "a finished step → _(date · commit)_".
+- **Prune `MEMORY.md` of ✅ SHIPPED / historical entries** as soon as a chantier is delivered: what is
+  shipped is no longer actionable context, its trace lives in **git + the archived plan**. Delete the
+  index line **and** the pointer file that has become pure history. Keep mostly this in the index:
+  **durable preferences / conventions** + **active chantiers**.
+- **Resuming after a `/clear`**: follow the pointer → **open the plan**, resume at the **first unticked
+  `- [ ]`**, and **announce it before writing code**. The `/clear` becomes free again because there is
+  nothing to lose in memory — the state is in the plan.
 
-### Le point de sauvegarde, c'est CHAQUE main rendue (pas la fin d'une étape)
+### The save point is EVERY hand-back (not the end of a step)
 
-**Avant de rendre la main** (toute réponse qui n'enchaîne pas sur un outil, donc **tout instant où
-Thomas peut clearer**), le plan doit déjà dire ce que mon message de chat dit de l'état. Test simple,
-à faire avant d'écrire la réponse : **si ma réponse contient « prochain : X », « il reste Y », « à
-reprendre à Z », ces phrases doivent déjà exister dans le plan, commitées.** Sinon je les y écris
-d'abord, et le chat n'en est plus que l'écho.
+**Before handing back** (any reply that does not chain into a tool, hence **every moment where Thomas
+can clear**), the plan must already say what my chat message says about the state. A simple test, to
+run before writing the reply: **if my reply contains "next: X", "Y remains", "resume at Z", those
+sentences must already exist in the plan, committed.** Otherwise I write them there first, and the
+chat becomes no more than their echo.
 
-Cela couvre en particulier ce qu'aucune checkbox ne dit :
+This covers in particular what no checkbox says:
 
-- **quel est le prochain pas réel**, quand le 1ᵉʳ `- [ ]` du Tracking n'est PAS le bon repère (une étape
-  décochée dont il ne reste qu'une ligne de doc, une vérif qui attend un environnement, un choix
-  suspendu) : l'écrire dans le plan, sinon la reprise repart sur du déjà livré ;
-- **une décision prise en conversation** (arbitrage, périmètre, « on ne fait pas X ») : elle meurt au
-  `/clear` si elle ne vit que dans le fil ;
-- **un blocage / une attente externe** et ce qu'il faudrait pour le lever.
+- **what the real next step is**, when the first `- [ ]` of the Tracking is NOT the right landmark (an
+  unticked step with only a line of doc left, a verification waiting on an environment, a suspended
+  choice): write it in the plan, otherwise the resume restarts on something already delivered;
+- **a decision taken in conversation** (an arbitration, a scope call, "we are not doing X"): it dies at
+  the `/clear` if it only lives in the thread;
+- **a blocker / an external wait** and what it would take to lift it.
 
-> **Pourquoi cette précision, alors que « cocher au fil de l'eau » était déjà écrit** : son déclencheur
-> est *« étape terminée »*. Entre deux étapes, l'état vivait donc dans ma dernière réponse, c'est-à-dire
-> dans le seul endroit que le `/clear` détruit, et Thomas devait me demander de le sauvegarder. Le bon
-> déclencheur n'est pas la fin d'une étape, c'est **la main rendue**. Demandé explicitement par Thomas
-> (2026-07-28, Kenjaku) : *« fais-le au fil de l'eau pour que je puisse clear dès que tu es en attente »*.
-> **Objectif : le `/clear` est gratuit à tout instant, jamais seulement aux frontières d'étape.**
+> **Why this refinement, when "tick as you go" was already written**: its trigger was *"a step is
+> finished"*. Between two steps, the state therefore lived in my last reply, that is, in the one place
+> a `/clear` destroys, and Thomas had to ask me to save it. The right trigger is not the end of a step,
+> it is **the hand-back**. Asked for explicitly by Thomas (2026-07-28, Kenjaku): *"do it as you go so
+> I can clear the moment you are waiting"*. **Goal: the `/clear` is free at any instant, never only at
+> step boundaries.**
 
-> Pourquoi global : c'est une **convention de rédaction de la mémoire**, pas un hook. Sœur de la mémoire
-> projet `one-canonical-plan-in-repo` (un seul plan canonique = celui du repo) ; cette règle en est la
-> généralisation tous-projets, toujours chargée.
+> Why global: this is a **convention for writing memory**, not a hook. Sibling of the project memory
+> `one-canonical-plan-in-repo` (a single canonical plan = the repo's); this rule is its all-projects
+> generalization, always loaded.

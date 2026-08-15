@@ -1,58 +1,57 @@
-# Langue — artefacts en anglais, conversation en français
+# Language — artifacts in English, conversation in French
 
-Thomas et moi **conversons en français** (chat, voix, explications, questions/réponses). Mais **tout
-artefact durable** que je produis ou modifie est rédigé **en anglais**, sans exception cachée.
+Thomas and I **converse in French** (chat, voice, explanations, questions and answers). But **every
+durable artifact** I produce or modify is written **in English**, with no hidden exception.
 
-## En anglais (toujours)
+## In English (always)
 
-- **Code** : identifiants, noms de fonctions/variables/types, **commentaires**.
-- **Docs & Markdown** versionnés : `README`, `SETUP`, ADR, plans/roadmaps/TODO, skills (`SKILL.md`).
-- **Git** : messages de commit, **titres ET corps de PR**, descriptions d'issues, noms de branches.
-- **Logs, messages d'erreur, textes destinés à l'utilisateur final** du produit (sauf localisation, ci-dessous).
+- **Code**: identifiers, function/variable/type names, **comments**.
+- **Versioned docs & Markdown**: `README`, `SETUP`, ADRs, plans/roadmaps/TODOs, skills (`SKILL.md`).
+- **Git**: commit messages, **PR titles AND bodies**, issue descriptions, branch names.
+- **Logs, error messages, end-user-facing text** of the product (except localization, below).
 
-> Raison : diffusion internationale, relecture par n'importe qui, cohérence du repo. Une PR ou un
-> commentaire en français est un défaut à corriger — pas un choix.
+> Why: international reach, review by anyone, consistency of the repo. A PR or a comment written in
+> French is a defect to fix — not a choice.
 
-## Exception — localisation produit intentionnelle (NE PAS « corriger »)
+## Exception — deliberate product localization (do NOT "fix" it)
 
-Certains contenus sont **délibérément** non-anglais parce que c'est le **produit** qui est localisé,
-pas mon écriture. Ne jamais les angliciser :
+Some content is **deliberately** not in English because it is the **product** that is localized, not
+my writing. Never anglicize it:
 
-- `templates/<locale>/**` (ex. `templates/fr/…`) — sources d'artefacts localisés.
-- Contenu généré sous `--lang fr` / autre locale, notes de démo localisées, stopwords par locale.
-- Noms propres, citations, et **enregistrements historiques** explicitement conservés dans une autre langue.
+- `templates/<locale>/**` (e.g. `templates/fr/…`) — sources of localized artifacts.
+- Content generated under `--lang fr` / another locale, localized demo notes, per-locale stopwords.
+- Proper nouns, quotes, and **historical records** explicitly kept in another language.
 
-> En cas de doute sur « artefact durable en anglais » vs « localisation produit », trancher : si c'est
-> **moi qui rédige** (code, doc, commit, PR) → anglais ; si c'est **le produit qui parle à un
-> utilisateur dans SA langue** → respecter la locale.
+> When in doubt between "durable artifact in English" and "product localization", decide this way: if
+> **I am the one writing** (code, doc, commit, PR) → English; if it is **the product speaking to a
+> user in THEIR language** → honour the locale.
 
-## Règle
+## Rule
 
-- **À chaque fois que j'écris du code, une doc, un commit ou une PR** → en anglais, par défaut, sans
-  qu'on me le redemande. Convention **globale**, tous projets.
-- Si je repère un artefact durable rédigé en français (PR, commentaire, doc) → le **signaler et le
-  corriger**.
+- **Every time I write code, a doc, a commit or a PR** → in English, by default, without being asked
+  again. A **global** convention, every project.
+- If I spot a durable artifact written in French (PR, comment, doc) → **flag it and fix it**.
 
-## Pré-vol obligatoire — AVANT de publier (le rituel)
+## Mandatory pre-flight — BEFORE publishing (the ritual)
 
-> 🛑 **STOP — checklist à exécuter dans ma tête juste AVANT** tout `git commit`, `gh pr create|edit`,
-> `gh release create|edit`, `gh issue create|edit` (et avant d'écrire un corps de PR / une note de
-> release dans un fichier ou un heredoc) :
+> 🛑 **STOP — a checklist to run in my head right BEFORE** any `git commit`, `gh pr create|edit`,
+> `gh release create|edit`, `gh issue create|edit` (and before writing a PR body / release note into
+> a file or a heredoc):
 >
-> 1. **Chaque mot de l'artefact est-il en anglais ?** (titre, corps, message de commit, description.)
-> 2. **Seule exception tolérée** : une localisation produit *délibérée* — une ligne d'exemple marquée
->    🇫🇷/🇪🇸…, du contenu sous `templates/<locale>/`, ou `--lang <locale>`. Tout le reste = anglais.
-> 3. Si je rédige le corps via **heredoc / `-F -` / stdin** (cas que le hook ne voit pas), c'est
->    **à moi** de relire : pas de filet automatique sur ce chemin.
+> 1. **Is every word of the artifact in English?** (title, body, commit message, description.)
+> 2. **The only tolerated exception**: a *deliberate* product localization — a sample line marked
+>    🇫🇷/🇪🇸…, content under `templates/<locale>/`, or `--lang <locale>`. Everything else = English.
+> 3. If I write the body through a **heredoc / `-F -` / stdin** (a path the hook cannot see), the
+>    re-read is **on me**: there is no automatic net on that path.
 
-**Filet déterministe (ADR 0009) :** un hook `PreToolUse(Bash)` —
-[`~/.claude/hooks/en-artifact-guard.mjs`](../../.claude/hooks/en-artifact-guard.mjs) — scanne les
-commandes de publication et **m'avertit (non bloquant)** si du français traîne dans le payload visible
-(valeurs inline + `--notes-file`/`--body-file`/`-F <fichier>`). Carve-out locale respecté ; override
-conscient `SBG_ALLOW_FR=1`. **Le hook est le filet, ce rituel est la ceinture** : le hook est aveugle
-aux heredocs, donc la relecture manuelle reste obligatoire.
+**Deterministic net (ADR 0009):** a `PreToolUse(Bash)` hook —
+[`~/.claude/hooks/en-artifact-guard.mjs`](../../.claude/hooks/en-artifact-guard.mjs) — scans publishing
+commands and **warns me (non-blocking)** if French is lingering in the visible payload (inline values
++ `--notes-file`/`--body-file`/`-F <file>`). The locale carve-out is honoured; deliberate override with
+`SBG_ALLOW_FR=1`. **The hook is the braces, this ritual is the belt**: the hook is blind to heredocs,
+so the manual re-read stays mandatory.
 
-> Thomas me l'a demandé explicitement (déclencheur : un corps de PR rédigé en français, puis rappel
-> 2026-06-17) → règle gravée ici pour ne plus jamais avoir à le redemander. À l'origine « ce n'est
-> pas un hook, c'est une convention de rédaction » ; renforcée depuis par **ceinture (ce rituel) +
-> bretelles (le hook déterministe)**, sur demande explicite de Thomas.
+> Thomas asked for this explicitly (trigger: a PR body written in French, then a reminder on
+> 2026-06-17) → a rule carved here so it never has to be asked for again. Originally "this is not a
+> hook, it is a writing convention"; reinforced since with **belt (this ritual) + braces (the
+> deterministic hook)**, at Thomas's explicit request.

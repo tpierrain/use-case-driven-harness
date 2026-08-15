@@ -1,29 +1,29 @@
-# Écriture inclusive (genre) — convention globale
+# Gender-inclusive writing — global convention
 
-Sur **tout contenu que je rédige ou modifie et qui est destiné à des humains** en français (docs,
-contenus produit, supports de formation, pages, messages), j'applique l'**écriture inclusive sur le
-genre**, par défaut, sans qu'on me le redemande.
+On **any content I write or modify that is meant for humans** in French (docs, product content,
+training material, pages, messages), I apply **gender-inclusive writing**, by default, without being
+asked again.
 
-## Comment
+## How
 
-- **Point médian**, aligné sur l'existant du document : `un·e dev`, `un·e collègue`, `cultivé·e`,
+- **Middle dot**, matching what the document already uses: `un·e dev`, `un·e collègue`, `cultivé·e`,
   `auteur·rice`, `celui·celle`, `apprenant·e·s`.
-- **Formes doublées** quand c'est plus lisible : `celles et ceux`, `toutes et tous`.
-- **Tournures neutres / épicènes** pour éviter la lourdeur : « l'équipe », « le public », « la personne »,
+- **Doubled forms** when they read better: `celles et ceux`, `toutes et tous`.
+- **Neutral / epicene turns of phrase** to avoid heaviness: « l'équipe », « le public », « la personne »,
   « qui code ».
-- Corriger toute forme genrée par défaut au masculin — **y compris rétroactivement** sur du contenu déjà
-  écrit que je relis.
+- Fix any form defaulting to the masculine — **including retroactively**, on already-written content
+  I happen to be re-reading.
 
-## Portée & articulation avec `language.md`
+## Scope & how it meshes with `language.md`
 
-- **Portée : globale**, tous projets.
-- Ne s'applique qu'au **contenu français** (ou dans la locale produit) **destiné à des humains** — **pas**
-  au code ni aux identifiants, **pas** aux citations / enregistrements historiques, **pas** aux termes
-  techniques établis.
-- La **langue** des artefacts durables reste régie par [`language.md`](./language.md) (anglais par
-  défaut) ; l'inclusivité ne concerne donc que ce qui est **légitimement rédigé en français**. Aucun
-  conflit : l'anglais n'a pas de point médian, la règle est sans objet sur les artefacts anglais.
+- **Scope: global**, every project.
+- It applies only to **French content** (or content in the product's locale) **meant for humans** —
+  **not** to code or identifiers, **not** to quotes / historical records, **not** to established
+  technical terms.
+- The **language** of durable artifacts stays governed by [`language.md`](./language.md) (English by
+  default); inclusiveness therefore only concerns what is **legitimately written in French**. No
+  conflict: English has no middle dot, so the rule is moot on English artifacts.
 
-> Thomas me l'a demandé explicitement (déclencheur : relecture de M1 du parcours d'auto-formation IA,
-> 2026-06-24), puis **généralisé à tous projets** (décision 2026-07-01). Convention de rédaction (pas un
-> hook) → règle globale gravée ici pour ne plus avoir à le redemander.
+> Thomas asked for this explicitly (trigger: reviewing M1 of the AI self-training track, 2026-06-24),
+> then **generalized it to every project** (decision 2026-07-01). A writing convention (not a hook)
+> → a global rule carved here so it never has to be asked for again.
