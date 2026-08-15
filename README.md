@@ -60,6 +60,10 @@ cd use-case-driven-harness
 ./bootstrap.sh           # applies the symlinks (backs up anything existing as .bak)
 ```
 
+```bash
+./test/bootstrap-check.sh   # the regression net, if you change bootstrap.sh
+```
+
 `bootstrap.sh` is idempotent and handles both cases with the same command:
 - **First machine** (repo still empty): it *adopts* the files already present in `~/.claude` (moves
   them into the repo), then creates the symlinks.

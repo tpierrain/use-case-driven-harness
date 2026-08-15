@@ -43,7 +43,11 @@ link_one() {
   # Already a symlink?
   if [[ -L "$claude_path" ]]; then
     local target; target="$(readlink "$claude_path")"
-    if [[ "$target" == "$repo_path" ]]; then
+    # -ef compares device + inode, so an equivalent spelling of the same directory
+    # counts as linked (a link recorded as ~/dev/... against a repo resolved at
+    # ~/Dev/... on a case-insensitive filesystem, a path through another symlink…).
+    # Comparing the target as a literal string reported those as broken.
+    if [[ "$claude_path" -ef "$repo_path" ]]; then
       say "   ✓ already linked correctly — nothing to do"
     else
       say "   ⚠️  existing symlink points elsewhere ($target) — check it by hand"

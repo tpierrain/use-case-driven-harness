@@ -61,7 +61,10 @@ kebab-case (emoji only in the title/content).
 3. **Clear, atomic commits**: one subject per commit (`rule: …`, `skill: …`, `docs: …`,
    `bootstrap: …`).
 4. **Never break `bootstrap.sh`'s idempotence.** Any change must stay safely replayable (`.bak`
-   backups, `--check` dry-run).
+   backups, `--check` dry-run). **Run `./test/bootstrap-check.sh` after touching that script** — it
+   drives it as a process against a fake `$HOME` and pins how `--check` judges an already-installed
+   symlink (exact path, equivalent path, foreign target). It is the only mechanical net in this repo;
+   a rule nobody can run is not a net.
 
 ## Anti-drift
 
