@@ -1,12 +1,12 @@
-# Conventions .NET — C# 12 / .NET 8
+# .NET conventions — C# 12 / .NET 8
 
-> Cette rule complète les rules génériques du plugin everything-claude-code.
-> **Architecture** : les back-ends s'implémentent en ruche (cf. `architecture.md`) ; le how-to
-> .NET (ports API/SPI, In-Proc Adapters, décisions d'archi comme « pas de MediatR / pas de
-> couche use-case séparée ») est dans la skill **`the-hive-pattern`**. Ce fichier ne couvre
-> que les **conventions de langage** C# / .NET.
+> This rule complements the generic rules of the everything-claude-code plugin.
+> **Architecture**: back-ends are built as hives (see `architecture.md`); the .NET how-to (API/SPI
+> ports, In-Proc Adapters, architectural decisions such as "no MediatR / no separate use-case
+> layer") lives in the **`the-hive-pattern`** skill. This file covers only the C# / .NET
+> **language conventions**.
 
-## Syntaxe moderne obligatoire
+## Modern syntax is mandatory
 
 ### Primary Constructors
 ```csharp
@@ -34,7 +34,7 @@ List<string> items = ["a", "b", "c"];
 var items = new List<string> { "a", "b", "c" };
 ```
 
-### Records pour DTOs
+### Records for DTOs
 ```csharp
 // ✅
 public sealed record ReserveRequest(string TrainId, int SeatCount);
@@ -43,25 +43,25 @@ public sealed record ReserveRequest(string TrainId, int SeatCount);
 public class ReserveRequest { public string TrainId { get; set; } }
 ```
 
-## Async obligatoire
+## Async is mandatory
 
-- Toujours passer `CancellationToken`
-- Suffixe `Async` sur les méthodes
-- Jamais `.Result` ou `.Wait()`
+- Always pass a `CancellationToken`
+- `Async` suffix on the methods
+- Never `.Result` or `.Wait()`
 
-## Result<T> pour les erreurs métier
+## Result<T> for business errors
 
 ```csharp
-// ✅ Erreur métier
+// ✅ Business error
 return Result.Failure<Reservation>(TrainErrors.NotEnoughSeats);
 
-// ❌ Exception pour erreur métier
+// ❌ Exception for a business error
 throw new NotEnoughSeatsException();
 ```
 
-Exceptions réservées aux erreurs techniques (DB down, network failure, etc.)
+Exceptions are reserved for technical errors (DB down, network failure, etc.)
 
-## Logging structuré
+## Structured logging
 
 ```csharp
 // ✅
@@ -74,24 +74,23 @@ logger.LogInformation($"Reservation {bookingRef} created");
 
 ## Tests (.NET)
 
-Pour faire du **TDD en .NET**, mon stack préféré :
+To write **tests first in .NET**, Thomas's preferred stack:
 
-- **xUnit** — framework de test (`xunit`).
-- **NFluent** — assertions lisibles (`Check.That(...)`).
-- **NSubstitute** — **stubs** des ports API et SPI (`Substitute.For<...>()`).
-- **Diverse** — **fuzzing** / génération de données de test. C'est **ma propre librairie**
-  (créée par Thomas — `tpierrain`). À privilégier pour générer des données variées plutôt que
-  des valeurs en dur. NuGet : <https://www.nuget.org/packages/Diverse/> · repo :
-  <https://github.com/tpierrain/Diverse>.
+- **xUnit** — test framework (`xunit`).
+- **NFluent** — readable assertions (`Check.That(...)`).
+- **NSubstitute** — **stubs** for the API and SPI ports (`Substitute.For<...>()`).
+- **Diverse** — **fuzzing** / test-data generation. This is **Thomas's own library**
+  (`tpierrain`). Prefer it for generating varied data over hard-coded values. NuGet:
+  <https://www.nuget.org/packages/Diverse/> · repo: <https://github.com/tpierrain/Diverse>.
 
-> Détail d'usage et exemples (Builder, helpers d'assertion, périmètre Hive) : skill
-> **`outside-in-diamond-tdd`** ; discipline TDD : skill **`tdd-discipline`**.
+> Usage detail and examples (Builder, assertion helpers, Hive perimeter): the
+> **`outside-in-diamond-tdd`** skill; testing discipline: the **`test-first-discipline`** skill.
 
-## Ce que Claude ne doit PAS faire (langage)
+## What Claude must NOT do (language)
 
-- Ajouter des indirections non nécessaires.
-- Utiliser `.Result` / `.Wait()` ou oublier le `CancellationToken`.
-- Lever des exceptions pour des erreurs **métier** (réserver `Result<T>` pour celles-ci).
+- Add unnecessary indirection.
+- Use `.Result` / `.Wait()`, or forget the `CancellationToken`.
+- Throw exceptions for **business** errors (reserve `Result<T>` for those).
 
-> Les anti-patterns d'**architecture** (MediatR, couche use-case séparée, CQRS par défaut,
-> couplage de modules hors ports API) sont dans la skill **`the-hive-pattern`**.
+> The **architectural** anti-patterns (MediatR, a separate use-case layer, CQRS by default, coupling
+> modules outside the API ports) live in the **`the-hive-pattern`** skill.

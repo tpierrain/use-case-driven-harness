@@ -1,79 +1,83 @@
 # use-case-driven-harness
 
-Mon harnais [Claude Code](https://claude.com/claude-code) : les règles et skills
-globaux qui incarnent la façon de concevoir du logiciel que je pousse depuis
-des années sous le pseudo **Use Case Driven** — **Outside-in Diamond 🔷 TDD**,
-**The Hive** (architecture hexagonale modulaire), et ma discipline de tests.
+My [Claude Code](https://claude.com/claude-code) harness: the global rules and skills that embody
+the way of designing software I have been advocating for years under the handle
+**Use Case Driven** — **Outside-in Diamond 🔷 TDD**, **The Hive** (modular hexagonal architecture),
+and my testing discipline.
 
-> Source unique de vérité pour mon `~/.claude`. Relié par **symlinks** (pas par
-> copie) → édition en place, synchro entre machines par un simple `git pull`,
-> **zéro dérive**.
+> The single source of truth for my `~/.claude`. Wired with **symlinks** (not copies) → edit in
+> place, sync across machines with a plain `git pull`, **zero drift**.
 
-## Contenu (périmètre « méthodo seule »)
+## Contents (the "methodology only" perimeter)
 
-| Bloc | Symlinké vers | Quoi |
+| Block | Symlinked to | What |
 |---|---|---|
-| `rules/` | `~/.claude/rules` | directives **toujours chargées** (légères) — voir ci-dessous |
-| `skills/tdd-discipline/` | `~/.claude/skills/tdd-discipline` | Skill : discipline TDD universelle (baby-steps, fail-first, triangulation) |
-| `skills/outside-in-diamond-tdd/` | `~/.claude/skills/outside-in-diamond-tdd` | Skill : Outside-in Diamond 🔷 TDD (services/APIs/apps) — surcouche du TDD classique |
-| `skills/the-hive-pattern/` | `~/.claude/skills/the-hive-pattern` | Skill : The Hive — Microservices-Ready Modular Monolith (how-to, agnostique langage ; exemples C#/.NET) |
+| `rules/` | `~/.claude/rules` | **always-loaded** directives (lightweight) — see below |
+| `skills/test-first-discipline/` | `~/.claude/skills/test-first-discipline` | Skill: the universal testing discipline (test-first, fail-first, small batches by default, assertion quality) |
+| `skills/outside-in-diamond-tdd/` | `~/.claude/skills/outside-in-diamond-tdd` | Skill: Outside-in Diamond 🔷 TDD (services/APIs/apps) — a specialization of the discipline above |
+| `skills/the-hive-pattern/` | `~/.claude/skills/the-hive-pattern` | Skill: The Hive — Microservices-Ready Modular Monolith (how-to, language-agnostic; C#/.NET examples) |
 
-`rules/` contient : `testing.md`, `architecture.md`, `dotnet-conventions.md`, `README.md`.
+`rules/` holds: `testing.md`, `architecture.md`, `dotnet-conventions.md`, `language.md`, `plans.md`,
+`inclusive-writing.md`, `style-typography.md`, `README.md`.
 
-Volontairement **rien d'autre** : pas de `settings.json`, pas de caches, pas de
-sessions, pas de secrets. Une allowlist stricte ne peut pas fuiter ce qu'on a
-oublié d'ignorer.
+Deliberately **nothing else**: no `settings.json`, no caches, no sessions, no secrets. A strict
+allowlist cannot leak what someone forgot to ignore.
 
-## Architecture : directive légère (rule) → détail à la demande (skill)
+## Architecture: a lightweight directive (rule) → detail on demand (skill)
 
-Principe directeur : les **rules** sont injectées dans **chaque** session (coûteuses en
-contexte), donc elles restent des **directives minimales** qui *pointent* vers une skill ; tout
-le **détail** vit dans une **skill chargée à la demande** (uniquement quand on développe). Une
-seule copie de chaque connaissance → **zéro duplication**, contexte always-on minimal.
+The guiding principle: **rules** are injected into **every** session (expensive in context), so they
+stay **minimal directives** that *point* at a skill; all the **detail** lives in a **skill loaded on
+demand** (only when actually developing). One single copy of each piece of knowledge → **zero
+duplication**, minimal always-on context.
 
 ```
-QUAND JE DÉVELOPPE
+WHEN I DEVELOP
 │
-├─ rule testing.md ─────────►  skill tdd-discipline ──────►  skill outside-in-diamond-tdd
-│   « toujours du TDD »         « TDD classique »             « surcouche pour les ruches »
+├─ rule testing.md ────────►  skill test-first-discipline ──────►  skill outside-in-diamond-tdd
+│   "test before code"          "the universal how"            "the layer for hives"
 │                                                                      ▲
 └─ rule architecture.md ────►  skill the-hive-pattern ───────────────┘
-    « back-end ⇒ Hive »         « how-to The Hive (exemples .NET) »   (flux de dev associé)
+    "back-end ⇒ Hive"           "The Hive how-to (.NET examples)"     (the matching dev flow)
 ```
 
-- **`testing.md`** (rule) → je pratique le TDD systématiquement. Le *comment* universel
-  (baby-steps, fail-first, triangulation, refactor obligatoire) est dans **`tdd-discipline`**.
-- **`architecture.md`** (rule) → tout back-end / API / service s'implémente en **ruche (The
-  Hive)** : un module = un hexagone = un bounded context, communication inter-module par ports
-  API/SPI uniquement. Le *how-to* est dans **`the-hive-pattern`**.
-- **`outside-in-diamond-tdd`** (skill) → le flux de dev d'une ruche : une **spécialisation**
-  du TDD classique (acceptance gros grain via l'adaptateur gauche, Builder, périmètre Hive).
-- **`dotnet-conventions.md`** (rule) → uniquement les conventions de **langage** C# / .NET
-  (syntaxe moderne, `Result<T>`, async, logging). L'archi Hive renvoie aux rules/skills ci-dessus.
+- **`testing.md`** (rule) → I always write the test before the code. The universal *how*
+  (test-first, fail-first, refactor as part of the step, small batches by default, assertion
+  quality, the entry-point seam) is in **`test-first-discipline`**.
+- **`architecture.md`** (rule) → every back-end / API / service is built as a **hive (The Hive)**:
+  one module = one hexagon = one bounded context, inter-module communication through API/SPI ports
+  only. The *how-to* is in **`the-hive-pattern`**.
+- **`outside-in-diamond-tdd`** (skill) → the dev flow of a hive: a **specialization** of the
+  discipline (coarse-grained acceptance through the left-side adapter, Builder, Hive perimeter).
+- **`dotnet-conventions.md`** (rule) → the C# / .NET **language** conventions only (modern syntax,
+  `Result<T>`, async, logging). Hive architecture defers to the rules/skills above.
 
-## Installation sur une machine
+## Installing on a machine
 
 ```bash
 git clone git@github.com:tpierrain/use-case-driven-harness.git
 cd use-case-driven-harness
-./bootstrap.sh --check   # dry-run : montre ce qui sera fait
-./bootstrap.sh           # applique les symlinks (sauvegarde l'existant en .bak)
+./bootstrap.sh --check   # dry-run: shows what would be done
+./bootstrap.sh           # applies the symlinks (backs up anything existing as .bak)
 ```
 
-`bootstrap.sh` est idempotent et gère les deux cas avec la même commande :
-- **Première machine** (repo encore vide) : il *adopte* les fichiers déjà présents
-  dans `~/.claude` (les déplace dans le repo), puis crée les symlinks.
-- **Machine suivante** (repo déjà peuplé) : il sauvegarde l'éventuel existant en
-  `.bak.<horodatage>` puis crée les symlinks vers le contenu du repo.
+```bash
+./test/bootstrap-check.sh   # the regression net, if you change bootstrap.sh
+```
 
-## Workflow quotidien
+`bootstrap.sh` is idempotent and handles both cases with the same command:
+- **First machine** (repo still empty): it *adopts* the files already present in `~/.claude` (moves
+  them into the repo), then creates the symlinks.
+- **Next machine** (repo already populated): it backs up anything existing as `.bak.<timestamp>`
+  then creates the symlinks towards the repo's content.
 
-1. J'édite une règle/skill **en place** (c'est symlinké, donc ça modifie le repo).
+## Daily workflow
+
+1. I edit a rule/skill **in place** (it is symlinked, so this edits the repo).
 2. `git add -A && git commit -m "..." && git push`.
-3. Sur l'autre laptop : `git pull` → tout est à jour, immédiatement.
+3. On the other laptop: `git pull` → everything is up to date, immediately.
 
-## Pourquoi des symlinks et pas une copie
+## Why symlinks and not copies
 
-Un workflow par copie/script d'install **dérive** : on finit avec des versions
-divergentes entre machines (vécu). Le symlink fait du repo l'unique source ;
-`~/.claude` n'en est qu'une vue. Impossible de désynchroniser.
+A copy/install-script workflow **drifts**: you end up with diverging versions across machines (lived
+experience). The symlink makes the repo the one source; `~/.claude` is only a view of it.
+Desynchronizing is impossible.
