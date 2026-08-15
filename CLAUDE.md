@@ -20,7 +20,7 @@ Pour vérifier l'état si besoin : `git remote -v` (origin présent = en service
 
 ## Nature du repo
 
-- **Source unique de vérité** de mon `~/.claude` (blocs `rules/`, `skills/tdd-discipline/`,
+- **Source unique de vérité** de mon `~/.claude` (blocs `rules/`, `skills/test-first-discipline/`,
   `skills/the-hive-pattern/`, `skills/outside-in-diamond-tdd/`). Relié par **symlinks** via `bootstrap.sh`.
 - Éditer un fichier ici **modifie ma config Claude live** (et inversement, puisque
   c'est symlinké). Toujours en avoir conscience.
@@ -33,14 +33,14 @@ skill ; tout le **détail** vit dans une **skill chargée à la demande**. **Une
 chaque connaissance → pas de duplication, contexte always-on minimal.
 
 ```
-rule testing.md ─────────►  skill tdd-discipline ──────►  skill outside-in-diamond-tdd
+rule testing.md ────────►  skill test-first-discipline ──────►  skill outside-in-diamond-tdd
   « toujours du TDD »        « TDD classique »             « surcouche pour les ruches »
                                                                     ▲
 rule architecture.md ────►  skill the-hive-pattern ────────────────┘
   « back-end ⇒ Hive »        « how-to The Hive (exemples .NET) »  (flux de dev associé)
 ```
 
-- `rules/testing.md` → toujours TDD ; le *comment* est dans la skill `tdd-discipline`.
+- `rules/testing.md` → toujours test-first ; le *comment* est dans la skill `test-first-discipline`.
 - `rules/architecture.md` → back-end/API/service ⇒ ruche (The Hive) ; how-to dans `the-hive-pattern`.
 - `rules/dotnet-conventions.md` → conventions de **langage** C#/.NET seulement (pas d'archi).
 - `skills/outside-in-diamond-tdd` → flux de dev d'une ruche, spécialisation du TDD classique.

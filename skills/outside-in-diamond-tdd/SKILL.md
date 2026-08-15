@@ -1,6 +1,6 @@
 ---
 name: outside-in-diamond-tdd
-description: Outside-in Diamond 🔷 TDD — style de TDD développé par Thomas Pierrain pour n'importe quel back-end, API, worker ou service, également adapté au pattern The Hive. Tests d'acceptance gros grain pilotés par l'adaptateur gauche, Builder qui retourne le Domain Service, In-Proc Adapters dans le périmètre, ports API des autres modules stubbés. À utiliser pour développer/tester un back-end, une API, un worker, un service ou un module Hive (exemples en .NET). Pour du TDD générique (libs, tools), voir la skill tdd-discipline.
+description: Outside-in Diamond 🔷 TDD — style de TDD développé par Thomas Pierrain pour n'importe quel back-end, API, worker ou service, également adapté au pattern The Hive. Tests d'acceptance gros grain pilotés par l'adaptateur gauche, Builder qui retourne le Domain Service, In-Proc Adapters dans le périmètre, ports API des autres modules stubbés. À utiliser pour développer/tester un back-end, une API, un worker, un service ou un module Hive (exemples en .NET). Pour du test-first générique (libs, tools), voir la skill test-first-discipline.
 origin: use-case-driven-harness
 ---
 
@@ -20,7 +20,7 @@ Ce n'est **pas** la bonne maille pour du code de bas niveau — une petite lib, 
 tool, un algorithme isolé : là, le **TDD classique** suffit largement (pas d'acceptance
 gros grain, pas de Builder, pas de périmètre Hive). La discipline TDD universelle —
 red→green→refactor, baby-steps, triangulation, faire échouer le test d'abord, refactor
-obligatoire — vit dans la skill **`tdd-discipline`** ; cette skill la **présuppose** et la
+obligatoire — vit dans la skill **`test-first-discipline`** ; cette skill la **présuppose** et la
 **complète** avec les spécificités ci-dessous.
 
 ## Le Diamond (pas une pyramide)
@@ -153,7 +153,7 @@ public void Reserve_WhenNotEnoughSeats_ReturnsFailure()
 
 ### 5. REFACTOR
 
-Jamais optionnel (cf. skill `tdd-discipline`). D'abord sur l'implémentation, puis lisibilité
+Jamais optionnel (cf. skill `test-first-discipline`). D'abord sur l'implémentation, puis lisibilité
 des tests — sans jamais affaiblir les assertions.
 
 ## Exemple complet de test d'acceptance
@@ -245,5 +245,5 @@ public class BookingControllerShould
 
 ## Voir aussi
 
-- Skill **`tdd-discipline`** — la discipline TDD universelle (baby-steps, triangulation, RGR).
+- Skill **`test-first-discipline`** — la discipline de test universelle (test-first, fail-first, qualité des assertions ; les baby-steps y sont un mode, plus un rituel).
 - Skill **`the-hive-pattern`** — l'architecture The Hive (ports API/SPI, In-Proc Adapters).

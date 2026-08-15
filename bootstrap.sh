@@ -27,7 +27,7 @@ MAPPINGS=(
   "rules|rules"
   "skills/the-hive-pattern|skills/the-hive-pattern"
   "skills/outside-in-diamond-tdd|skills/outside-in-diamond-tdd"
-  "skills/tdd-discipline|skills/tdd-discipline"
+  "skills/test-first-discipline|skills/test-first-discipline"
 )
 
 say()  { printf '%s\n' "$*"; }

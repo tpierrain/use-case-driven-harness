@@ -14,7 +14,7 @@ des années sous le pseudo **Use Case Driven** — **Outside-in Diamond 🔷 TDD
 | Bloc | Symlinké vers | Quoi |
 |---|---|---|
 | `rules/` | `~/.claude/rules` | directives **toujours chargées** (légères) — voir ci-dessous |
-| `skills/tdd-discipline/` | `~/.claude/skills/tdd-discipline` | Skill : discipline TDD universelle (baby-steps, fail-first, triangulation) |
+| `skills/test-first-discipline/` | `~/.claude/skills/test-first-discipline` | Skill : discipline de test universelle (test-first, fail-first, mode par défaut en petits lots, qualité des assertions) |
 | `skills/outside-in-diamond-tdd/` | `~/.claude/skills/outside-in-diamond-tdd` | Skill : Outside-in Diamond 🔷 TDD (services/APIs/apps) — surcouche du TDD classique |
 | `skills/the-hive-pattern/` | `~/.claude/skills/the-hive-pattern` | Skill : The Hive — Microservices-Ready Modular Monolith (how-to, agnostique langage ; exemples C#/.NET) |
 
@@ -34,15 +34,16 @@ seule copie de chaque connaissance → **zéro duplication**, contexte always-on
 ```
 QUAND JE DÉVELOPPE
 │
-├─ rule testing.md ─────────►  skill tdd-discipline ──────►  skill outside-in-diamond-tdd
+├─ rule testing.md ────────►  skill test-first-discipline ──────►  skill outside-in-diamond-tdd
 │   « toujours du TDD »         « TDD classique »             « surcouche pour les ruches »
 │                                                                      ▲
 └─ rule architecture.md ────►  skill the-hive-pattern ───────────────┘
     « back-end ⇒ Hive »         « how-to The Hive (exemples .NET) »   (flux de dev associé)
 ```
 
-- **`testing.md`** (rule) → je pratique le TDD systématiquement. Le *comment* universel
-  (baby-steps, fail-first, triangulation, refactor obligatoire) est dans **`tdd-discipline`**.
+- **`testing.md`** (rule) → j'écris toujours le test avant le code. Le *comment* universel
+  (test-first, fail-first, refactor obligatoire, mode par défaut en petits lots, qualité des
+  assertions, couture des points d'entrée) est dans **`test-first-discipline`**.
 - **`architecture.md`** (rule) → tout back-end / API / service s'implémente en **ruche (The
   Hive)** : un module = un hexagone = un bounded context, communication inter-module par ports
   API/SPI uniquement. Le *how-to* est dans **`the-hive-pattern`**.

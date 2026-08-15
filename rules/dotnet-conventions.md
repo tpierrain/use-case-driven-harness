@@ -85,7 +85,7 @@ Pour faire du **TDD en .NET**, mon stack préféré :
   <https://github.com/tpierrain/Diverse>.
 
 > Détail d'usage et exemples (Builder, helpers d'assertion, périmètre Hive) : skill
-> **`outside-in-diamond-tdd`** ; discipline TDD : skill **`tdd-discipline`**.
+> **`outside-in-diamond-tdd`** ; discipline de test : skill **`test-first-discipline`**.
 
 ## Ce que Claude ne doit PAS faire (langage)
 
