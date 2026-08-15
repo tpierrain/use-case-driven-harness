@@ -1,92 +1,87 @@
 ---
 name: the-hive-pattern
-description: The Hive — pattern d'architecture back-end « Microservices-Ready Modular Monolith » (Thomas Pierrain), agnostique langage. Chaque module est un hexagone (ports API/SPI, In-Proc Adapters) ; un module = un hexagone = un bounded context ; vertical slicing, penser réseau, extractabilité vers microservices. À utiliser pour concevoir, structurer ou refactorer un back-end / service / API en modules. Exemples de code en C#/.NET (illustratifs ; le pattern s'applique aussi en Java, TypeScript, etc.).
+description: The Hive — the "Microservices-Ready Modular Monolith" back-end architecture pattern (Thomas Pierrain), language-agnostic. Each module is a hexagon (API/SPI ports, In-Proc Adapters); one module = one hexagon = one bounded context; vertical slicing, thinking network-first, extractability towards microservices. Use it to design, structure or refactor a back-end / service / API into modules. Code examples in C#/.NET (illustrative; the pattern applies just as well in Java, TypeScript, etc.).
 origin: use-case-driven-harness
 ---
 
 # Skill: The Hive — Microservices-Ready Modular Monolith
 
-> **Pattern agnostique langage.** The Hive structure des **back-ends** (services, APIs,
-> applications) quel que soit l'écosystème — .NET, Java, TypeScript… Les exemples de code de
-> cette skill sont en **C#/.NET à titre d'illustration** : ce sont des *exemples*, pas une
-> contrainte de plateforme. Le pattern, les modules, les ports et le vertical slicing se
-> transposent tels quels.
+> **A language-agnostic pattern.** The Hive structures **back-ends** (services, APIs, applications)
+> whatever the ecosystem — .NET, Java, TypeScript… The code examples in this skill are in
+> **C#/.NET by way of illustration**: they are *examples*, not a platform constraint. The pattern,
+> the modules, the ports and the vertical slicing all transpose as they are.
 
-## Principe fondamental
+## Founding principle
 
-Chaque module est un **hexagone autonome et extractable** (vertical slicing).
-Le pattern Hive compose plusieurs hexagones dans le même process, avec la possibilité de les déployer séparément.
+Each module is a **self-contained, extractable hexagon** (vertical slicing).
+The Hive pattern composes several hexagons in the same process, while keeping the option of
+deploying them separately.
 
-**Heuristique de base : un module = un hexagone = un bounded context** (au sens DDD). C'est
-la règle de découpage par défaut, celle qu'on applique sauf raison contraire. Il existe des
-variantes (un bounded context plus gros peut se subdiviser, etc.), mais la maille de
-référence dans la ruche reste celle-là.
+**Base heuristic: one module = one hexagon = one bounded context** (in the DDD sense). That is the
+default carving rule, the one applied unless there is a reason not to. Variants exist (a larger
+bounded context can be subdivided, and so on), but that remains the reference grain inside the hive.
 
-The Hive, c'est l'art du **« Microservices-Ready Modular Monolith »** : on *modélise* le
-système comme un monolithe modulaire bien découpé (un module = un hexagone), tout en le
-gardant **prêt à être éclaté en microservices** le jour où c'est utile — *« Model once,
-deploy as you wish »*.
+The Hive is the art of the **"Microservices-Ready Modular Monolith"**: you *model* the system as a
+well-carved modular monolith (one module = one hexagon), while keeping it **ready to be broken out
+into microservices** the day that becomes useful — *"Model once, deploy as you wish"*.
 
-C'est un pattern de structuration **back-end / côté serveur** : il s'applique aux
-**applications, services et APIs** (back-ends métier), là où vivent les Ports API/SPI et
-les In-Proc Adapters. Il **ne concerne pas** l'architecture des front-ends / UI, qui
-consomment les Ports API des modules sans être eux-mêmes organisés en Hive.
+It is a **back-end / server-side** structuring pattern: it applies to **applications, services and
+APIs** (business back-ends), where the API/SPI Ports and the In-Proc Adapters live. It **does not
+concern** front-end / UI architecture, which consumes the modules' API Ports without being organized
+as a Hive itself.
 
-## Les trois piliers de The Hive
+## The three pillars of The Hive
 
-The Hive repose sur **trois principes indissociables**. Les respecter, c'est ce qui rend la
-promesse *« Model once, deploy as you wish »* réellement tenable.
+The Hive rests on **three inseparable principles**. Honouring them is what makes the *"Model once,
+deploy as you wish"* promise actually hold.
 
-### 1. Vertical slicing — chaque module est autonome de bout en bout
+### 1. Vertical slicing — each module is self-contained end to end
 
-Un module est une tranche verticale complète, **du contrôleur jusqu'à la base de données**.
-On vise une autonomie maximale :
+A module is a complete vertical slice, **from the controller down to the database**. Maximum
+autonomy is the target:
 
-- **Données dédiées par module** : idéalement des **tables dédiées** (schéma séparé) voire
-  une **base de données dédiée**. Pas de table partagée entre modules, pas de jointure
-  cross-module en base — sinon l'extractabilité est un mensonge.
-- **Les tests font partie de la tranche.** Les tests de chaque module sont **autonomes** et
-  appartiennent au vertical slice du module : un module qu'on extrait emporte ses tests avec
-  lui, verts, sans rien à recâbler. C'est **essentiel**. Deux niveaux se complètent :
-    - **Tests d'acceptance** — le gros du harnais. Ils exercent le module de bout en bout
-      (Controller → Domain Service → In-Proc Adapters) **en stubbant les autres modules dès
-      qu'il en dépend** (leurs Ports API sont substitués) ainsi que les SPI infra. C'est ce
-      qui garantit l'autonomie : aucun test ne touche l'implémentation d'un autre module.
-    - **Tests de points d'intégration** (*integration tests*) — plus rares, ciblés sur les
-      **adaptateurs SPI** qui sortent du module (vers les Ports API d'autres modules, ou vers
-      l'infra : DB, HTTP, broker…). Ils vérifient que ces adaptateurs **fonctionnent
-      réellement en conditions normales** (vrai branchement, pas de stub), là où les tests
-      d'acceptance se contentent de stubs.
+- **Dedicated data per module**: ideally **dedicated tables** (a separate schema), or even a
+  **dedicated database**. No table shared between modules, no cross-module join in the database —
+  otherwise extractability is a lie.
+- **The tests are part of the slice.** Each module's tests are **self-contained** and belong to the
+  module's vertical slice: a module you extract carries its tests with it, green, with nothing to
+  re-wire. This is **essential**. Two levels complement each other:
+    - **Acceptance tests** — the bulk of the harness. They exercise the module end to end
+      (Controller → Domain Service → In-Proc Adapters) **stubbing the other modules the moment it
+      depends on one** (their API Ports are substituted), along with the infra SPIs. That is what
+      guarantees autonomy: no test ever touches another module's implementation.
+    - **Integration-point tests** (*integration tests*) — rarer, aimed at the **SPI adapters** that
+      leave the module (towards other modules' API Ports, or towards infra: DB, HTTP, broker…). They
+      check that those adapters **genuinely work under normal conditions** (really wired up, no
+      stub), where the acceptance tests make do with stubs.
 
-Critère de réussite : on peut **extraire un module vers un repo séparé** (code + données +
-tests) sans toucher aux autres.
+Success criterion: you can **extract a module into a separate repo** (code + data + tests) without
+touching the others.
 
-### 2. Ports & adapters entre modules — jamais autrement
+### 2. Ports & adapters between modules — never anything else
 
-Chaque module est une **mini architecture hexagonale**. Toute communication inter-module
-passe **exclusivement par des ports et des adaptateurs** (Port API de l'autre module,
-appelé via un In-Proc Adapter côté SPI). Aucun couplage direct : pas d'appel à une classe
-interne d'un autre module, pas de modèle de domaine partagé, pas d'accès à sa base.
+Each module is a **miniature hexagonal architecture**. All inter-module communication goes
+**exclusively through ports and adapters** (the other module's API Port, called through an In-Proc
+Adapter on the SPI side). No direct coupling: no call to another module's internal class, no shared
+domain model, no access to its database.
 
-C'est cette discipline qui permet de remplacer un In-Proc Adapter par un client HTTP/AMQP
-sans toucher au domaine (cf. [Extractabilité du module](#extractabilité-du-module)).
+That discipline is what makes it possible to replace an In-Proc Adapter with an HTTP/AMQP client
+without touching the domain (see [Extracting a module](#extracting-a-module)).
 
-### 3. Penser réseau dès le début — éviter le chatty
+### 3. Think network from day one — avoid the chatty API
 
-Même quand tout tourne in-proc, on **conçoit les échanges inter-modules comme s'ils
-passaient déjà par le réseau**. Les interactions via ports/adapters doivent rester **peu
-bavardes** (*not chatty*) : on privilégie des appels à gros grain plutôt qu'une rafale de
-petits allers-retours.
+Even when everything runs in-proc, you **design inter-module exchanges as if they already went over
+the network**. Interactions through ports/adapters must stay **not chatty**: prefer coarse-grained
+calls over a burst of small round trips.
 
-Pourquoi : le jour où l'In-Proc Adapter devient un vrai client **HTTP ou AMQP**, une API
-trop verbeuse (N+1 appels, granularité trop fine) se traduit en **mauvaises surprises de
-performance** (latence réseau × nombre d'appels). On paie alors au runtime un design qu'on
-aurait pu éviter dès la modélisation.
+Why: the day the In-Proc Adapter becomes a real **HTTP or AMQP** client, an over-talkative API (N+1
+calls, too fine a granularity) turns into **nasty performance surprises** (network latency × number
+of calls). You then pay at runtime for a design you could have avoided at modelling time.
 
-**Terminologie :**
-- **API** = Port Primaire (gauche) — expose les use cases du module
-- **SPI** = Port Secondaire (droit) — interfaces pour les dépendances (infra + autres modules)
-- **In-Proc Adapter** = Adaptateur SPI qui appelle l'API d'un autre module dans le même process
+**Terminology:**
+- **API** = Primary Port (left) — exposes the module's use cases
+- **SPI** = Secondary Port (right) — interfaces for the dependencies (infra + other modules)
+- **In-Proc Adapter** = an SPI Adapter that calls another module's API in the same process
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
@@ -96,7 +91,7 @@ aurait pu éviter dès la modélisation.
 │   │                    MODULE A (Booking)                    │  │
 │   │                                                          │  │
 │   │   Controller ──► Domain Service ──► In-Proc Adapter     │  │
-│   │   (gauche)        (logique)          (SPI droit)         │  │
+│   │   (left)          (logic)            (right, SPI)        │  │
 │   │                                          │               │  │
 │   └──────────────────────────────────────────┼───────────────┘  │
 │                                              │                  │
@@ -105,7 +100,7 @@ aurait pu éviter dès la modélisation.
 │   │                    MODULE B (Availability)               │  │
 │   │                                                          │  │
 │   │   IAvailabilityAPI ──► Domain Service ──► Repository     │  │
-│   │   (API = port gauche)                     (SPI)          │  │
+│   │   (API = left port)                       (SPI)          │  │
 │   │                                                          │  │
 │   └─────────────────────────────────────────────────────────┘  │
 │                                                                 │
@@ -114,7 +109,7 @@ aurait pu éviter dès la modélisation.
 └─────────────────────────────────────────────────────────────────┘
 ```
 
-## Structure d'un module (hexagone)
+## The structure of a module (hexagon)
 
 ```
 src/
@@ -126,23 +121,23 @@ src/
 │   │   │   │   └── ReservationId.cs
 │   │   │   ├── Ports/
 │   │   │   │   ├── Api/
-│   │   │   │   │   └── IBookingApi.cs    # Port API (gauche) = use cases
+│   │   │   │   │   └── IBookingApi.cs    # API Port (left) = use cases
 │   │   │   │   └── Spi/
 │   │   │   │       ├── IReservationRepository.cs
-│   │   │   │       └── IAvailabilityModule.cs  # SPI vers autre module
+│   │   │   │       └── IAvailabilityModule.cs  # SPI towards another module
 │   │   │   └── Services/
-│   │   │       └── BookingService.cs     # Implémente IBookingApi
+│   │   │       └── BookingService.cs     # Implements IBookingApi
 │   │   │
 │   │   ├── Booking.Infrastructure/
 │   │   │   └── Adapters/
 │   │   │       ├── Persistence/
 │   │   │       │   └── ReservationRepository.cs
 │   │   │       └── InProc/
-│   │   │           └── AvailabilityInProcAdapter.cs  # Appelle l'API d'un autre module
+│   │   │           └── AvailabilityInProcAdapter.cs  # Calls another module's API
 │   │   │
 │   │   └── Booking.Api/
 │   │       └── Controllers/
-│   │           └── BookingController.cs  # Adaptateur gauche
+│   │           └── BookingController.cs  # Left-side adapter
 │   │
 │   └── Availability/                     # Module B
 │       ├── Availability.Domain/
@@ -158,7 +153,7 @@ src/
 
 ## Templates
 
-### Port API (gauche) — les use cases du module
+### API Port (left) — the module's use cases
 
 ```csharp
 // Booking.Domain/Ports/Api/IBookingApi.cs
@@ -173,7 +168,7 @@ public interface IBookingApi
 }
 ```
 
-### Port SPI (droit) — vers un autre module
+### SPI Port (right) — towards another module
 
 ```csharp
 // Booking.Domain/Ports/Spi/IAvailabilityModule.cs
@@ -186,14 +181,14 @@ public interface IAvailabilityModule
 }
 ```
 
-### In-Proc Adapter — appelle l'API d'un autre module
+### In-Proc Adapter — calls another module's API
 
-L'In-Proc Adapter peut contenir de la **logique d'orchestration** vers plusieurs modules.
+An In-Proc Adapter may hold **orchestration logic** towards several modules.
 
 ```csharp
 // Booking.Infrastructure/Adapters/InProc/AvailabilityInProcAdapter.cs
 public sealed class AvailabilityInProcAdapter(
-    IAvailabilityApi availabilityApi  // ◄── Injecte l'API de l'autre module
+    IAvailabilityApi availabilityApi  // ◄── Injects the other module's API
 ) : IAvailabilityModule
 {
     public async Task<IReadOnlyList<RoomAvailability>> GetAvailabilitiesAsync(
@@ -201,10 +196,10 @@ public sealed class AvailabilityInProcAdapter(
         DateRange dates, 
         CancellationToken ct)
     {
-        // Peut contenir de la logique d'orchestration
+        // May hold orchestration logic
         var availabilities = await availabilityApi.GetForHotelAsync(hotelId, dates, ct);
         
-        // Adaptation/transformation si nécessaire
+        // Adaptation/transformation when needed
         return availabilities
             .Where(a => a.IsConfirmed)
             .Select(a => MapToBookingDomain(a))
@@ -213,13 +208,13 @@ public sealed class AvailabilityInProcAdapter(
 }
 ```
 
-### Domain Service (implémente le port API)
+### Domain Service (implements the API port)
 
 ```csharp
 // Booking.Domain/Services/BookingService.cs
 public sealed class BookingService(
     IReservationRepository reservationRepository,
-    IAvailabilityModule availabilityModule,  // ◄── SPI vers autre module
+    IAvailabilityModule availabilityModule,  // ◄── SPI towards another module
     IBookingReferenceProvider bookingRefProvider,
     ILogger<BookingService> logger
 ) : IBookingApi
@@ -229,7 +224,7 @@ public sealed class BookingService(
         SeatCount seats, 
         CancellationToken ct)
     {
-        // Appel vers l'autre module via le SPI
+        // Call towards the other module, through the SPI
         var availabilities = await availabilityModule.GetAvailabilitiesAsync(trainId, ct);
         
         if (availabilities.Count < seats.Value)
@@ -246,14 +241,14 @@ public sealed class BookingService(
 }
 ```
 
-### Controller (adaptateur gauche)
+### Controller (left-side adapter)
 
 ```csharp
 // Booking.Api/Controllers/BookingController.cs
 [ApiController]
 [Route("api/bookings")]
 public sealed class BookingController(
-    IBookingApi bookingApi  // ◄── Injecte le port API
+    IBookingApi bookingApi  // ◄── Injects the API port
 ) : ControllerBase
 {
     [HttpPost]
@@ -272,18 +267,18 @@ public sealed class BookingController(
 }
 ```
 
-## Décisions d'architecture (.NET) — ce qu'on évite
+## Architectural decisions (.NET) — what we avoid
 
-- **Pas de couche Use Case séparée.** Les use cases **sont** les méthodes du Port API ; le
-  Domain Service les implémente directement.
-- **Pas de MediatR par défaut.** Le Controller injecte et appelle directement le Domain
-  Service (port API) — pas d'indirection `_mediator.Send(...)`.
-- **Pas de CQRS par défaut** (pas de golden hammer) ; pas d'indirections non nécessaires.
-- **Modules couplés uniquement via leurs ports API** — jamais via une classe interne, un
-  modèle de domaine partagé ou un accès direct à la base d'un autre module.
+- **No separate Use Case layer.** The use cases **are** the API Port's methods; the Domain Service
+  implements them directly.
+- **No MediatR by default.** The Controller injects and calls the Domain Service (the API port)
+  directly — no `_mediator.Send(...)` indirection.
+- **No CQRS by default** (no golden hammer); no unnecessary indirection.
+- **Modules coupled only through their API ports** — never through an internal class, a shared
+  domain model or direct access to another module's database.
 
 ```csharp
-// ✅ Controller injecte le port API et l'appelle directement
+// ✅ The Controller injects the API port and calls it directly
 public sealed class BookingController(IBookingApi bookingApi) : ControllerBase
 {
     [HttpPost]
@@ -294,26 +289,26 @@ public sealed class BookingController(IBookingApi bookingApi) : ControllerBase
     }
 }
 
-// ❌ Pas d'indirection MediatR
+// ❌ No MediatR indirection
 var result = await _mediator.Send(new BookCommand(...));
 ```
 
-## Extractabilité du module
+## Extracting a module
 
-Chaque module peut être extrait vers un repository séparé :
+Each module can be extracted into a separate repository:
 
 ```
-# Avant : In-Proc Adapter (même process)
+# Before: In-Proc Adapter (same process)
 AvailabilityInProcAdapter : IAvailabilityModule
-    → appelle IAvailabilityApi directement
+    → calls IAvailabilityApi directly
 
-# Après extraction : HTTP Adapter (process séparé)
+# After extraction: HTTP Adapter (separate process)
 AvailabilityHttpAdapter : IAvailabilityModule
-    → appelle le microservice Availability via HTTP
+    → calls the Availability microservice over HTTP
 ```
 
-Le Domain Service ne change pas — seul l'adaptateur SPI est remplacé.
+The Domain Service does not change — only the SPI adapter is swapped.
 
-## Pour aller plus loin
+## Going further
 
 - [The Hive vs Spring Modulith — two different takes on the modular monolith](https://medium.com/@tpierrain/the-hive-vs-spring-modulith-two-different-takes-on-the-modular-monolith-37c60ac91105) — Thomas Pierrain (*Use Case Driven*)
