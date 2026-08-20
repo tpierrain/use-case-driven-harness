@@ -3,9 +3,12 @@
 > **Status (2026-08-20): the consolidation is DONE and pushed. What remains is the two Gas Town
 > ideas, T4 and T5 — neither has been started — plus one owner's call left by T7.**
 >
-> **The real next step is T4** (an acceptance criterion on every plan step). T5 is the bigger one and
-> can follow it or precede it; nothing orders them. Everything above them is shipped, so do **not**
-> re-open T1…T3 or T6.
+> **▶️ The real next step is T8**, decided with the owner on 2026-08-20 and **not started**: the
+> `test-first-discipline` skill says nothing about how a mutation run **lies to you**, and that is the
+> only genuinely portable lesson from Kenjaku's mutation tooling that day. T8's box carries exactly
+> what to write and what to leave in Kenjaku. **T4** (an acceptance criterion on every plan step) comes
+> after it; **T5** is the bigger one and nothing orders it against T4. Everything above them is
+> shipped, so do **not** re-open T1…T3 or T6.
 >
 > **T7 landed unplanned the same day** (the save-point rule leaked in the singular → the rule now
 > speaks of **carriers, plural**, plus a machine-local `Stop` hook that names them). It is an early
@@ -115,6 +118,49 @@
   - [ ] Kenjaku's own corpus deduplication — the third slice of that chantier, tracked in **its** plan
         (`maintainers/plans/prospective/agent-orchestrated-release-mode-action.md`), which owns it.
         Named here only so this repo's reader knows where it lives.
+- [ ] ▶️ **T8 — What `test-first-discipline` is missing: how a mutation run LIES to you**
+      _(decided 2026-08-20 with the owner, **not started** — not a line written yet)_
+  - [x] **The decision, so it is not re-litigated**: it goes in **this repo's** skill
+        (`skills/test-first-discipline/SKILL.md`), the source. Do **NOT** hand-edit Kenjaku's vendored
+        copy (see the finding at the bottom of this task).
+  - [x] **Why it is not already covered — checked on disk, not assumed.** The skill's *assertion* half
+        is complete and needs nothing: "simplify the production rather than excusing the mutant", not
+        chasing equivalents, asserting whole objects and sequences, the composition-root seam, and the
+        day-of cadence. What it holds on **operating** a pass is one clause about false timeouts. That
+        clause is the whole gap.
+  - [ ] **The section to write: the five ways a run hands you a number that measures nothing.** Each
+        one cost a real run on Kenjaku; none is tool- or language-specific:
+    - [ ] a **stale log** from the previous pass, read as this pass's result because the command failed
+          silently and left the file where it was;
+    - [ ] a suite that **silently skips** in the run environment (a missing dependency, a guard that
+          self-disables), so the mutants face a judge that judges nothing — with a score on top;
+    - [ ] a run **killed mid-way**, producing no table, where the absence of a score is read as a zero
+          or, worse, as the previous number;
+    - [ ] a suite that really **touches the disk**, run in place on the working tree rather than in a
+          throwaway checkout, and destroys for real;
+    - [ ] **false timeouts** from CPU oversubscription — the clause already there, which belongs with
+          the other four rather than alone.
+    - [ ] The unifying sentence, and the reason the section exists: *the worst failure of a measuring
+          tool is not being wrong, it is being **confidently precise about nothing**.*
+  - [ ] **Plus the triage the skill does not have.** A first-pass survivor sorts into three families —
+        a real adapter layer judged by nothing, a double that ignores its arguments, a genuinely
+        missing case — and **only the third is about missing tests**. The three reflexes are already
+        there separately; what is missing is *"ask which family you are in first"*.
+  - [ ] **Plus the move**, this repo's own doctrine applied to measurement for the first time: when the
+        operating recipe keeps costing you, it becomes a **command that refuses to report what it did
+        not measure**, not one more paragraph. Evidence: Kenjaku's
+        `maintainers/mutation/mutate-one.mjs` (2026-08-20). The implementation stays there; only the
+        lesson travels here.
+  - [ ] **Keep it agnostic.** No paths, no Stryker flags, no tuning values. A sentence that only makes
+        sense inside Kenjaku belongs to Kenjaku's `maintainers/skills/mutation-testing/SKILL.md`, which
+        owns the operational half.
+  - [ ] 🔎 **The finding that came with it, and it is T5's thesis again.** Kenjaku ships a **vendored
+        copy** of this very skill at `.claude/skills/test-first-discipline/SKILL.md` (frontmatter
+        `origin: use-case-driven-harness`, dated 2026-08-15) and it has **already diverged** from this
+        source. Unlike the other copies, that one is **shipped to every generated brain**. Refreshing
+        it belongs to the update-regime chantier (Kenjaku's
+        `update-regime-owns-what-it-shipped-action.md`, its S6 rider), **not** to a hand edit: editing
+        it by hand today would widen the gap while looking like closing it.
 
 ---
 
