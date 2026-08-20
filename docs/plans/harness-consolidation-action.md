@@ -184,6 +184,29 @@
         that trade before writing a line.
   - [ ] Nothing ordered against T4 or T5. **Do not build it on my own judgement** — it changes a net
         the owner asked for.
+- [x] **T10 — File the low mutation numbers where they belong, so they stop being blamed on baby-steps**
+      _(2026-08-20 · owner's explicit ask, skill bumped to **v2.2.0**)_
+  - [x] **The trigger, and it is a recurrence, not a one-off.** The owner asked whether baby-steps
+        "scored about 60 % in general, so it works less well than test-first". Checked against
+        Kenjaku's `maintainers/mutation/RESULTS.md` and `RETROSPECTIVE.md` rather than answered from
+        memory: **there is no ~60 % baby-steps run anywhere in the record.** The two numbers attached
+        to strict baby-steps are **84.62 %** and **87.74 %**, and the single file built that way in the
+        earlier audit came out **top of its batch at 86.7 %**.
+  - [x] **What the low numbers actually are** — 51.5 % is composition glue written **after** an
+        already-green core; 71.4 % is a pure core wrapped in I/O and a CLI; 66 % and the months-long
+        0 % are top-level entry points no test imported. All three are *when the test was written* or
+        *whether the line sits in a reachable seam*. **None is about step size.**
+  - [x] **Why a table and not a corrected answer in chat**: the misfiling has now happened **twice from
+        both sides** — this skill's own predecessor quoted the 87-vs-51 pair as evidence about step
+        size, and the owner recalled a 60 % figure today. A number misfiled twice will be misfiled
+        again, so what is written down is **the filing**, not the correction. (New subsection under the
+        evidence table in § *Why "test-first" and not "TDD"*.)
+  - [x] **`rules/testing.md` deliberately NOT touched** — it already carries the 87-vs-51 correction and
+        ends with *"the figures, and what they do not prove, are in the skill"*. One owning carrier; a
+        second copy of the table would be the very defect T7 was about.
+  - [ ] ⚠️ **Kenjaku's vendored copy falls one version further behind** (it ships the 2026-08-15 text;
+        upstream is now v2.2.0). Still **not** to be hand-edited — that refresh is Kenjaku's S6 rider,
+        and its plan owns the divergence.
 
 ---
 

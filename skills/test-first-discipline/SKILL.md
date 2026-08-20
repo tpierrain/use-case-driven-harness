@@ -1,7 +1,7 @@
 ---
 name: test-first-discipline
 description: "How to test, language-agnostic, for ALL code (libs, tools, helpers, algos, services): tests before code and fail-first are non-negotiable, and the mutation score is the judge, not the ritual. Default mode is design-first then test-first in small batches; classic TDD baby-steps + triangulation stay available as a tool. Also carries assertion quality (the mutation-testing lessons), how a mutation run can lie to you, and the entry-point seam rule. To load as soon as you write or modify code."
-version: 2.1.0
+version: 2.2.0
 ---
 
 # Test-first discipline (universal)
@@ -33,6 +33,29 @@ version: 2.1.0
 > One release is one data point, and the v4.9.1 figure only reached 95.92–100 % **after** three
 > adversarial reviews and two more mutation passes. So the claim is **not** "the relaxed mode is free".
 > It is: **the step size did not carry the quality — the nets did.**
+>
+> ### 🛑 The low numbers you are remembering are NOT baby-steps — here is what each one is
+>
+> **No score in this record is low *because* the steps were small.** Every low number that gets quoted
+> against baby-steps belongs to a different cause, and the cause is always **when the test was written**
+> or **whether the line sits in a seam a test can reach**:
+>
+> | Recalled as "baby-steps scored badly" | Actually | What it really measures |
+> |---|---|---|
+> | **51.5 %** — `update-engine.mjs` | composition glue written **after** an already-green core | test-**after**, never step size |
+> | **71.4 %** — `reconcile-brain.mjs` | a pure core wrapped in I/O and a CLI | an unreachable branch (reflex 6) |
+> | **66 %**, and a flat **0 %** for months | top-level entry points no test ever imported | the entry-point seam rule |
+>
+> And the reverse case, from the same audit: `engine-skill-refresh.mjs` — **the one file built in strict
+> baby-steps** — came out **top of its batch at 86.7 %**, needing "only assertion polish". The two
+> numbers actually attached to baby-steps in this record are **84.62 %** and **87.74 %**. **There is no
+> ~60 % baby-steps run. It does not exist.**
+>
+> **Why this table is here rather than left to be re-derived**: the misattribution has now happened
+> **twice**, from both sides (the 87-vs-51 pair was long quoted in this file's own predecessor as
+> evidence about step size; the owner recalled a "60 % baby-steps" figure on 2026-08-20). A number
+> misfiled twice is a number that will be misfiled again — so the filing is written down, not the
+> correction.
 
 ## What judges the work
 
