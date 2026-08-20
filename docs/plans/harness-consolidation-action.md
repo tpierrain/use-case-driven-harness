@@ -12,6 +12,14 @@
 > design, and the drift is what started this whole plan. Options are: regenerate it from this repo on
 > demand, keep it drifting with a dated banner, or retire it. **Do not decide this alone.**
 >
+> _(2026-08-20, checked rather than assumed: that repo is **not** broken. All 14 relative links
+> resolve and no dangling skill reference survives the `outside-in-diamond-tdd` removal. Its
+> `Provenance` section had gone stale and was fixed on the spot — `77cd814`, pushed to its `main`.
+> **Two mentions of Kenjaku were deliberately left** in `skills/test-first-discipline/SKILL.md`
+> lines 25 and 112: they are evidence citations for the mutation figures, not provenance, and
+> removing them would leave "earned, not theorised" with nothing behind it. Awaiting the owner's word
+> before touching them.)_
+>
 > Born from two things in one session (2026-08-20): a read of Steve Yegge's *Gas Town* (what to steal,
 > what to refuse), and the owner's own framing — *"j'aime bien rationaliser mon approche, la
 > consolider pour avoir un truc qui soit lisible, simplement, au lieu d'avoir des includes sur plein
