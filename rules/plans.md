@@ -1,75 +1,66 @@
-# Plans & tracking docs — checkboxes are mandatory
+# Plans, state and memory — always-on
 
-Every **plan / roadmap / TODO / progress-tracking** document I write or modify (first and foremost
-`maintainers/plans/**`, but also **any** file that lists steps to carry out) MUST use Markdown
-**checkboxes** `- [ ]` / `- [x]` on **every step AND every sub-step** — never plain bullets `-`, and
-never purely textual markers (`TODO`, `✅ DONE`) on their own — so that Thomas can **follow progress
-and tick it straight from the Markdown** (Typora, Obsidian, the GitHub preview) without having to ask
-me anything.
+> **Loaded at EVERY session start.** Not a skill: a skill loads when a task matches, and the
+> save-point rule below has to fire at the exact moment nothing looks like it needs loading — when I
+> am about to stop and hand back.
+>
+> The *how* (writing, opening, resuming and ticking a plan) is the on-demand half, in the
+> [`plan-discipline`](../skills/plan-discipline/SKILL.md) skill. The full rationale, and what each
+> rule is paying for, is in
+> [`plan-discipline.md`](../skills/plan-discipline/plan-discipline.md) beside it.
 
-## Rules
+## The living plan is a file in the repo
 
-- **A multi-step plan** → a **"Tracking"** section at the top, with **one checkbox per step**, then
-  **sub-checkboxes** along each step (reference model:
-  `maintainers/plans/prospective/rag-embedder-plan-action.md` in the second-brain-generator repo).
-- **A finished step** → tick `- [x]` **and** note _(date · commit)_: that is the memory which survives
-  a `/clear`.
-- **By default, whenever a plan is opened**, offer to restore the checkboxes if they are missing —
-  do not wait to be asked.
-- This convention is **global**: it applies to **every** project, with no need to re-specify it.
+Every plan / roadmap / TODO / progress document uses Markdown checkboxes `- [ ]` / `- [x]` on **every
+step and every sub-step** — never plain bullets, never text-only markers (`TODO`, `✅ DONE`) alone —
+so Thomas can follow and tick progress **straight from the Markdown** (Typora, Obsidian, a repository
+preview) without having to ask me anything.
 
-> Thomas asked for this repeatedly → a rule carved here so it never has to be asked for again. It is
-> not a hook (a hook cannot write checkboxes): it is a **writing convention**, hence a global
-> instruction.
+- A multi-step plan opens with a **`## Tracking`** section: one checkbox per step, then sub-checkboxes
+  down each step as it is worked.
+- A finished step is ticked `- [x]` **and** annotated _(date · commit)_. That annotation is the part
+  that survives a cleared context.
+- **One canonical plan**, and it is the file in the repo. Any snapshot the tooling keeps elsewhere is
+  throwaway the moment a plan is promoted there — mark it superseded and never read it again.
+- Opening a plan that has no checkboxes → restore them, without waiting to be asked.
 
-## Memory & `/clear` — pointers, not copies
+## The save point is EVERY handed-back turn — not the end of a step
 
-> Ref.: Thomas Pierrain, *« Des pointeurs, pas des copies, banane »*
-> (<https://medium.com/@tpierrain/des-pointeurs-pas-des-copies-banane-56c9d197b80b>).
+**Before handing back** — any reply that does not chain into another tool call, so **every instant
+Thomas might clear the context** — the plan must already say what the reply is about to say.
 
-**The repo's plan (`maintainers/plans/**`) is the SINGLE source** of a chantier's state (checkboxes,
-commits, what remains). `MEMORY.md` is **reloaded in full at every session** (and bounded, ~25 KB):
-any restatement of a plan's state creates **context rot** there and can **drown critical instructions**
-under stale text — a **silent** overflow. So, by default and without being asked:
+> **Does my reply contain "next: X", "Y remains", or "resume at Z"?**
+> Then those sentences must already exist in the committed plan. If not, I write them there first, and
+> let the chat be the echo.
 
-- **Pointers, not copies.** For an ongoing chantier: **a single memory file = a thin pointer** (branch
-  + path to the plan + "read the plan"), and **a single thin index line** in `MEMORY.md`. I **NEVER
-  duplicate** the plan's content into memory (done/remains, commits, details) — it lives in the plan,
-  read on demand, never auto-loaded.
-- **Tick as you go** in the repo's plan (and only there) so the landmark never lies — see the
-  checkboxes section above and "a finished step → _(date · commit)_".
-- **Prune `MEMORY.md` of ✅ SHIPPED / historical entries** as soon as a chantier is delivered: what is
-  shipped is no longer actionable context, its trace lives in **git + the archived plan**. Delete the
-  index line **and** the pointer file that has become pure history. Keep mostly this in the index:
-  **durable preferences / conventions** + **active chantiers**.
-- **Resuming after a `/clear`**: follow the pointer → **open the plan**, resume at the **first unticked
-  `- [ ]`**, and **announce it before writing code**. The `/clear` becomes free again because there is
-  nothing to lose in memory — the state is in the plan.
+This covers the three things no checkbox records on its own, and all three die at a clear:
 
-### The save point is EVERY hand-back (not the end of a step)
+- **the next real step**, when the first unticked box is not the right marker (constraints and
+  rejected options are checkboxes too; a step can be done bar one line of doc; a check can be waiting
+  on an environment);
+- **a decision taken in conversation** — a trade-off, a scope call, an explicit "we are not doing X";
+- **a blocker or an external wait**, and what would lift it.
 
-**Before handing back** (any reply that does not chain into a tool, hence **every moment where Thomas
-can clear**), the plan must already say what my chat message says about the state. A simple test, to
-run before writing the reply: **if my reply contains "next: X", "Y remains", "resume at Z", those
-sentences must already exist in the plan, committed.** Otherwise I write them there first, and the
-chat becomes no more than their echo.
+On resuming: open the plan, read its **header note** and its `## Tracking`, restart **where the header
+says** (not at the first unticked box), and **announce which step before writing any code**.
 
-This covers in particular what no checkbox says:
+## Durable memory holds no state — ever
 
-- **what the real next step is**, when the first `- [ ]` of the Tracking is NOT the right landmark (an
-  unticked step with only a line of doc left, a verification waiting on an environment, a suspended
-  choice): write it in the plan, otherwise the resume restarts on something already delivered;
-- **a decision taken in conversation** (an arbitration, a scope call, "we are not doing X"): it dies at
-  the `/clear` if it only lives in the thread;
-- **a blocker / an external wait** and what it would take to lift it.
+**Never write the next step into memory.** "Next: X", "what remains", "blocked on Y", any summary of
+where the work stands: that is the plan's job, always. Writing it into memory *feels* like saving it
+and is the opposite — the plan is edited and committed as the work moves, so it stays true, while a
+memory line is written once and then outlives the step it describes, still read at every session start
+with full authority. **A stale memory line is a wrong instruction, not a missing one.**
 
-> **Why this refinement, when "tick as you go" was already written**: its trigger was *"a step is
-> finished"*. Between two steps, the state therefore lived in my last reply, that is, in the one place
-> a `/clear` destroys, and Thomas had to ask me to save it. The right trigger is not the end of a step,
-> it is **the hand-back**. Asked for explicitly by Thomas (2026-07-28, Kenjaku): *"do it as you go so
-> I can clear the moment you are waiting"*. **Goal: the `/clear` is free at any instant, never only at
-> step boundaries.**
+Only two kinds of entry are admissible, and neither is state:
 
-> Why global: this is a **convention for writing memory**, not a hook. Sibling of the project memory
-> `one-canonical-plan-in-repo` (a single canonical plan = the repo's); this rule is its all-projects
-> generalization, always loaded.
+- a **pointer** — which plan file holds the state, and to go open it;
+- a **reference** — something recoverable nowhere else: a published URL, a durable preference, a
+  convention with its rationale.
+
+`MEMORY.md` is reloaded **in full** at every session start and is size-bounded (~25 KB): each surplus
+line spends the budget the critical instructions need, and pushes them out **silently**. So, without
+being asked: **prune the ✅ SHIPPED and historical entries** as soon as a chantier is delivered —
+delete the index line **and** the pointer file that has become pure history. What is shipped is no
+longer actionable context; its trace lives in git and in the archived plan. What stays in the index is
+mostly **durable conventions** and **active chantiers**.
