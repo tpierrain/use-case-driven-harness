@@ -164,6 +164,26 @@
         it belongs to the update-regime chantier (Kenjaku's
         `update-regime-owns-what-it-shipped-action.md`, its S6 rider), **not** to a hand edit: editing
         it by hand today would widen the gap while looking like closing it.
+- [ ] 💡 **T9 — `plan-carrier-guard` re-asks about carriers already declared "nothing to do"**
+      _(raised 2026-08-20 by me, **not signed by the owner**, nothing started — record only)_
+  - [x] **The observation, from a real session**: on Kenjaku's `chore/s0bis-entrypoint-mutation-debt`,
+        the `Stop` hook named the same two files **three turns running** (`mutation/RESULTS.md` and
+        `plans/prospective/v4.9.0-mutation-debt-plan.md`), and all three times the honest answer was
+        *"this one genuinely needs nothing"* — both speak of the release by **name**, never by number,
+        so no conversation about it can make them stale.
+  - [ ] **Why it is worth a look and not a shrug**: the hook judges no content **on purpose**, and that
+        is what makes it trustworthy — it must not start guessing. But a guard that asks the same
+        question every turn is training its reader to answer without looking, and **being ignored is
+        how a guard dies** (T7's own words). The failure mode here is not a false positive, it is
+        **habituation**.
+  - [ ] **The shape to consider, if the owner wants it**: remember a per-branch *"seen and declared
+        without object"* for a file, and re-raise it only when **that file** changes or the branch
+        moves on. Still zero content judgement — it would only stop repeating a question already
+        answered. ⚠️ **The risk to weigh first**: a declaration is cheap to give and then silences the
+        file for the rest of the branch, which is exactly the hole the hook exists to close. Decide
+        that trade before writing a line.
+  - [ ] Nothing ordered against T4 or T5. **Do not build it on my own judgement** — it changes a net
+        the owner asked for.
 
 ---
 
