@@ -1,7 +1,7 @@
 ---
 name: test-first-discipline
-description: "How to test, language-agnostic, for ALL code (libs, tools, helpers, algos, services): tests before code and fail-first are non-negotiable, and the mutation score is the judge, not the ritual. Default mode is design-first then test-first in small batches; classic TDD baby-steps + triangulation stay available as a tool. Also carries assertion quality (the mutation-testing lessons) and the entry-point seam rule. To load as soon as you write or modify code."
-version: 2.0.0
+description: "How to test, language-agnostic, for ALL code (libs, tools, helpers, algos, services): tests before code and fail-first are non-negotiable, and the mutation score is the judge, not the ritual. Default mode is design-first then test-first in small batches; classic TDD baby-steps + triangulation stay available as a tool. Also carries assertion quality (the mutation-testing lessons), how a mutation run can lie to you, and the entry-point seam rule. To load as soon as you write or modify code."
+version: 2.1.0
 ---
 
 # Test-first discipline (universal)
@@ -210,8 +210,71 @@ already engraved, were not enough. Four more shapes, named by none of the six:
 > **The objective signal is the mutation score, not line coverage.** Know also **not to chase
 > equivalents** (mutants indistinguishable from the original code: the default wiring of an injected
 > port, a `?? []` that recollapses into a string after `.map().join('')`, a greedy regex masked by a
-> downstream `.trim()`, real-SDK construction observable only over the network) and to **distrust false
-> timeouts**, which inflate the score artificially (cap `concurrency`/`timeout` before believing a run).
+> downstream `.trim()`, real-SDK construction observable only over the network) — and to distrust the
+> **run** before believing its number, which is the whole of the next section.
+
+## A mutation run LIES to you — audit the run before reading the score
+
+Everything above is judged by a mutation score, which makes the run itself the one measurement nobody
+audits. **Five ways a run hands you a number that measures nothing.** Each one cost a real run; none
+is tool- or language-specific, and none of them looks like a failure while it happens — that is the
+point.
+
+1. **A stale report, read as this pass's result.** The command died before writing anything, and the
+   report file from the **previous** pass is still exactly where it was. You read a number that
+   describes code you have since changed. → Prove the report was produced *by this run* before reading
+   it: delete it first, or compare its timestamp against the run's start. Never both trust a file and
+   let something else be responsible for refreshing it.
+2. **A suite that silently skips in the run environment.** A dependency missing under the runner, a
+   guard that self-disables outside the normal harness, a filter that matches nothing: the mutants
+   face **a judge that judges nothing**, and a score is printed on top of it. → Pin the number of
+   tests **actually executed** inside the mutation run against the number a normal run executes. A
+   mutation run whose test count you did not check is not a measurement.
+3. **A run killed mid-way.** No table is produced, and the *absence* of a score gets read as a zero,
+   or — worse, via trap 1 — as the previous number. → An interrupted run has **no score**. Report "no
+   result" and why; never a number, not even a pessimistic one.
+4. **A suite that really touches the disk, run in place.** Mutants exist to make destructive paths
+   fire, so a suite that writes for real, run over your **working tree** instead of a throwaway
+   checkout, destroys for real — silently, while you watch a progress bar. → Mutate a disposable copy,
+   never the tree you are working in, and make every writing test write inside a temp directory it
+   created itself.
+5. **False timeouts from CPU oversubscription.** A timed-out mutant is scored as killed, so a
+   saturated machine **inflates** the score, and inflates it more the slower the machine is. → Cap
+   concurrency so the machine is not oversubscribed, and re-run any file whose timeout count moves
+   between two runs: a score that depends on the load is not a property of the tests.
+
+> **Why this section exists, in one sentence**: *the worst failure of a measuring tool is not being
+> wrong, it is being **confidently precise about nothing**.* A number that is obviously wrong gets
+> argued with; a precise number nobody suspects gets **built on**.
+
+### Triage a survivor before writing a test for it
+
+A first-pass survivor belongs to one of three families, and **only the third is about missing tests**:
+
+- **an adapter or composition layer judged by nothing** — the answer is a **seam** (reflex 6), not an
+  assertion. Writing an assertion here produces a test that is green for the wrong reason and leaves
+  the hole exactly where it was;
+- **a double that ignores its arguments** — the test exists and would stay green against a component
+  called with nothing at all. The answer is the **double** (reflex 8), not another test;
+- **a genuinely missing case** — the only family where "write the test" is the answer (reflexes 1–5,
+  7, 9, 10).
+
+The three reflexes are each engraved above; what is easy to skip is **asking which family you are in
+first**. Do that before writing a line.
+
+### When the operating recipe keeps costing you, it becomes a command
+
+This file's own doctrine, applied to measurement: a rule breached repeatedly earns a **dumber, more
+reliable carrier**, not a better-worded paragraph. The five traps are all *operating* errors — none of
+them is fixed by knowing about them, because each one strikes precisely when attention is elsewhere.
+So the endpoint of this section is not the section: it is **a command that refuses to report what it
+did not measure**, one that fails loudly instead of printing a number when the report is stale, the
+suite skipped, or the run dead.
+
+> Earned, not theorised (Kenjaku, 2026-08-20): that runner was built after the traps had been paid for
+> individually, and its first act was to measure **itself**. The implementation is project-specific and
+> stays in that repo, with the operational half of the recipe. What travels is the move: **once the
+> same operating trap has bitten you twice, stop writing it down and make it unrepresentable.**
 
 ## Scope
 
