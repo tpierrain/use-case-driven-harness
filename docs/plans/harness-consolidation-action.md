@@ -1,10 +1,16 @@
 # Harness consolidation — one readable source, and the nets that carry it
 
-> **Status (2026-08-20): OPEN, nothing executed yet. The agenda, not the work.**
+> **Status (2026-08-20): the consolidation is DONE and pushed. What remains is the two Gas Town
+> ideas, T4 and T5 — neither has been started.**
 >
-> **The real next step is T0** — an owner's call on the target shape. Every other track below is
-> written so it can be picked up straight after that call, but running T1…T6 before T0 would harden a
-> shape nobody chose. Do **not** resume at the first unticked box; resume at T0.
+> **The real next step is T4** (an acceptance criterion on every plan step). T5 is the bigger one and
+> can follow it or precede it; nothing orders them. Everything above them is shipped, so do **not**
+> re-open T1…T3 or T6.
+>
+> **One sub-question of T0 is still unanswered and is the owner's**: what happens to
+> `plan-memory-test-harness`, the public extract for a colleague. It is currently a copy that drifts by
+> design, and the drift is what started this whole plan. Options are: regenerate it from this repo on
+> demand, keep it drifting with a dated banner, or retire it. **Do not decide this alone.**
 >
 > Born from two things in one session (2026-08-20): a read of Steve Yegge's *Gas Town* (what to steal,
 > what to refuse), and the owner's own framing — *"j'aime bien rationaliser mon approche, la
@@ -15,27 +21,35 @@
 
 ## Tracking
 
-- [ ] **T0 — Decide the target shape** *(owner's call, blocks everything else)*
-  - [ ] Confirm: this repo is the single source; every other surface points at it or is a declared,
-        dated copy.
-  - [ ] Confirm: the always-on layer is capped (a stated budget in files or KB), and anything above
-        the cap moves into an on-demand skill.
-  - [ ] Decide whether the Kenjaku-side copies (`maintainers/plan-discipline.md`,
-        `maintainers/skills/plan-discipline/`) become pointers or stay copies.
-- [ ] **T1 — Adopt the consolidated rewrite upstream**
-  - [ ] Bring `plan-memory-test-harness`'s `rules/plans.md` (63 lines) back over this repo's version
-        (~100 lines), keeping the personal specifics the public extract deliberately dropped.
-  - [ ] Same for `rules/testing.md`.
-  - [ ] Re-check every cross-reference the merge touches (`../skills/...` links resolve here too).
-- [ ] **T2 — The missing `plan-discipline` skill**
-  - [ ] Add `skills/plan-discipline/` to this repo (source: the Kenjaku version, which is the fuller
-        one).
-  - [ ] Symlink it into `~/.claude/skills/` via `bootstrap.sh`, like the other three.
-  - [ ] Verify by acceptance: a session in an unrelated project can load it.
-- [ ] **T3 — Delete the stale `rules/README.md`**
-  - [ ] Delete it (see *What was measured* — it is injected into every session and describes a layout
-        that has never existed here).
-  - [ ] Move anything worth keeping into the repo's root `README.md`, which is not injected.
+- [x] **T0 — Decide the target shape** _(2026-08-20 · owner's call in conversation)_
+  - [x] This repo is the single source; every other surface points at it or is a declared, dated copy.
+  - [x] The Kenjaku-side copies become **pointers** — owner's words: *"le harnais absorbe tout, Kenjaku
+        ne garde que des pointeurs"*.
+  - [ ] **Still open, owner's**: what becomes of `plan-memory-test-harness` (see the header note).
+  - [ ] Deferred, not refused: capping the always-on layer with a stated budget. T5 is the natural
+        place to decide it, since it is the same question asked of every rule.
+- [x] **T1 — Adopt the consolidated rewrite upstream** _(2026-08-20 · `3792bee`)_
+  - [x] `rules/plans.md`: took the 63-line consolidated shape, kept the `MEMORY.md` size bound and its
+        pruning rule, which the public extract had dropped as too personal. 100 → 66 lines.
+  - [x] `rules/testing.md`: same, keeping the outside-in-diamond specialization and the
+        counter-evidence line. 43 lines.
+  - [x] Cross-references re-checked: `../skills/...` resolves both in the repo and through the
+        `~/.claude/rules` symlink, because the skills are symlinked as siblings.
+- [x] **T2 — The missing `plan-discipline` skill** _(2026-08-20 · `e525867`)_
+  - [x] `skills/plan-discipline/` added, with the rationale essay beside it as
+        `plan-discipline.md` — inside the skill folder, so it travels through the symlink.
+  - [x] Declared in `bootstrap.sh` and symlinked into `~/.claude/skills/`.
+  - [x] **The test came first**, and it was a case the net was missing: a mapping that resolves to
+        nothing is reported "skipped", which reads as success on the machine that declared it and
+        installs nothing on the next one. Declared before the folder existed → red on exactly that
+        line → green once written.
+  - [x] **Verified by acceptance, not by assertion**: the running session picked the skill up and
+        announced it as available, in an unrelated repo (Kenjaku).
+- [x] **T3 — Delete the stale `rules/README.md`** _(2026-08-20 · `9287fbb`)_
+  - [x] Deleted. ~4 KB of standing instructions, injected into every session since the init commit,
+        describing a `common/ typescript/ python/…` layout and an `install.sh` that never existed here.
+  - [x] The root `README.md` now says what `rules/` may contain and why documentation does not go
+        there — so the next file dropped in gets the same question asked of it.
 - [ ] **T4 — Acceptance criteria on plan steps** *(the first thing worth stealing from Gas Town)*
   - [ ] Extend `rules/plans.md`: a step carries **what makes it green**, not only what to do.
   - [ ] State the rationale in the `plan-discipline` skill (the *how*, with a worked example).
@@ -48,11 +62,19 @@
         down as accepted.
   - [ ] File the Kenjaku-side findings where that repo says out-of-band work goes (its issue tracker),
         not as a second plan.
-- [ ] **T6 — Make the copies point instead of copy**
-  - [ ] Decide the propagation net for `plan-memory-test-harness` (today: a memory line asking a human
-        to remember — which is exactly the failure shape T5 is about).
-  - [ ] Update the `plan-discipline-shareable` memory once the surfaces change, or delete it if the
-        net makes it redundant.
+- [x] **T6 — Make the Kenjaku copies point instead of copy** _(2026-08-20 · kenjaku `0001ba9`, branch
+      `chore/plan-discipline-points-at-the-harness`, pushed, PR not opened)_
+  - [x] `maintainers/skills/plan-discipline/` deleted, `maintainers/plan-discipline.md` reduced to a
+        pointer. `DEVELOPING.md` follows.
+  - [x] `CONVENTIONS.md` §1's banner **inverted**: the harness is the source for the method, that
+        section is its application here.
+  - [x] **Arbitration taken while doing it, do not re-open**: §1/§2/§3/§3bis were *not* gutted into
+        bare pointers. That file exists so the rules **travel with a clone** (its own header says so),
+        and a pointer to another repo does not travel. What left is only the project-agnostic half,
+        which is what was actually duplicated.
+  - [x] `rag` suite green, 515/515.
+  - [ ] Update the `plan-discipline-shareable` memory once the `plan-memory-test-harness` question is
+        settled — it still describes the old three-surface shape.
 
 ---
 
