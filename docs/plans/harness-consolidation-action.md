@@ -1,11 +1,17 @@
 # Harness consolidation — one readable source, and the nets that carry it
 
 > **Status (2026-08-20): the consolidation is DONE and pushed. What remains is the two Gas Town
-> ideas, T4 and T5 — neither has been started.**
+> ideas, T4 and T5 — neither has been started — plus one owner's call left by T7.**
 >
 > **The real next step is T4** (an acceptance criterion on every plan step). T5 is the bigger one and
 > can follow it or precede it; nothing orders them. Everything above them is shipped, so do **not**
 > re-open T1…T3 or T6.
+>
+> **T7 landed unplanned the same day** (the save-point rule leaked in the singular → the rule now
+> speaks of **carriers, plural**, plus a machine-local `Stop` hook that names them). It is an early
+> instance of T5's thesis, and it leaves **one decision that is the owner's**: the public extract and
+> the published page still carry the singular version, and both are outward-facing — which is the same
+> T0 sub-question about `plan-memory-test-harness` still open below. **Do not propagate alone.**
 >
 > **One sub-question of T0 is still unanswered and is the owner's**: what happens to
 > `plan-memory-test-harness`, the public extract for a colleague. It is currently a copy that drifts by
@@ -83,6 +89,32 @@
   - [x] `rag` suite green, 515/515.
   - [ ] Update the `plan-discipline-shareable` memory once the `plan-memory-test-harness` question is
         settled — it still describes the old three-surface shape.
+- [~] **T7 — The save-point rule leaked, and it leaked in the SINGULAR** _(2026-08-20 — an early,
+      unplanned instance of T5's own thesis: a convention breached repeatedly gets a **dumber, more
+      reliable carrier**, not a smarter rule)_
+  - [x] **The measurement, taken before writing anything** (Kenjaku, same day): 8 commits, 4 into
+        plans, each updating **the plan that was open**; **four** repo files restated that item's
+        status. The rule fired every time; what it could not reach was the **copies**.
+  - [x] `rules/plans.md` — new section *"The plan is PLURAL"*: name the carriers with `git grep -l`,
+        one item = one **owning** plan, and the save point moves to **each decision** on a long
+        autonomous run (where hand-backs are hours apart).
+  - [x] `skills/plan-discipline/SKILL.md` — the actionable line, inside the save-point check.
+  - [x] `skills/plan-discipline/plan-discipline.md` — § 3.bis: the measurement, the three causes, and
+        why prose alone could not be the whole answer.
+  - [x] **The braces**: `~/.claude/hooks/plan-carrier-guard.mjs`, a `Stop` hook that greps the tracked
+        Markdown for the current branch, subtracts what the session touched, and **blocks the
+        hand-back** naming what is left. **It judges no content** — a guard that tried to tell stale
+        from current would be wrong often enough to be ignored, and being ignored is how a guard dies.
+        Test-first: 29 self-test cases on the pure core (red first, then green) plus 8 end-to-end
+        payloads (`plan-carrier-guard.e2e.sh`, beside it). **Machine-local: it does not travel**,
+        which is why the written rule above stays load-bearing.
+  - [ ] **Not propagated, deliberately, and it is the owner's call**: `plan-memory-test-harness` (the
+        public extract) and the published page still carry the singular version. Both are
+        **outward-facing**, and the fate of that repo is the T0 sub-question still open in the header
+        note. Decide the repo first; the propagation is then mechanical.
+  - [ ] Kenjaku's own corpus deduplication — the third slice of that chantier, tracked in **its** plan
+        (`maintainers/plans/prospective/agent-orchestrated-release-mode-action.md`), which owns it.
+        Named here only so this repo's reader knows where it lives.
 
 ---
 

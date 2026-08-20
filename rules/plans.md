@@ -44,6 +44,36 @@ This covers the three things no checkbox records on its own, and all three die a
 On resuming: open the plan, read its **header note** and its `## Tracking`, restart **where the header
 says** (not at the first unticked box), and **announce which step before writing any code**.
 
+### "The plan" is PLURAL — the save point covers every carrier of that status
+
+The rule above says *the* plan, and that singular is the hole. **Measured on Kenjaku, 2026-08-20**:
+the session made **8 commits, 4 of them into plans**, and every single one updated **the plan that
+was open** — while **four** repo files restated the very same item's status (three plans plus a
+measurement register). The rule fired every time and the corpus still went stale. Nothing was
+forgotten: **the state was COPIED**, and a copy is invisible from inside the file you have open.
+
+So, before handing back:
+
+- **Name the carriers, do not recall them.** `git grep -l` the branch name (and the item's name)
+  across the plans, the roadmap and the registers. Every file that answers claims to speak about this
+  work, and must already say what the reply is about to say — or be told, in one line, why it needs
+  nothing.
+- **One item, one OWNING plan.** A second file that restates a status is not redundancy, it is a
+  future lie: replace the restatement with a **link** to the owning plan. Deduplicate the moment the
+  grep shows a duplicate, rather than hand-synchronising three files forever.
+- **A long autonomous stretch has no hand-back to hang this on.** The save point is "every
+  handed-back turn", and an orchestrated run chains dozens of tool calls between two of them: the
+  mode **rarefies the trigger exactly when there is most state to record**. On such a run the save
+  point moves to **each decision as it lands** — write it into its carriers and commit, do not bank
+  it for a hand-back that may be an hour away.
+
+> **Deterministic net (belt and braces).** `~/.claude/hooks/plan-carrier-guard.mjs` runs on `Stop`:
+> it greps the tracked Markdown for the current branch name, subtracts what the session touched, and
+> **blocks the hand-back** naming what is left ("4 files name this branch, you touched 2"). It judges
+> **no content** — it cannot tell stale from current, it only makes the omission impossible to not
+> see. **Machine-local, so it does not travel**: this written rule is the belt, and it stays load-bearing
+> on any machine where the hook is not installed.
+
 ## Durable memory holds no state — ever
 
 **Never write the next step into memory.** "Next: X", "what remains", "blocked on Y", any summary of

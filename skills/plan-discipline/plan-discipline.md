@@ -104,6 +104,38 @@ correct trigger is not the end of a step, it is **the handed-back turn**.
 
 **Goal: clearing is free at every instant, never only at step boundaries.**
 
+### 3.bis The rule was written in the singular, and that is where it leaked
+
+**The measurement (Kenjaku, 2026-08-20).** A session made **8 commits, 4 of them into plans**. Every
+one of those four obeyed the rule — and every one updated **the plan that was open**. Meanwhile
+**four** repo files restated the same work item's status: three plans and a measurement register.
+Result: a corpus stale in three places out of four, produced by a session that never once skipped the
+save point.
+
+**Diagnosis, and note that only the third is about the agent.**
+
+1. **The state was COPIED.** Four files, no link between them, so every change needs three or four
+   hand-synchronised edits and nothing checks. This is *pointers, not copies* — the very principle
+   §2 above quotes — broken at the level of the corpus rather than of a single plan.
+2. **The rule says "*the* plan".** That singular is invisible from inside the file you have open:
+   nothing in the reading experience of a correct plan suggests a sibling is lying.
+3. **The trigger is rarefied exactly when it matters most.** The save point is the handed-back turn,
+   and an orchestrated / autonomous run chains dozens of tool calls between two hand-backs. The
+   harder the session works, the fewer save points it gets — an interaction between two harness
+   parts, not a lapse.
+
+**Why more prose could not be the whole answer.** Everything that stopped recurring in that repo got
+a **mechanical** guard; the recurring shapes answered with one more written reflex kept recurring.
+Hence belt **and** braces: the rule now speaks of **carriers, plural** (belt), and
+`~/.claude/hooks/plan-carrier-guard.mjs` names them at `Stop` (braces) — greps the tracked Markdown
+for the branch, subtracts what the session touched, blocks the hand-back with *"4 files name this
+branch, you touched 2"*. It judges **no content**, deliberately: a guard that tried to tell stale from
+current would be wrong often enough to be ignored, and being ignored is how a guard dies. The hook is
+machine-local and does not travel, so the written rule stays load-bearing on its own.
+
+**And the real fix is upstream of both**: one item, one **owning** plan; every other mention is a
+link. A restatement is not redundancy, it is a future lie with a date on it.
+
 ## The resume ritual
 
 Coming back to work after a clear, a crash, or a week away:

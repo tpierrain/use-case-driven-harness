@@ -57,6 +57,14 @@ Three things no checkbox records on its own, and all three die at a clear:
 - **a decision taken in conversation** — a trade-off, a scope call, an explicit "we are not doing X";
 - **a blocker or external wait**, and what would lift it.
 
+**And "the plan" is plural.** Run `git grep -l "<branch-or-item-name>" -- '*.md'` before the reply:
+every file that answers restates this item's status, and must already say what the reply is about to
+say — or be told, in one line, why it needs nothing. Then **kill the duplicate**: one item has one
+*owning* plan, and the others link to it instead of restating a status. On a long autonomous run,
+save at **each decision as it lands**, not at a hand-back that may be an hour away. _(The measurement
+that forced this, and the machine-local hook that nets it:
+[`rules/plans.md`](../../rules/plans.md).)_
+
 ## One canonical plan
 
 The living plan is the file **in the repo**. Any snapshot the tooling keeps elsewhere is throwaway
