@@ -28,6 +28,7 @@ MAPPINGS=(
   "skills/the-hive-pattern|skills/the-hive-pattern"
   "skills/outside-in-diamond-tdd|skills/outside-in-diamond-tdd"
   "skills/test-first-discipline|skills/test-first-discipline"
+  "skills/plan-discipline|skills/plan-discipline"
 )
 
 say()  { printf '%s\n' "$*"; }
