@@ -92,8 +92,44 @@ They do not depend on the mode, and none of them is a matter of taste.
 3. **See them ALL red, each for the right reason.** Not "the file fails to load": each one on its own
    assertion. A test that is green before the implementation exists is deleted or fixed, never kept.
 4. **Implement until green, then refactor.** Same rules as above.
-5. **Measure.** New production file → it gets its mutation run **the day it is written**, not at the
-   release tail (a file measured late is a file whose survivors are found by users).
+5. **Measure — but measure WHAT CHANGED, not what surrounds it.** A new production file gets its
+   mutation run **the day it is written**, not at the release tail (a file measured late is a file
+   whose survivors are found by users). An **existing** file touched by a few lines is a different
+   case, and running it whole is where a mutation practice goes to die. See below.
+
+### When to run it, and on what (the flow rule)
+
+Mutation testing is expensive in a way line coverage is not: it re-runs the suite once per mutant. If
+every iteration re-measures whole files, the feedback loop stops being usable and the practice gets
+abandoned for being slow — which costs far more than the runs saved.
+
+**The scope of a run is the scope of the change:**
+
+- **A new file → the whole file, now.** It is small, it costs under a minute, and it is where the holes
+  actually are.
+- **An existing file changed by a few lines → those lines only.** Every serious mutation tool takes a
+  line range (Stryker: `--mutate "path/file.js:147-160"`). Not an optimisation detail: a run scoped to
+  your own hunk answers the only question you have, and answers it while the code is still in your head.
+- **A release cut → one full pass** over everything the release touched, incrementally if the tool
+  supports it (Stryker: `--incremental`). This is the toll you pay once, deliberately, on code that has
+  stopped moving.
+- **Never re-measure a large file you did not change**, and never re-measure one you changed cosmetically.
+
+> **Measured, on a real release** (Kenjaku, 2026-08-21, one iteration): the two brand-new modules cost
+> ~40 s and ~1 min and **found two real defects** in a hand-written regex. The two large pre-existing
+> files cost **~7 minutes each**: one found a single real defect (a dropped list separator, in the three
+> lines just written), the other returned a survivor list **byte-identical to the previous run** — seven
+> minutes for zero information. Re-run scoped to the changed hunk, the same defect was caught in
+> **44 seconds instead of 7 minutes**, 17 mutants instead of 396.
+
+**The corollary that removes a whole class of confusion:** a whole-file run makes the score move for
+reasons that are not yours (one more equivalent mutant over a larger denominator reads as a regression),
+so you end up diffing survivor lists to prove you broke nothing. **On a hunk-scoped run, every survivor
+is yours.** There is nothing to attribute and no score to explain away.
+
+⚠️ **What this rule does NOT license: deferring everything to the end.** A hole found at the release tail
+is repaired in a file you have stopped holding in your head, by someone reconstructing an intent from a
+diff. The point is not "measure later", it is "measure **less surface, immediately**".
 
 The acceptance layer stays **outside-in and first**, in every mode.
 
