@@ -1,7 +1,7 @@
 ---
 name: test-first-discipline
 description: "How to test, language-agnostic, for ALL code (libs, tools, helpers, algos, services): tests before code and fail-first are non-negotiable, and the mutation score is the judge, not the ritual. Default mode is design-first then test-first in small batches; classic TDD baby-steps + triangulation stay available as a tool. Also carries assertion quality (the mutation-testing lessons), how a mutation run can lie to you, and the entry-point seam rule. To load as soon as you write or modify code."
-version: 2.2.0
+version: 2.3.0
 ---
 
 # Test-first discipline (universal)
