@@ -5,90 +5,108 @@
 > am about to stop and hand back.
 >
 > The *how* (writing, opening, resuming and ticking a plan) is the on-demand half, in the
-> [`plan-discipline`](../skills/plan-discipline/SKILL.md) skill. The full rationale, and what each
-> rule is paying for, is in
+> [`plan-discipline`](../skills/plan-discipline/SKILL.md) skill. The full rationale, the measurements
+> behind each rule, and what each one is paying for, is in
 > [`plan-discipline.md`](../skills/plan-discipline/plan-discipline.md) beside it.
 
-## The living plan is a file in the repo
+## "On reprend" → ONE door: the repo's `ACTIVE.md`
 
-Every plan / roadmap / TODO / progress document uses Markdown checkboxes `- [ ]` / `- [x]` on **every
-step and every sub-step** — never plain bullets, never text-only markers (`TODO`, `✅ DONE`) alone —
-so Thomas can follow and tick progress **straight from the Markdown** (Typora, Obsidian, a repository
-preview) without having to ask me anything.
+**At instant T there is exactly ONE way in.** *"On reprend"*, *"where were we"*, a fresh session after
+a `/clear`: open the repo's **`ACTIVE.md`** (`maintainers/plans/ACTIVE.md` on Kenjaku, `docs/plans/`
+elsewhere), follow its link to the active plan, read that plan's `## 📍 STATE` block, **announce the
+step**, work. **No memory lookup, no ROADMAP scan, no grep.**
 
-- A multi-step plan opens with a **`## Tracking`** section: one checkbox per step, then sub-checkboxes
-  down each step as it is worked.
-- A finished step is ticked `- [x]` **and** annotated _(date · commit)_. That annotation is the part
-  that survives a cleared context.
-- **One canonical plan**, and it is the file in the repo. Any snapshot the tooling keeps elsewhere is
-  throwaway the moment a plan is promoted there — mark it superseded and never read it again.
-- Opening a plan that has no checkboxes → restore them, without waiting to be asked.
+- The door holds **links and a date, never a status** — including in its *"open but not active"* list.
+  A file that names who the ball is with goes false the day the ball moves. Capped at 30 lines.
+- **One door, not one file.** Sub-plans stay legitimate (one of them gated a merge and carried a whole
+  autonomous run; folding it into a 2 400-line plan would have buried it). What must be unique is the
+  **way in**: a sub-plan is reached *through* the active plan, never from memory, never from a roadmap.
+- No `ACTIVE.md` in the repo yet → create it as the first act of resuming, rather than searching.
+
+> **Measured on Kenjaku, 2026-08-22**: answering one *"on reprends"* cost **eight files opened** before
+> any work began — a memory pointer, four plan headers, a roadmap, an archived header. Not one read was
+> wasted *given the old rules*; every one was a search a convention makes unnecessary. And
+> `git log ACTIVE.md` gives, for free, the history of what was active when.
+
+## The invariant — state gets a FORM of its own
+
+> 🎯 **A paragraph in a plan may not contain a fact that can become false.**
+
+If a sentence can go false **without anyone editing it**, it is state, and state has exactly two legal
+forms: **a checkbox**, or a line in the **`## 📍 STATE` block**. Prose then carries only what is true
+forever: rationale, evidence, what was rejected and why, how it went.
+
+**Why the form and not the file** (measured on a 33 654-line plan corpus, 2026-08-22 — do not
+re-derive): state and history were both written as *paragraphs*, and nothing can tell one paragraph
+from another, which is why every net ever built could only **detect** a copy after the fact, and fired
+on correct files too. **84 %** of the writes to the biggest live plan moved **no checkbox at all**: the
+state was in the prose the whole time. Duplication was never the disease — **unfindability** was, and
+copying state upward into headers and roadmaps was the writer's rational fix for it.
+
+### Rule 1 — every live plan opens with a capped, fixed-key STATE block
+
+```markdown
+## 📍 STATE — the only perishable block in this file  ·  moved <date>
+- **Next:** <one line: the next real step>
+- **Blocked on:** <what would lift it — or "nothing">
+- **Owner's call pending:** <the question, one line — or "none">
+- **A session may, alone:** <the boundary — or "ask first">
+```
+
+**Four keys, one date, ≤ 20 lines, always that heading.** The cap *is* the prevention: a form with four
+slots has nowhere to put a narration and nowhere to put a second copy of anything. It **replaces** the
+hand-invented `WHERE THIS RESUMES` / `STATUS` headers (up to ~80 lines) that were themselves an
+unmanaged copy of state scattered through the body.
+
+### Rule 2 — a fact another system owns is LINKED, never asserted
+
+Merged, tagged, released, CI green, branch alive, which commit: **git and `gh` are the record.** A plan
+may write `PR #76` as a link; it may not write *"#76 is a draft"*, *"CI 7/7"* or *"nothing tagged"*.
+Every such copy is true until a date certain and false forever after, with nobody present.
+
+### Rule 3 — one item, one STATE block; every other mention is a LINK, syntactically
+
+Not *"prefer a link to a restatement"* as a discipline (that was the old rule, and the corpus shows
+what it was worth), but as the only **syntax available**: other files write
+`[what it delivers](path/to/plan.md)` and stop. A roadmap's map table therefore carries **no Status
+column** — `Plan | Delivers | Depends on`. **A form with no status field cannot hold a status.**
 
 ## The save point is EVERY handed-back turn — not the end of a step
 
 **Before handing back** — any reply that does not chain into another tool call, so **every instant
-Thomas might clear the context** — the plan must already say what the reply is about to say.
+Thomas might clear the context** — **the `## 📍 STATE` block must already say what my reply is about to
+say.**
 
-> **Does my reply contain "next: X", "Y remains", or "resume at Z"?**
-> Then those sentences must already exist in the committed plan. If not, I write them there first, and
+> **Does my reply contain "next: X", "Y remains", "blocked on Z", or a decision taken in
+> conversation?** Then it already exists in the committed STATE block — or I write it there first, and
 > let the chat be the echo.
 
-This covers the three things no checkbox records on its own, and all three die at a clear:
+Four keys and ≤ 20 lines is cheap enough to write **mid-reply**, and that cheapness is the rule: an
+expensive save point is one that gets skipped under load.
 
-- **the next real step**, when the first unticked box is not the right marker (constraints and
-  rejected options are checkboxes too; a step can be done bar one line of doc; a check can be waiting
-  on an environment);
-- **a decision taken in conversation** — a trade-off, a scope call, an explicit "we are not doing X";
-- **a blocker or an external wait**, and what would lift it.
+- **A long autonomous stretch has no hand-back to hang this on.** An orchestrated run chains dozens of
+  tool calls between two of them, so the mode **rarefies the trigger exactly when there is most state
+  to record**. There the save point moves to **each decision as it lands** — write it into the STATE
+  block, commit, do not bank it for a hand-back that may be an hour away.
+- **Opening a plan with no STATE block**, or with plain bullets instead of checkboxes → restore them,
+  without waiting to be asked.
+- **What this does NOT fix, stated rather than buried**: it does not make a session *notice* it has
+  state to write. That is a trigger problem, not a storage problem; the form only makes the write cheap
+  enough that noticing is usually enough.
 
-On resuming: open the plan, read its **header note** and its `## Tracking`, restart **where the header
-says** (not at the first unticked box), and **announce which step before writing any code**.
+### Interim net, pending the shape lint — do NOT remove it
 
-### "The plan" is PLURAL — the save point covers every carrier of that status
+Before rules 1-3 existed, the corpus was policed by **detection**: `~/.claude/hooks/plan-carrier-guard.mjs`
+(runs on `Stop`, greps the tracked Markdown for the current branch name, subtracts what the session
+touched, and blocks the hand-back naming what is left), the **`plan-carrier-guard: delegates-only`**
+door declared in a file's header to silence it, and the "certificate" variant of that door.
 
-The rule above says *the* plan, and that singular is the hole. **Measured on Kenjaku, 2026-08-20**:
-the session made **8 commits, 4 of them into plans**, and every single one updated **the plan that
-was open** — while **four** repo files restated the very same item's status (three plans plus a
-measurement register). The rule fired every time and the corpus still went stale. Nothing was
-forgotten: **the state was COPIED**, and a copy is invisible from inside the file you have open.
-
-So, before handing back:
-
-- **Name the carriers, do not recall them.** `git grep -l` the branch name (and the item's name)
-  across the plans, the roadmap and the registers. Every file that answers claims to speak about this
-  work, and must already say what the reply is about to say — or be told, in one line, why it needs
-  nothing.
-- **One item, one OWNING plan.** A second file that restates a status is not redundancy, it is a
-  future lie: replace the restatement with a **link** to the owning plan. Deduplicate the moment the
-  grep shows a duplicate, rather than hand-synchronising three files forever.
-- **A long autonomous stretch has no hand-back to hang this on.** The save point is "every
-  handed-back turn", and an orchestrated run chains dozens of tool calls between two of them: the
-  mode **rarefies the trigger exactly when there is most state to record**. On such a run the save
-  point moves to **each decision as it lands** — write it into its carriers and commit, do not bank
-  it for a hand-back that may be an hour away.
-
-> **Deterministic net (belt and braces).** `~/.claude/hooks/plan-carrier-guard.mjs` runs on `Stop`:
-> it greps the tracked Markdown for the current branch name, subtracts what the session touched, and
-> **blocks the hand-back** naming what is left ("4 files name this branch, you touched 2"). It judges
-> **no content** — it cannot tell stale from current, it only makes the omission impossible to not
-> see. **Machine-local, so it does not travel**: this written rule is the belt, and it stays load-bearing
-> on any machine where the hook is not installed.
->
-> 🚪 **The declared door, for files that hold no state BY CONSTRUCTION** (2026-08-22, Thomas's call,
-> after the guard blocked four hand-backs in one session over a roadmap that was correct every time).
-> An ordering map, an index, a register that delegates: they name the branch, they are right to
-> restate nothing, and the hook cannot tell that from staleness — so it is **told, in the file**. Put
-> **`plan-carrier-guard: delegates-only`** in the file's **header** (first 20 lines, typically inside
-> the STATUS comment) and the guard stops counting it as a carrier.
->
-> - **The header window is the whole safety of the door.** An opt-out at line 400 is invisible; in the
->   header, anyone opening the file reads it, and so does the next session. Merely *mentioning* the
->   hook does not qualify — the words must be the declaration itself.
-> - **It is the admission of a contract, not a shortcut.** Write beside it what the file *does* own,
->   and delete the line the day a row there starts carrying state of its own. **A plan may never
->   declare it**: holding state is a plan's whole job.
-> - **The read fails towards the guard**: a file that cannot be read stays a carrier, so an I/O error
->   can never open the door by accident.
+**All three stay installed and firing.** They were to be retired *by* a repo-side **shape lint** —
+which judges form instead of branch mentions, travels with the clone where a machine-local hook cannot,
+and needs no door because a file that genuinely delegates contains no status sentences and passes by
+construction. **That lint is not built yet** (Kenjaku, deferred 2026-08-22). Removing them "for
+consistency with the new convention" would leave no net at all, which is worse than the over-firing it
+replaces. They are **interim, not doctrine**: the day the lint exists, all three go together.
 
 ## Durable memory holds no state — ever
 
@@ -100,7 +118,9 @@ with full authority. **A stale memory line is a wrong instruction, not a missing
 
 Only two kinds of entry are admissible, and neither is state:
 
-- a **pointer** — which plan file holds the state, and to go open it;
+- a **pointer** — which plan file holds the state, and to go open it. Since the door exists, the only
+  pointer a repo needs is *"on reprend → open `ACTIVE.md`"*: anything ranking plans, flagging one
+  *"read this first"*, or carrying a due date **is state wearing a pointer's clothes**;
 - a **reference** — something recoverable nowhere else: a published URL, a durable preference, a
   convention with its rationale.
 
