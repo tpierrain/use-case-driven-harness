@@ -20,7 +20,7 @@ and my testing discipline.
 
 `rules/` holds exactly the files meant to be **injected into every session**: `plans.md`,
 `testing.md`, `architecture.md`, `dotnet-conventions.md`, `language.md`, `inclusive-writing.md`,
-`style-typography.md`. Nothing else belongs there — a file dropped into `rules/` becomes a standing
+`style-typography.md`, `explaining.md`. Nothing else belongs there — a file dropped into `rules/` becomes a standing
 instruction on every project, whether or not it was written to be one. Documentation about the repo
 goes here, in this README, which is **not** injected.
 
