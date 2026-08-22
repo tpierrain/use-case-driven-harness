@@ -1,7 +1,16 @@
 # Harness consolidation — one readable source, and the nets that carry it
 
-> **Status (2026-08-20): the consolidation is DONE and pushed. What remains is the two Gas Town
-> ideas, T4 and T5 — neither has been started — plus one owner's call left by T7.**
+> **Status (2026-08-22): the consolidation is MERGED INTO `main`** — [PR #2](https://github.com/tpierrain/use-case-driven-harness/pull/2),
+> merge commit `5c40a41`, `bash test/bootstrap-check.sh` green before the merge. **What remains is the
+> two Gas Town ideas, T4 and T5 — neither has been started — plus one owner's call left by T7.**
+>
+> **▶️ T7 gained a DOOR** _(2026-08-22)_ — the `Stop` hook it introduced blocked four hand-backs in one
+> Kenjaku session over a roadmap that was correct every time, because it judges no content and cannot
+> tell *stale* from *delegates by construction*. It now honours a declaration in a file's **header**,
+> `plan-carrier-guard: delegates-only`, documented in [`rules/plans.md`](../../rules/plans.md). Written
+> test-first (11 cases red on their assertions first, **40/40** now), with the end-to-end payload
+> script extended beside it. **A plan may never declare it.** The hook itself stays machine-local under
+> `~/.claude/hooks/` and does not travel — the rule is what travels.
 >
 > **▶️ T8 IS DONE** _(2026-08-20)_ — `skills/test-first-discipline/SKILL.md` v2.1.0 now carries the
 > section *"A mutation run LIES to you"* (the five traps, the survivor triage, and the move from recipe
