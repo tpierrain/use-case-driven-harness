@@ -13,6 +13,10 @@
 #
 # Case 3 is not decoration: without it, "always say it is fine" would pass 1 and 2.
 #
+# It also pins that every block declared in MAPPINGS actually EXISTS in the repo:
+# a mapping pointing at nothing is silently "skipped", which reads as success on
+# the machine that declared it and installs nothing on the next one.
+#
 # Usage: ./test/bootstrap-check.sh   (exit 0 = green)
 
 set -uo pipefail
@@ -68,6 +72,26 @@ mkdir -p "$WORK/somewhere-else/rules"
 expect_verdict "genuinely different directory" \
   "$WORK/somewhere-else/rules" \
   "points elsewhere" "already linked correctly"
+
+# 4. Every declared block must exist in the repo. Run against a pristine fake HOME
+#    so nothing on this machine can stand in for a block the repo is missing:
+#    bootstrap.sh reports "skipped" when neither side has the path, and a skip is
+#    the shape a typo in MAPPINGS -- or a block declared before it was written --
+#    takes. Without this case, such a mapping stays green here and installs
+#    nothing on the next machine.
+echo
+echo "bootstrap.sh --check, on a pristine HOME:"
+FRESH="$WORK/home-pristine"
+mkdir -p "$FRESH/.claude"
+fresh_output="$(HOME="$FRESH" "$REPO_DIR/bootstrap.sh" --check 2>&1)"
+
+if [[ "$fresh_output" != *"skipped"* ]]; then
+  echo "  ✓ every block declared in MAPPINGS exists in the repo"
+else
+  echo "  ✗ a declared block is missing from the repo"
+  printf '%s\n' "$fresh_output" | grep -B1 'skipped' | sed 's/^/      /'
+  FAILURES=$((FAILURES + 1))
+fi
 
 if [[ $FAILURES -eq 0 ]]; then
   echo "✅ green"

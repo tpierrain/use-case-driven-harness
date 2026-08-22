@@ -16,12 +16,16 @@ and my testing discipline.
 | `skills/test-first-discipline/` | `~/.claude/skills/test-first-discipline` | Skill: the universal testing discipline (test-first, fail-first, small batches by default, assertion quality) |
 | `skills/outside-in-diamond-tdd/` | `~/.claude/skills/outside-in-diamond-tdd` | Skill: Outside-in Diamond 🔷 TDD (services/APIs/apps) — a specialization of the discipline above |
 | `skills/the-hive-pattern/` | `~/.claude/skills/the-hive-pattern` | Skill: The Hive — Microservices-Ready Modular Monolith (how-to, language-agnostic; C#/.NET examples) |
+| `skills/plan-discipline/` | `~/.claude/skills/plan-discipline` | Skill: how to write, open, resume and tick a plan so a cleared context costs nothing — plus the standalone rationale essay beside it |
 
-`rules/` holds: `testing.md`, `architecture.md`, `dotnet-conventions.md`, `language.md`, `plans.md`,
-`inclusive-writing.md`, `style-typography.md`, `README.md`.
+`rules/` holds exactly the files meant to be **injected into every session**: `plans.md`,
+`testing.md`, `architecture.md`, `dotnet-conventions.md`, `language.md`, `inclusive-writing.md`,
+`style-typography.md`. Nothing else belongs there — a file dropped into `rules/` becomes a standing
+instruction on every project, whether or not it was written to be one. Documentation about the repo
+goes here, in this README, which is **not** injected.
 
-Deliberately **nothing else**: no `settings.json`, no caches, no sessions, no secrets. A strict
-allowlist cannot leak what someone forgot to ignore.
+Deliberately **nothing else** in the perimeter: no `settings.json`, no caches, no sessions, no
+secrets. A strict allowlist cannot leak what someone forgot to ignore.
 
 ## Architecture: a lightweight directive (rule) → detail on demand (skill)
 
