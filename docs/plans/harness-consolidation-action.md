@@ -1,48 +1,34 @@
 # Harness consolidation — one readable source, and the nets that carry it
 
-> **Status (2026-08-22): the consolidation is MERGED INTO `main`** — [PR #2](https://github.com/tpierrain/use-case-driven-harness/pull/2),
-> merge commit `5c40a41`, `bash test/bootstrap-check.sh` green before the merge. **What remains is the
-> two Gas Town ideas, T4 and T5 — neither has been started — plus one owner's call left by T7.**
->
-> **▶️ T7 gained a DOOR** _(2026-08-22)_ — the `Stop` hook it introduced blocked four hand-backs in one
-> Kenjaku session over a roadmap that was correct every time, because it judges no content and cannot
-> tell *stale* from *delegates by construction*. It now honours a declaration in a file's **header**,
-> `plan-carrier-guard: delegates-only`, documented in [`rules/plans.md`](../../rules/plans.md). Written
-> test-first (11 cases red on their assertions first, **40/40** now), with the end-to-end payload
-> script extended beside it. **A plan may never declare it.** The hook itself stays machine-local under
-> `~/.claude/hooks/` and does not travel — the rule is what travels.
->
-> **▶️ T8 IS DONE** _(2026-08-20)_ — `skills/test-first-discipline/SKILL.md` v2.1.0 now carries the
-> section *"A mutation run LIES to you"* (the five traps, the survivor triage, and the move from recipe
-> to command). **Do not re-open it, and above all do not hand-edit Kenjaku's vendored copy**: that
-> refresh belongs to Kenjaku's update-regime rider, which was waiting on this text and is now unblocked.
->
-> **▶️ The next step is T4** (an acceptance criterion on every plan step); **T5** is the bigger one and
-> nothing orders it against T4. Everything above them is shipped, so do **not** re-open T1…T3, T6 or T8.
->
-> **T7 landed unplanned the same day** (the save-point rule leaked in the singular → the rule now
-> speaks of **carriers, plural**, plus a machine-local `Stop` hook that names them). It is an early
-> instance of T5's thesis, and it leaves **one decision that is the owner's**: the public extract and
-> the published page still carry the singular version, and both are outward-facing — which is the same
-> T0 sub-question about `plan-memory-test-harness` still open below. **Do not propagate alone.**
->
-> **One sub-question of T0 is still unanswered and is the owner's**: what happens to
-> `plan-memory-test-harness`, the public extract for a colleague. It is currently a copy that drifts by
-> design, and the drift is what started this whole plan. Options are: regenerate it from this repo on
-> demand, keep it drifting with a dated banner, or retire it. **Do not decide this alone.**
->
-> _(2026-08-20, checked rather than assumed: that repo is **not** broken. All 14 relative links
-> resolve and no dangling skill reference survives the `outside-in-diamond-tdd` removal. Its
-> `Provenance` section had gone stale and was fixed on the spot — `77cd814`, pushed to its `main`.
-> **Two mentions of Kenjaku were deliberately left** in `skills/test-first-discipline/SKILL.md`
-> lines 25 and 112: they are evidence citations for the mutation figures, not provenance, and
-> removing them would leave "earned, not theorised" with nothing behind it. Awaiting the owner's word
-> before touching them.)_
->
-> Born from two things in one session (2026-08-20): a read of Steve Yegge's *Gas Town* (what to steal,
-> what to refuse), and the owner's own framing — *"j'aime bien rationaliser mon approche, la
-> consolider pour avoir un truc qui soit lisible, simplement, au lieu d'avoir des includes sur plein
-> de trucs à droite à gauche."*
+## 📍 STATE — the only perishable block in this file · moved 2026-08-22
+
+- **Next:** **T4** (a step declares what makes it green, not only what to do). **T5** is the bigger
+  one and **nothing orders it against T4** — take either. T1…T3, T6, T8 and T10 are shipped: do not
+  re-open them.
+- **Blocked on:** nothing.
+- **Owner's call pending:** **two.** (1) What becomes of
+  [`plan-memory-test-harness`](https://github.com/tpierrain/plan-memory-test-harness), the public
+  extract — regenerate on demand, keep it drifting with a dated banner, or retire it? It and the
+  published page still carry the **pre-2026-08-22** version of the discipline (singular carriers, no
+  STATE block), and both are outward-facing. Decide the repo first; the propagation is then
+  mechanical. (2) **T9** — the guard re-asking about carriers already declared "nothing to do";
+  raised by me, never signed.
+- **A session may, alone:** T4 and T5, and applying the plan convention to any plan here. It may
+  **not** decide the fate of the public extract or propagate to it, may **not** build T9 (it changes
+  a net the owner asked for), and may **not** hand-edit Kenjaku's vendored copy of
+  `test-first-discipline` (that refresh is Kenjaku's update-regime rider).
+
+## Why this plan exists
+
+Born from two things in one session (2026-08-20): a read of Steve Yegge's *Gas Town* (what to steal,
+what to refuse), and the owner's own framing — *"j'aime bien rationaliser mon approche, la
+consolider pour avoir un truc qui soit lisible, simplement, au lieu d'avoir des includes sur plein
+de trucs à droite à gauche."*
+
+The consolidation itself shipped through
+[PR #2](https://github.com/tpierrain/use-case-driven-harness/pull/2), with
+`bash test/bootstrap-check.sh` green before it. What each task cost, and what was decided while
+building it, is in the Tracking below.
 
 ---
 
@@ -52,7 +38,14 @@
   - [x] This repo is the single source; every other surface points at it or is a declared, dated copy.
   - [x] The Kenjaku-side copies become **pointers** — owner's words: *"le harnais absorbe tout, Kenjaku
         ne garde que des pointeurs"*.
-  - [ ] **Still open, owner's**: what becomes of `plan-memory-test-harness` (see the header note).
+  - [ ] **Still open, owner's**: what becomes of `plan-memory-test-harness` → *Owner's call pending*
+        in the STATE block. It is a copy that drifts by design, and that drift is what started this
+        plan. _(2026-08-20, checked rather than assumed: the repo is **not** broken — all 14 relative
+        links resolve, no dangling skill reference survived the `outside-in-diamond-tdd` removal, and
+        its stale `Provenance` section was fixed on the spot, `77cd814`, pushed to its `main`. **Two
+        mentions of Kenjaku were deliberately left** in `skills/test-first-discipline/SKILL.md`
+        lines 25 and 112: they are evidence citations for the mutation figures, not provenance, and
+        removing them would leave "earned, not theorised" with nothing behind it.)_
   - [ ] Deferred, not refused: capping the always-on layer with a stated budget. T5 is the natural
         place to decide it, since it is the same question asked of every rule.
 - [x] **T1 — Adopt the consolidated rewrite upstream** _(2026-08-20 · `3792bee`)_
@@ -121,10 +114,19 @@
         Test-first: 29 self-test cases on the pure core (red first, then green) plus 8 end-to-end
         payloads (`plan-carrier-guard.e2e.sh`, beside it). **Machine-local: it does not travel**,
         which is why the written rule above stays load-bearing.
+  - [x] **The DOOR the hook needed** _(2026-08-22)_ — it blocked four hand-backs in one Kenjaku
+        session over a roadmap that was correct every time, because it judges no content and cannot
+        tell *stale* from *delegates by construction*. It now honours a declaration in a file's
+        **header**, `plan-carrier-guard: delegates-only`, documented in
+        [`rules/plans.md`](../../rules/plans.md). Written test-first (11 cases red on their
+        assertions first, **40/40** now), with the end-to-end payload script extended beside it.
+        **A plan may never declare it.** ⚠️ **The door is a rule invented to silence a rule**, and
+        Kenjaku's study (2026-08-22) treats it as such: hook + door + certificate are now written
+        down as an **interim net**, to be retired together by a repo-side shape lint. Do not build on
+        top of them.
   - [ ] **Not propagated, deliberately, and it is the owner's call**: `plan-memory-test-harness` (the
-        public extract) and the published page still carry the singular version. Both are
-        **outward-facing**, and the fate of that repo is the T0 sub-question still open in the header
-        note. Decide the repo first; the propagation is then mechanical.
+        public extract) and the published page still carry the pre-2026-08-22 version → *Owner's call
+        pending* in the STATE block. Decide the repo first; the propagation is then mechanical.
   - [ ] Kenjaku's own corpus deduplication — the third slice of that chantier, tracked in **its** plan
         (`maintainers/plans/prospective/agent-orchestrated-release-mode-action.md`), which owns it.
         Named here only so this repo's reader knows where it lives.
@@ -216,6 +218,27 @@
   - [ ] ⚠️ **Kenjaku's vendored copy falls one version further behind** (it ships the 2026-08-15 text;
         upstream is now v2.2.0). Still **not** to be hand-edited — that refresh is Kenjaku's S6 rider,
         and its plan owns the divergence.
+- [x] **T11 — The harness carries the plan-state convention** _(2026-08-22 · branch
+      `chore/plan-state-convention`)_. **This repo is the destination, not the owner**: the study, its
+      measurements and the application order live in Kenjaku —
+      [`plan-state-single-source-study.md`](https://github.com/tpierrain/kenjaku/blob/main/maintainers/plans/prospective/plan-state-single-source-study.md),
+      its § *Application* step 4. Do not re-litigate the convention here.
+  - [x] `rules/plans.md` (always-on): the **door** (*"on reprend" → `ACTIVE.md`*), the **invariant**
+        (*a paragraph may not contain a fact that can become false*) and **rules 1-3** (the capped
+        four-key `## 📍 STATE` block, facts another system owns are linked, one item = one STATE
+        block and every other mention is a link). The save-point rule **shrank** to *"the STATE block
+        must already say what the reply says"*.
+  - [x] **The hook, its door and the certificate were DEMOTED, not deleted** — written down as an
+        *interim net, pending the shape lint*. Removing them for consistency with the new convention
+        would leave no net at all, which is worse than the over-firing it replaces.
+  - [x] `skills/plan-discipline/SKILL.md`: how to write, migrate, tick and **hand the door over** when
+        the active plan changes.
+  - [x] `skills/plan-discipline/plan-discipline.md`: the rationale **and both measurements**
+        (2026-08-20 carriers-plural, 2026-08-22 the corpus table), so the convention travels with its
+        evidence and is never re-derived from scratch.
+  - [x] **Dogfooded on this very file** — its ~44-line prose header was exactly the workaround being
+        replaced, and it asserted a merge status git already owns.
+  - [x] `docs/plans/ACTIVE.md` created: this repo now has the same one door.
 
 ---
 
