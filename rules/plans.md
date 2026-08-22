@@ -73,6 +73,22 @@ So, before handing back:
 > **no content** — it cannot tell stale from current, it only makes the omission impossible to not
 > see. **Machine-local, so it does not travel**: this written rule is the belt, and it stays load-bearing
 > on any machine where the hook is not installed.
+>
+> 🚪 **The declared door, for files that hold no state BY CONSTRUCTION** (2026-08-22, Thomas's call,
+> after the guard blocked four hand-backs in one session over a roadmap that was correct every time).
+> An ordering map, an index, a register that delegates: they name the branch, they are right to
+> restate nothing, and the hook cannot tell that from staleness — so it is **told, in the file**. Put
+> **`plan-carrier-guard: delegates-only`** in the file's **header** (first 20 lines, typically inside
+> the STATUS comment) and the guard stops counting it as a carrier.
+>
+> - **The header window is the whole safety of the door.** An opt-out at line 400 is invisible; in the
+>   header, anyone opening the file reads it, and so does the next session. Merely *mentioning* the
+>   hook does not qualify — the words must be the declaration itself.
+> - **It is the admission of a contract, not a shortcut.** Write beside it what the file *does* own,
+>   and delete the line the day a row there starts carrying state of its own. **A plan may never
+>   declare it**: holding state is a plan's whole job.
+> - **The read fails towards the guard**: a file that cannot be read stays a carrier, so an I/O error
+>   can never open the door by accident.
 
 ## Durable memory holds no state — ever
 
