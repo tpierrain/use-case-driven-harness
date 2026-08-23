@@ -43,6 +43,26 @@ on screen.
   comprends pas ce que tu me dis, mais surtout ne sais pas si je dois décider de quelque chose ou
   pas."* The rule existed at the time but was **scoped to roadmap and release talk**, so it never
   fired on a technical report. That narrow scope is why rule 1 above now says *every reply*.
+- **THE INFRASTRUCTURE'S COORDINATES INSTEAD OF WHAT THE THING TESTS** _(2026-08-23, twice in two
+  replies — which is what makes it its own entry)_. Reporting on CI I wrote *"la cellule rouge du
+  HEAD"* and *"toutes les cellules macOS rouges"*. He asked what a "cellule" was, then handed me the
+  sentence he wanted: **_"toutes les versions de ce test qui dépendent de versions de node
+  différentes échouent sur macOS"_**.
+  - **The tell**: my sentence described a **grid he cannot see** — a coordinate in a matrix of
+    OS × runtime version. His describes **the test, what it depends on, and where it fails**. Same
+    fact, and only one of them survives being read by someone who is not looking at the CI page.
+  - **The rule, generalised**: name **what the thing is and what it proves**, never the position it
+    occupies in a piece of infrastructure. A reader can picture "the test that checks X, on macOS";
+    nobody can picture "cell 3 of 7".
+  - **The recurring vocabulary, with its translation** — reach for the right-hand side by default:
+    | Instead of | Say |
+    | --- | --- |
+    | *the red cell*, *the matrix*, *7/7* | *the test that checks X fails on macOS* |
+    | *HEAD*, *the tip* | *the latest version of the code* |
+    | *a job*, *a run*, *a runner* | *a check*, *a machine that runs the checks* |
+    | *green / red* (unqualified) | *passes / fails* — and say **what** passes |
+  - ⚠️ **This is not "avoid technical words", it is "avoid the ones that only mean something from
+    inside the tool".** *Test*, *macOS*, *version of Node* are all fine: he can picture every one.
 
 > Praised twice in the same words, which is what makes it a rule rather than a preference.
 > **2026-08-15**: *"ton explication était vraiment au bon niveau, simple, pas trop verbeuse, limpide.
