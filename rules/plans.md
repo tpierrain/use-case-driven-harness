@@ -61,6 +61,15 @@ So, before handing back:
 - **One item, one OWNING plan.** A second file that restates a status is not redundancy, it is a
   future lie: replace the restatement with a **link** to the owning plan. Deduplicate the moment the
   grep shows a duplicate, rather than hand-synchronising three files forever.
+- **And the second carrier is often INSIDE the same file — the STATE block itself.** _(Measured on
+  Kenjaku, 2026-08-23.)_ A product call was answered in the section that owns it, ✅, closing on the
+  words *"recorded so the next session does not re-open this"*. Three hundred lines above, the STATE
+  block still listed it under *owner's call pending*. **A session reads STATE first and the owning
+  section maybe never**, so the answer sat on disk and invisible: the decision was put to the owner
+  twice more, and the second time argued the opposite way. His verdict: *"c'est comme si tu
+  n'apprenais pas ou ne retenais rien."* So: **before asking the owner anything, grep the plan for
+  that item and read what the body already concluded.** A STATE line naming an item the body has
+  closed is not a summary, it is a contradiction, and the ✅ is the half that is right.
 - **A long autonomous stretch has no hand-back to hang this on.** The save point is "every
   handed-back turn", and an orchestrated run chains dozens of tool calls between two of them: the
   mode **rarefies the trigger exactly when there is most state to record**. On such a run the save
