@@ -93,6 +93,89 @@ else
   FAILURES=$((FAILURES + 1))
 fi
 
+# ─── The hooks, and the half that makes them run ────────────────────────────
+# A hook FILE that travels is not a hook that RUNS: Claude executes what
+# settings.json declares, and settings.json is machine-local. The lived failure
+# (2026-09-09, the second Mac): the rules arrived by git, the guards they promise
+# did not, and nothing said so. So `--check` must NAME an unwired guard, and
+# applying must wire it — without touching anything else in that file.
+
+expect_report() {
+  local case_name="$1" home="$2" wanted="$3"
+  local output
+  output="$(HOME="$home" "$REPO_DIR/bootstrap.sh" --check 2>&1)"
+
+  if [[ "$output" == *"$wanted"* ]]; then
+    echo "  ✓ $case_name"
+  else
+    echo "  ✗ $case_name"
+    echo "      expected to contain : $wanted"
+    echo "      actual              :"
+    printf '%s\n' "$output" | sed 's/^/        /'
+    FAILURES=$((FAILURES + 1))
+  fi
+}
+
+echo
+echo "the hooks, and their wiring in settings.json:"
+
+# 5. A HOME with no settings.json at all: every canonical hook is unwired, and
+#    --check has to say so rather than report a clean install.
+UNWIRED="$WORK/home-unwired"
+mkdir -p "$UNWIRED/.claude"
+expect_report "an unwired machine is REPORTED, not silently fine" "$UNWIRED" "not wired"
+
+# 6. --check writes nothing. The whole promise of the dry-run.
+if [[ ! -e "$UNWIRED/.claude/settings.json" ]]; then
+  echo "  ✓ --check wired nothing (it is a dry-run)"
+else
+  echo "  ✗ --check WROTE settings.json"
+  FAILURES=$((FAILURES + 1))
+fi
+
+# 7. Applying wires the guards — and leaves everything else in that file alone.
+#    The pre-existing keys are the point: settings.json is co-owned (Claude Code
+#    rewrites it, the owner edits it), so a sync that overwrites it would silently
+#    undo a model choice or a permission on every bootstrap.
+APPLIED="$WORK/home-applied"
+mkdir -p "$APPLIED/.claude"
+printf '%s\n' '{"model":"opus[1m]","statusLine":{"type":"command","command":"mine"},"hooks":{"PreToolUse":[]}}' \
+  > "$APPLIED/.claude/settings.json"
+
+HOME="$APPLIED" "$REPO_DIR/bootstrap.sh" >/dev/null 2>&1
+
+if node -e '
+  const fs = require("fs");
+  const live = JSON.parse(fs.readFileSync(process.argv[1], "utf8"));
+  const canonical = JSON.parse(fs.readFileSync(process.argv[2], "utf8"));
+  const asText = JSON.stringify(live.hooks);
+  for (const event of Object.keys(canonical.hooks)) {
+    if (!live.hooks[event]) throw new Error(`event ${event} was not wired`);
+  }
+  if (!asText.includes("plan-carrier-guard")) throw new Error("the guards are not in there");
+  if (live.model !== "opus[1m]") throw new Error("an unrelated key was lost");
+  if (live.statusLine.command !== "mine") throw new Error("the machine-local status line was overwritten");
+' "$APPLIED/.claude/settings.json" "$REPO_DIR/settings/hooks.json"; then
+  echo "  ✓ applying wires the guards and preserves the rest of settings.json"
+else
+  echo "  ✗ applying did not wire the guards, or clobbered the file"
+  FAILURES=$((FAILURES + 1))
+fi
+
+# 8. Idempotent: a second run must not duplicate the entries, or every bootstrap
+#    would run every guard one more time than the last.
+before="$(cat "$APPLIED/.claude/settings.json")"
+HOME="$APPLIED" "$REPO_DIR/bootstrap.sh" >/dev/null 2>&1
+if [[ "$before" == "$(cat "$APPLIED/.claude/settings.json")" ]]; then
+  echo "  ✓ a second run changes nothing"
+else
+  echo "  ✗ running twice did not converge"
+  FAILURES=$((FAILURES + 1))
+fi
+
+# 9. And once wired, --check says so instead of crying wolf.
+expect_report "a wired machine is reported as wired" "$APPLIED" "wired"
+
 if [[ $FAILURES -eq 0 ]]; then
   echo "✅ green"
   exit 0

@@ -13,6 +13,8 @@ and my testing discipline.
 | Block | Symlinked to | What |
 |---|---|---|
 | `rules/` | `~/.claude/rules` | **always-loaded** directives (lightweight) — see below |
+| `hooks/` | `~/.claude/hooks` | the **deterministic guards** the rules promise (plan carriers, English artifacts, memory size, …) |
+| `settings/hooks.json` | *(merged, not linked)* | the **wiring** that makes those guards run — see below |
 | `skills/test-first-discipline/` | `~/.claude/skills/test-first-discipline` | Skill: the universal testing discipline (test-first, fail-first, small batches by default, assertion quality) |
 | `skills/outside-in-diamond-tdd/` | `~/.claude/skills/outside-in-diamond-tdd` | Skill: Outside-in Diamond 🔷 TDD (services/APIs/apps) — a specialization of the discipline above |
 | `skills/the-hive-pattern/` | `~/.claude/skills/the-hive-pattern` | Skill: The Hive — Microservices-Ready Modular Monolith (how-to, language-agnostic; C#/.NET examples) |
@@ -24,8 +26,28 @@ and my testing discipline.
 instruction on every project, whether or not it was written to be one. Documentation about the repo
 goes here, in this README, which is **not** injected.
 
-Deliberately **nothing else** in the perimeter: no `settings.json`, no caches, no sessions, no
-secrets. A strict allowlist cannot leak what someone forgot to ignore.
+Deliberately **nothing else** in the perimeter: no caches, no sessions, no secrets, and **no
+wholesale `settings.json`**. A strict allowlist cannot leak what someone forgot to ignore.
+
+### The one exception, and why it earns its place
+
+A hook **file** that travels is not a hook that **runs**. Claude executes what `settings.json`
+declares, and that file is machine-local — so before 2026-09-09 the rules crossed to the second Mac
+announcing "the hook is the braces", and the braces stayed behind. Silently, which is the worst part:
+a guard that never runs looks exactly like a guard with nothing to say.
+
+So the perimeter now also carries `hooks/` (symlinked like everything else) plus **one key** of the
+settings, in `settings/hooks.json`. `bootstrap.sh` applies it through `bin/sync-settings.mjs`, which:
+
+- reads and writes **only `hooks`** — the status line's path, the model, the permissions you clicked
+  through are never read, never written, never in git;
+- **replaces** that key rather than merging it, so the repo stays the single source: a guard deleted
+  here disappears everywhere, and two runs converge;
+- keeps the previous file as `settings.json.bak.harness` before its first change;
+- in `--check`, **names every guard that is not wired** and writes nothing.
+
+That last point is the real deliverable: the failure was never "a hook was missing", it was "nobody
+could tell".
 
 ## Architecture: a lightweight directive (rule) → detail on demand (skill)
 
@@ -76,9 +98,12 @@ cd use-case-driven-harness
 
 ## Daily workflow
 
-1. I edit a rule/skill **in place** (it is symlinked, so this edits the repo).
+1. I edit a rule/skill/hook **in place** (it is symlinked, so this edits the repo).
 2. `git add -A && git commit -m "..." && git push`.
-3. On the other laptop: `git pull` → everything is up to date, immediately.
+3. On the other laptop: `git pull` → the rules, skills and hooks are up to date immediately. Then
+   **`./bootstrap.sh`** — the one thing a pull cannot do is edit that machine's `settings.json`, so
+   a new or changed guard needs it to actually start running. `./bootstrap.sh --check` first if you
+   want to see what it would change.
 
 ## Why symlinks and not copies
 

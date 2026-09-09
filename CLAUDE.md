@@ -56,15 +56,29 @@ kebab-case (emoji only in the title/content).
 1. **Public = zero confidential material.** Before any commit, check that no secret, token, or
    confidential client/employer reference makes it into the repo. The perimeter is deliberately
    "methodology only" — keep that allowlist strict.
-2. **Do not widen the perimeter without a reason.** No `settings.json`, no caches, no sessions, no
-   `.credentials`. See the README.
+   - ⚠️ **Scan with `grep -a`, always.** `hooks/plan-carrier-guard.mjs` uses literal NUL bytes as a
+     cache-key separator, so plain `grep -r` classifies it as binary and **skips it in silence** —
+     the largest file in the repo, absent from a check whose empty output reads as "clean". Caught
+     on 2026-09-09, on the commit that first published these hooks.
+2. **Do not widen the perimeter without a reason.** No caches, no sessions, no `.credentials`, and
+   **no wholesale `settings.json`** — see the README. It was widened **once**, on 2026-09-09, and the
+   reason is worth stating because it is the shape any future widening must match: the `rules/`
+   promise deterministic guards ("the hook is the braces"), the hook **files** lived only in
+   `~/.claude/hooks`, and the line that makes Claude **run** them lives in `settings.json`. So a
+   second Mac pulled the rules, ran a whole day with no guard at all, and nothing said so. What
+   entered the repo is therefore `hooks/` **and exactly one key**: `settings/hooks.json`, applied to
+   the live file by `bin/sync-settings.mjs`, which reads and writes **nothing but `hooks`**. The
+   status line, the model and the permissions stay machine-local and out of git, as they always were.
 3. **Clear, atomic commits**: one subject per commit (`rule: …`, `skill: …`, `docs: …`,
    `bootstrap: …`).
 4. **Never break `bootstrap.sh`'s idempotence.** Any change must stay safely replayable (`.bak`
    backups, `--check` dry-run). **Run `./test/bootstrap-check.sh` after touching that script** — it
    drives it as a process against a fake `$HOME` and pins how `--check` judges an already-installed
-   symlink (exact path, equivalent path, foreign target). It is the only mechanical net in this repo;
-   a rule nobody can run is not a net.
+   symlink (exact path, equivalent path, foreign target), that every declared block really exists in
+   the repo, and — since 2026-09-09 — that the guards are actually **wired** into `settings.json`,
+   that `--check` names an unwired one instead of reporting a clean install, and that applying twice
+   converges without touching any other key. It is the only mechanical net in this repo; a rule
+   nobody can run is not a net.
 
 ## Anti-drift
 

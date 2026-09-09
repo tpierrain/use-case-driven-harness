@@ -44,6 +44,26 @@ This covers the three things no checkbox records on its own, and all three die a
 On resuming: open the plan, read its **header note** and its `## Tracking`, restart **where the header
 says** (not at the first unticked box), and **announce which step before writing any code**.
 
+### FINDING it is part of the rule — the answer is in the REPO, never machine-local
+
+_(2026-09-09, after a day's work started on a second Mac with no idea where to resume.)_ **"On
+reprend" is answered by the repository.** A memory index, a session note, a cached summary: none of
+them travel, so the machine that does not have them starts blind while the plan itself sits in the
+clone, current, one `git pull` away.
+
+So, on any *"on reprend"* / *"où en étions-nous"* / resume after a `/clear`:
+
+1. **Look for the repo's door** — the one file whose job is to say where work resumes, typically
+   `**/plans/ACTIVE.md`. `git ls-files | grep -i active` finds it when the layout is unknown.
+2. **Open it, follow its link, read that plan's `## 📍 STATE`.** The door names the plan, the plan
+   names the step, and both arrived with the clone.
+3. **No door in this repo?** Then the plan file itself is the door — and say so once: a repo that
+   answers "where do I resume" in one file is worth the five minutes of creating it.
+
+⚠️ **A pointer in durable memory is a convenience, never the mechanism.** Keeping one is right;
+depending on it is not, because it lives on one machine and this rule has to work on a laptop that
+has never seen it.
+
 ### "The plan" is PLURAL — the save point covers every carrier of that status
 
 The rule above says *the* plan, and that singular is the hole. **Measured on Kenjaku, 2026-08-20**:

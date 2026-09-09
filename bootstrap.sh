@@ -25,6 +25,7 @@ DRY_RUN=false
 # (methodology only — see the README. We version ONLY these blocks.)
 MAPPINGS=(
   "rules|rules"
+  "hooks|hooks"
   "skills/the-hive-pattern|skills/the-hive-pattern"
   "skills/outside-in-diamond-tdd|skills/outside-in-diamond-tdd"
   "skills/test-first-discipline|skills/test-first-discipline"
@@ -88,10 +89,20 @@ for m in "${MAPPINGS[@]}"; do
   link_one "${m%%|*}" "${m##*|}"
 done
 
+# The half a symlink cannot do. A hook FILE that travels is not a hook that RUNS: Claude
+# executes what settings.json declares, and that file is machine-local. Linking the hooks
+# without wiring them would ship the braces and leave the belt holding everything up —
+# silently, which is exactly how the second Mac ran for a day with no guards at all.
+if $DRY_RUN; then
+  node "$REPO_DIR/bin/sync-settings.mjs" --check
+else
+  node "$REPO_DIR/bin/sync-settings.mjs"
+fi
+
 say "───────────────────────────────────────────────────────────"
 if $DRY_RUN; then
   say "Dry-run done. Re-run without --check to apply."
 else
-  say "✅ Done. Your global rules now point at this repo."
-  say "   Edit them in place, commit, push. On the other laptop: git pull."
+  say "✅ Done. Your global rules and guards now point at this repo."
+  say "   Edit them in place, commit, push. On the other laptop: git pull && ./bootstrap.sh."
 fi

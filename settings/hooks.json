@@ -1,0 +1,61 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node ~/.claude/hooks/en-artifact-guard.mjs"
+          },
+          {
+            "type": "command",
+            "command": "node ~/.claude/hooks/wave-staging-guard.mjs"
+          }
+        ]
+      },
+      {
+        "matcher": "mcp__.*notion-update-page",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node ~/.claude/hooks/notion-no-replace-guard.mjs"
+          }
+        ]
+      },
+      {
+        "matcher": "^(Task|Agent)$",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node ~/.claude/hooks/wave-staging-guard.mjs"
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node ~/.claude/hooks/memory-size-guard.mjs"
+          },
+          {
+            "type": "command",
+            "command": "node ~/.claude/hooks/plan-carrier-guard.mjs"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node ~/.claude/hooks/plan-carrier-guard.mjs"
+          }
+        ]
+      }
+    ]
+  }
+}

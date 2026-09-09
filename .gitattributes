@@ -1,0 +1,8 @@
+# hooks/plan-carrier-guard.mjs uses literal NUL bytes as a cache-key separator, so git
+# guesses "binary" and stops diffing it — which for a repo whose whole purpose is to carry
+# edits between two machines is the worst possible guess: no readable diff in a review, and
+# no textual merge when both laptops touched it. These are source files; say so.
+*.mjs text diff
+*.sh  text diff
+*.json text diff
+*.md  text diff
