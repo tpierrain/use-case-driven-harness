@@ -24,6 +24,12 @@ stands* must already be in the committed plan when the reply is written — not 
    resume marker, and it outranks the checkboxes (see below).
 4. Constraints, rejected options and evidence are **also** checkboxes — tick them when established,
    so a returning reader can see what is settled.
+5. **The header note is capped — about 20 lines — and holds only what EXPIRES.** Findings, lessons,
+   dated decisions and history go into a `## 📜 History` section further down, which may be as long as
+   it likes because nothing reads it at a resume. _(Measured, 2026-09-12: a resume block that mixes the
+   two grows without bound — three live plans in one repo at **241**, **197** and **43** lines — and a
+   block nobody re-reads is **appended to** instead of corrected, which is how a line goes false with
+   nobody editing it. The 197-line one held six false entries.)_
 
 ## Ticking a finished step
 
@@ -50,6 +56,10 @@ the human may clear:
 
 > **Does my reply contain "next: X", "Y remains", or "resume at Z"?**
 > Then those sentences must already exist in the committed plan. If not, write them there first.
+
+**And it is a RE-READ, never an append.** Read the header note **from the top** and ask of each line
+*is this still true after what I just did?* The lines that go false are the ones written earliest, and
+they sit above the entry that contradicts them — where the next session reads them first.
 
 Three things no checkbox records on its own, and all three die at a clear:
 

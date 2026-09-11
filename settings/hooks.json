@@ -53,6 +53,10 @@
           {
             "type": "command",
             "command": "node ~/.claude/hooks/plan-carrier-guard.mjs"
+          },
+          {
+            "type": "command",
+            "command": "node ~/.claude/hooks/plan-state-size-guard.mjs"
           }
         ]
       }

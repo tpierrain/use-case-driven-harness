@@ -90,11 +90,47 @@ So, before handing back:
   n'apprenais pas ou ne retenais rien."* So: **before asking the owner anything, grep the plan for
   that item and read what the body already concluded.** A STATE line naming an item the body has
   closed is not a summary, it is a contradiction, and the ✅ is the half that is right.
+- **APPENDING IS NOT UPDATING — the lines that go false are the ones written EARLIEST.** _(Measured on
+  Kenjaku, 2026-09-11.)_ An autonomous stretch fixed five issues and the save point fired at every
+  hand-back — every time by **appending** what was new (issues ticked, the PR link, the corrections)
+  to the top of `## 📍 STATE`. Nothing was forgotten and the block still lied, because two entries
+  further down were **made false by the very entries added above them**: *"work is underway,
+  autonomously"* (the stretch had ended) and *"one question is explicitly deferred, NOT pending"* (its
+  deferral was *"à l'issue de ça"*, and ça was done). Thomas found them by asking whether he could
+  clear. **So the save point is a re-read, not an append**: before handing back, read the STATE block
+  you are writing into **from the top**, and ask of each existing line *is this still true after what
+  I just did?* A status written in the past tense of a finished stretch is a wrong instruction, and it
+  sits above the correction that contradicts it, where the next session reads it first.
+- **THE DOOR IS A CARRIER TOO — and it is the one the guard can never see.** _(Same day, same
+  failure.)_ `plans/ACTIVE.md` still read *"nothing in it was ever started"* on the day the whole
+  branch was finished and green. The reason is structural: **the hook greps the BRANCH NAME, and a
+  door names plans, never branches** — verified, `git grep -l fix/v5.1-bugfixes` returned two files,
+  both touched, so the guard was green throughout. **The door is invisible to the braces by
+  construction, so the belt owns it**: on any session that advanced the active plan, open `ACTIVE.md`
+  too. And when a line there is about *progress*, the fix is to **delete it, not update it** — a door
+  that copies status will go stale again; it links, dates, and delegates.
 - **A long autonomous stretch has no hand-back to hang this on.** The save point is "every
   handed-back turn", and an orchestrated run chains dozens of tool calls between two of them: the
   mode **rarefies the trigger exactly when there is most state to record**. On such a run the save
   point moves to **each decision as it lands** — write it into its carriers and commit, do not bank
   it for a hand-back that may be an hour away.
+- **AND THE RE-READ IS ONLY AFFORDABLE IF THE BLOCK IS SHORT — so the block is CAPPED at 20 lines.**
+  _(Measured on Kenjaku, 2026-09-12.)_ The rule above says *re-read, do not append*, and the day after
+  it was written the same block grew again. The reason is arithmetic: **an appended block is one you
+  stop re-reading**, and the three live plans in that repo carried STATE blocks of **241**, **197** and
+  **43** non-empty lines. A re-read of the 197 found **six** entries that had gone false.
+  - **The cause is not length, it is MIXTURE.** History, lessons and dated decisions never expire, so
+    once they are in the block they accumulate for ever, and they are what makes it too long to re-read.
+    The cure is not shorter writing: it is **a `## 📜 History` section in the body**, which may be as
+    long as it likes because nothing reads it at a resume.
+  - **What stays above is only what expires**: the next step, the blocker, the owner's call, and what a
+    session may do alone.
+  - 🧰 **Braces**: `~/.claude/hooks/plan-state-size-guard.mjs`, on `Stop`, measures every **live** plan
+    (archived ones are frozen history and are never counted) and blocks the hand-back naming the ones
+    over cap. Like every guard here it **judges no content**: it counts non-empty lines between the
+    heading and the next one. It travels with this repo, never with the project's clone — so the
+    project's own conventions file must carry the rule too, or a fresh machine ships a plan nobody
+    can re-read.
 
 > **Deterministic net (belt and braces).** `~/.claude/hooks/plan-carrier-guard.mjs` runs on `Stop`:
 > it greps the tracked Markdown for the current branch name, subtracts what the session touched, and
