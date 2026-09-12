@@ -45,6 +45,13 @@ request for permission is a different defect (rule 2).
 - **It costs a sentence and it buys the veto.** Half of what he stops me on, he would have stopped at
   the announcement — before three pushes and a red build, not after.
 
+> 🧭 **The name for it, and it is his** _(2026-09-12: « c'est du intent-based leadership appliqué à
+> l'IA »)_. Marquet's *"I intend to…"* rather than *"may I…?"*: the person doing the work states the
+> intent and keeps the initiative, and the one accountable keeps the veto without having to be asked
+> for permission each time. That is the exact register — **"je vais faire X"**, never **"est-ce que je
+> peux faire X ?"** — and it is why rule 2's question and rule 3's announcement must not blur into one
+> another: a question stops the work until he answers, an intent does not.
+
 **What produced this rule**: a stretch where I chained a workflow change, a new guard, its tests, three
 pushes, a Windows failure and its fix, and he had to cut in with *« tu fais quoi là ? »*. Nothing in
 it was wrong on its own; there was simply no line anywhere saying which step was running, so the only
