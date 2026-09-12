@@ -61,5 +61,35 @@ integrated and is continuously broken.
 - **The test runner gets a per-test ceiling too** (`node --test --test-timeout=…`), one level below
   the job. The job timeout kills a hang **mute**; the per-test one **names the test**.
 
+## The suite judges the IMPLEMENTATION. It has nothing to say about the record-keeping
+
+_(Thomas's call, 2026-09-12: « ce mécanisme ne doit s'exécuter que si on modifie l'implémentation …
+quand on ne fait que créer/modifier des issues et des plans, ça n'a aucun intérêt de relancer toute la
+suite de test et de me faire patienter autant de temps ».)_
+
+Reading what comes back has a price, and the rule above makes me pay it on **every** push. So the
+runs that answer nothing have to stop happening. **Three buckets, and they are not the same
+conversation:**
+
+- **Implementation** — anything that runs on a machine, ships to a user, or is asserted by a test.
+  **The full suite runs.** No filter, no exception, no "it is only a rename".
+- **Record-keeping** — plans, roadmaps, TODOs, the tracker's own bookkeeping. **The suite does not
+  run**, via a `paths-ignore` on the workflow. Nothing ships from these files and no test reads them.
+- **Documentation** — README, SETUP, a constitution, release prose. **Neither**: it is a *conversation
+  with Thomas*, because a doc change can change the behaviour the product **announces**, and that is a
+  product decision rather than a test run. Do not silently add it to the filter to save four minutes.
+
+**Measured on Kenjaku, 2026-09-12 — what made him ask.** Three commits in a row, all Markdown, all
+plans. Each triggered **seven parallel checks** (the whole suite on three Node versions × macOS and
+Windows, plus an end-to-end install on Windows), and each made him wait on the slowest: **3 to 4½
+minutes of Windows**, three times, for files no test reads.
+
+🧰 **And the filter itself gets a guard, because it is a net that disables itself in silence.** A
+`paths-ignore` entry produces a green, faster run and says nothing about the suite that no longer
+ran — the exact shape of every failure in this file. So the list is **parsed by a test** that goes red
+if it ever covers anything but the record-keeping directory (Kenjaku's is
+`scripts/lib/ci-path-filter.test.mjs`). Widening it is then a deliberate act with a red test in front
+of it, not a one-line edit nobody reviews.
+
 **Related**: [`testing.md`](./testing.md) governs what a test must prove; this file governs what
 happens after the push that carries it.
