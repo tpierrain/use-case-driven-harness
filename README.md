@@ -13,7 +13,7 @@ and my testing discipline.
 | Block | Symlinked to | What |
 |---|---|---|
 | `rules/` | `~/.claude/rules` | **always-loaded** directives (lightweight) — see below |
-| `hooks/` | `~/.claude/hooks` | the **deterministic guards** the rules promise (plan carriers, English artifacts, memory size, …) |
+| `hooks/` | `~/.claude/hooks` | the **deterministic guards** the rules promise — [one line each below](#the-guards-one-line-each) |
 | `settings/hooks.json` | *(merged, not linked)* | the **wiring** that makes those guards run — see below |
 | `skills/test-first-discipline/` | `~/.claude/skills/test-first-discipline` | Skill: the universal testing discipline (test-first, fail-first, small batches by default, assertion quality) |
 | `skills/outside-in-diamond-tdd/` | `~/.claude/skills/outside-in-diamond-tdd` | Skill: Outside-in Diamond 🔷 TDD (services/APIs/apps) — a specialization of the discipline above |
@@ -48,6 +48,31 @@ settings, in `settings/hooks.json`. `bootstrap.sh` applies it through `bin/sync-
 
 That last point is the real deliverable: the failure was never "a hook was missing", it was "nobody
 could tell".
+
+### The guards, one line each
+
+Every one of them **judges a shape, never a meaning**: none of them reads your prose and decides
+whether it is good. That is what makes them cheap enough to run on every turn, and honest enough to
+trust — a guard that tried to judge content would be wrong often enough to be switched off.
+
+| Guard | Runs on | What it does | Blocks? |
+|---|---|---|---|
+| `plan-carrier-guard` | `Stop` (+ a `SessionStart` stamp) | Greps the tracked Markdown for the current **branch name**, subtracts the files this session touched, and names the plans that claim to speak about this work and were never opened. | **yes** |
+| `plan-state-size-guard` | `Stop` | Counts the non-empty lines of every **live** plan's `## 📍 STATE` block (archived plans are frozen history and never counted) and names the ones over **20**. | **yes** |
+| `memory-size-guard` | `SessionStart` | Stats the project's `MEMORY.md` against its ~25 KB bound and warns **before** it overflows, because the overflow itself is silent: the tail is dropped and the critical instructions go with it. | no, warns |
+| `en-artifact-guard` | `PreToolUse(Bash)` | Spots French in a **publishing** command (`git commit`, `gh pr\|release\|issue create\|edit`) so the slip is caught before it reaches GitHub. Deliberate localization is carved out (flag emoji, `templates/<locale>/`, `--lang`). | no, warns |
+| `wave-staging-guard` | `PreToolUse(Task\|Agent)` then `PreToolUse(Bash)` | Remembers that a **wave of subagents** is in flight, then refuses a broad `git add` while they are still writing — the mistake that twice swept half-finished work into an unrelated commit. | **yes** |
+| `notion-no-replace-guard` | `PreToolUse` on the Notion update-page tool | Denies a whole-page `replace_content` on pages several people edit and comment concurrently: the loss would be silent and irreversible. Conscious override with `ALLOW_NOTION_REPLACE=1`. | **yes** |
+
+**Try one without waiting for it to fire.** Each guard carries its own tests and runs them itself:
+
+```bash
+node hooks/plan-state-size-guard.mjs --selftest   # the pure logic, ~40 assertions (all but memory-size-guard)
+node hooks/plan-state-size-guard.mjs --explain    # the real verdict on the repo you are standing in
+```
+
+`--explain` exists on the two plan guards and is **safe to run any time**: it reads, prints what it
+would say, and writes nothing.
 
 ## Architecture: a lightweight directive (rule) → detail on demand (skill)
 

@@ -80,6 +80,19 @@ kebab-case (emoji only in the title/content).
    converges without touching any other key. It is the only mechanical net in this repo; a rule
    nobody can run is not a net.
 
+5. **Adding a guard is FOUR moves, not one**, and the repo's own history is why: a hook file that
+   travels is not a hook that runs (rule 2 above). In one commit —
+   1. the hook in `hooks/`, with a `--selftest` it runs itself (and `--explain` when it can judge the
+      current directory without a payload). **Every guard here judges a SHAPE, never a meaning**: it
+      counts, matches or compares, so it is cheap enough for every turn and honest enough to keep;
+   2. its wiring in **`settings/hooks.json`**, or it runs on no machine but the one that wrote it;
+   3. its **row in the README's guard table**, or nobody discovering this repo can tell what refuses
+      what — the table is the only place that answers "what does this thing actually do to me";
+   4. `./test/bootstrap-check.sh`, green.
+   - 🔴 **And prove the self-test discriminates**, do not merely watch it pass: break the hook
+     deliberately, one behaviour at a time, and check the matching assertion goes red. A suite that
+     stays green against a broken copy proves nothing, and a guard nobody can trust gets unwired.
+
 ## Anti-drift
 
 This repo exists *because* copy-based workflows drift. Never reintroduce a copy/install mechanism
